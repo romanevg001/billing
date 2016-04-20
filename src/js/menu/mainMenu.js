@@ -76,6 +76,7 @@
             scope.menuItems = mainMenuService.menuItems;
 
             scope.selectMenuItem = function (menuItem) {
+                console.log('scope.currentMenuItem',scope.currentMenuItem)
                 if (scope.showSubMenu && scope.currentMenuItem === menuItem) {
                     scope.showSubMenu = false;
                 } else {

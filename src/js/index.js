@@ -88,12 +88,12 @@ import "./../../node_modules/angular-jwt/dist/angular-jwt"
 
             $stateProvider.state('workspace', {
                 url: '/workspace',
-                templateUrl: '../templates/workspace.tpl.html'
+                templateUrl: 'templates/workspace.tpl.html'
             });
 
             //Add interceptor
             $httpProvider.interceptors.push('sdl.management.httpErrorInterceptor');
-            $urlRouterProvider.otherwise('/workspace');
+        //    $urlRouterProvider.otherwise('/workspace');
         }
     ]);
 

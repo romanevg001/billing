@@ -16,6 +16,7 @@ const browserSync = require('browser-sync').create();
 const rollup = require('rollup-stream');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
+const multiEntry = require('rollup-plugin-multi-entry');
 
 var isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == "development";
 
@@ -31,7 +32,7 @@ var opts = {
 };
 
 
-
+//console.log(multiEntry)
 
 gulp.task('sass',function(){
 
@@ -62,8 +63,13 @@ gulp.task('sass',function(){
 //
 //});
 
+//function jsFile (fileName){
 gulp.task('js', function() {
-    return rollup({entry: opts.enter + opts.js+ 'index.js', sourceMap: true}).on('error',notify.onError())
+    return rollup({
+        entry: [opts.enter + opts.js+ 'index.js', opts.enter + opts.js+ 'lib.js'],
+        sourceMap: true,
+        plugins: [multiEntry.default()]
+    }).on('error',notify.onError())
         .pipe(source('index.js', opts.enter + opts.js)).on('error',notify.onError())
         .pipe(buffer())
         .pipe(gulpIf(isDevelopment,sourcemaps.init({loadMaps: true})))
@@ -72,6 +78,13 @@ gulp.task('js', function() {
         .pipe(gulpIf(isDevelopment,sourcemaps.write(opts.map)))
         .pipe(gulp.dest(opts.out + opts.js));
 });
+
+//gulp.task('js', function() { //Maybe you should add ./ (./file.js)
+//    return jsFile('index.js')
+//});
+//gulp.task('jslib', function() { //Maybe you should add ./ (./file.js)
+//    return jsFile('lib.js')
+//});
 
 //gulp.task('js', function() {
 //    return gulp.src(opts.out + opts.js + "*.*")
@@ -90,12 +103,17 @@ gulp.task('image',function(){
 
 });
 gulp.task('html', function(){
-    gulp.src(opts.enter + '**/*.html')
+    return gulp.src(opts.enter + '**/*.html')
         .pipe(gulp.dest(opts.out));
+});
+gulp.task('other', function(){
+
     gulp.src(opts.enter + 'fonts/**/*.*')
         .pipe(gulp.dest(opts.out + "fonts"));
     gulp.src(opts.enter + opts.js+ 'lib/**/*.*')
         .pipe(gulp.dest(opts.out + opts.js+ 'lib'));
+    gulp.src(opts.enter + 'res/**/*.*')
+        .pipe(gulp.dest(opts.out + 'res'));
     return gulp.src(opts.enter + '*.*')
         .pipe(gulp.dest(opts.out));
 
@@ -119,9 +137,9 @@ gulp.task('watch', function(){
     gulp.watch([`${opts.enter}${opts.css}**`], gulp.series('sass'));
     gulp.watch([opts.enter + opts.js + "**"], gulp.series('js'));
     gulp.watch([opts.enter + "*.html"], gulp.series('html'));
-    gulp.watch([opts.img + "**"], gulp.series('image'));
+    gulp.watch([opts.img + "**"], gulp.series('image','other'));
 });
 
-gulp.task('default',gulp.series('clean','sass','js','image','html',gulp.parallel('server','watch')));
+gulp.task('default',gulp.series('clean','sass',gulp.series('js'),'image','html','other',gulp.parallel('server','watch')));
 
 

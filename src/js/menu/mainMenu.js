@@ -64,8 +64,8 @@
     };
     return retVal;
 }])
-.directive('vaMainMenu', ['$compile', '$filter', '$state', 'mainMenuService', function ($compile, $filter, $state, mainMenuService) {
 
+.directive('vaMainMenu', ['$compile', '$filter', '$state', 'mainMenuService', function ($compile, $filter, $state, mainMenuService) {
     return {
         restrict: 'E',
         replace: true,

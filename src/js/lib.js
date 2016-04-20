@@ -1,9 +1,5 @@
-import "./lib/angular";
-import "./lib/moment";
-import "./lib/angular-ui-router";
-import "./lib/angular-gridster";
-import "./lib/ngStorage";
-import "./lib/angular-cookies";
-import "./lib/ui-bootstrap";
-import "./lib/restangular";
-import "./lib/angular-translate-loader-static-files";
+import "./menu/mainMenu";
+import "./security/auth";
+
+import "./security/loginToolbar";
+//import "./security/security";

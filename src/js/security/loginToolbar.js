@@ -1,7 +1,7 @@
 ﻿angular.module('sdl.management')
 .directive('vaLoginToolbar', ['$document', '$timeout', '$state', 'authService', function ($document, $timeout, $state, authService) {
     return {
-        templateUrl: 'templates/security/loginToolbar.tpl.html',
+        templateUrl: '../../templates/security/loginToolbar.tpl.html',
         restrict: 'E',
         replace: true,
         scope: true,

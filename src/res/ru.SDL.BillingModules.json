@@ -1,0 +1,12 @@
+﻿{
+  "modules": {
+    "blades": {
+      "clients": {
+        "title": "Клиенты"
+      }
+    },
+    "menu": {
+      "clients": "Клиенты"
+    }
+  }
+}

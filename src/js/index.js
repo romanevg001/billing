@@ -3,14 +3,6 @@ import "./../../node_modules/angular-jwt/dist/angular-jwt"
 
 
 (function(){
-
-    console.log('boom001')
-    Window.domain0 = new Domain0({
-        domain: 'http://localhost:3000/api'
-        //domain: 'http://test-domain0.azurewebsites.net/api'
-    }, 'domain0');
-
-
     var app = angular.module('sdl.management', [
         'angularMoment',
         'ui.router',
@@ -29,6 +21,21 @@ import "./../../node_modules/angular-jwt/dist/angular-jwt"
         function() {
         }
     ]);
+
+    app.provider('$domain', function  (){
+
+            this.getDomain = function() {
+                return new Domain0({
+                    //domain: 'http://localhost:3000/api'
+                    domain: 'http://test-domain0.azurewebsites.net/api'
+                }, 'domain0');
+            };
+
+            this.$get = function() {
+                return this.getDomain()
+            }
+
+    });
 
     app.factory('sdl.management.httpErrorInterceptor', [
         '$q', '$rootScope', function($q, $rootScope) {
@@ -56,12 +63,13 @@ import "./../../node_modules/angular-jwt/dist/angular-jwt"
            RestangularProvider.setBaseUrl('res'); //api/platform
        }]);
 
+
     app.config([
-        '$stateProvider', '$translateProvider', '$httpProvider','jwtInterceptorProvider', '$urlRouterProvider',
-        function ($stateProvider, $translateProvider, $httpProvider, jwtInterceptorProvider, $urlRouterProvider) {
+        '$stateProvider', '$translateProvider', '$httpProvider','jwtInterceptorProvider', '$urlRouterProvider','$domainProvider',
+        function ($stateProvider, $translateProvider, $httpProvider, jwtInterceptorProvider, $urlRouterProvider, $domainProvider) {
 
             jwtInterceptorProvider.tokenGetter = [function () {
-                return Window.domain0.access_token.get();
+                return $domainProvider.getDomain().access_token.get();
             }];
 
             $httpProvider.interceptors.push('jwtInterceptor');
@@ -90,6 +98,7 @@ import "./../../node_modules/angular-jwt/dist/angular-jwt"
                 url: '/workspace',
                 templateUrl: 'templates/workspace.tpl.html'
             });
+
 
             //Add interceptor
             $httpProvider.interceptors.push('sdl.management.httpErrorInterceptor');

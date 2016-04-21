@@ -1,0 +1,55 @@
+﻿<div class="window">
+
+    <div class="window-status" ng-if="progress">
+        <div class="progress-bar"></div>
+    </div>
+    <header class="window-head">
+        <div class="window-t __logo">{{ 'platform.blades.new-account-wizard.labels.title' | translate }}</div>
+    </header>
+    <div class="window-cnt">
+        <form class="form" novalidate ng-submit="ok()" name="regForm">
+            <div class="form-group">
+                <label class="form-label">{{ 'platform.blades.new-account-wizard.labels.login' | translate }}</label>
+                <div class="form-input">
+                    <input name="login" id="login" ng-model="user.email" required autofocus va-autofill
+                           type="tel" ui-mask="+7 (999) 999-9999" 
+                           ui-mask-placeholder ui-mask-placeholder-char="_"/>
+                </div>
+            </div>
+            <!--<div class="form-group">-->
+                <!--<label class="form-label">{{ 'platform.blades.new-account-wizard.labels.password' | translate }}</label>-->
+                <!--<div class="form-input">-->
+                    <!--<input name="password" type="password" ng-model="user.password" required va-autofill>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+                <!--<div class="form-control __checkbox">-->
+                    <!--<label class="form-label">-->
+                        <!--<input type="checkbox" name="c1" checked="" ng-model="user.remember">-->
+                        <!--<span class="check"></span>-->
+                        <!--<span class="name">{{ 'platform.blades.new-account-wizard.labels.remember-me' | translate }}</span>-->
+                    <!--</label>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="form-group">
+                <div class="form-error" ng-if="authError">
+                    {{authError}}
+                </div>
+
+                <div class="form-error" ng-if="successMessage">
+                    {{ 'platform.blades.new-account-wizard.labels.success-message' | translate }}
+                </div>
+            </div>
+            <div class="form-group __right">
+                <button class="btn" type="submit" ng-disabled="loginForm.$invalid||progress">
+                    <span>{{ 'platform.blades.new-account-wizard.labels.title' | translate }}</span>
+                </button>
+                <p>
+                    <a ui-sref="loginDialog">{{ 'platform.blades.login.labels.sign-in' | translate }}</a>
+                    &nbsp;|&nbsp;
+                    <a ui-sref="restorePassword">{{ 'platform.blades.restore-password.labels.title' | translate }}</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 ﻿angular.module('sdl.management')
 .factory('authService', ['$http', '$rootScope', '$cookieStore',
-    '$state', '$interpolate',
-    function ($http, $rootScope, $cookieStore, $state, $interpolate) {
+    '$state', '$interpolate', '$domain',
+    function ($http, $rootScope, $cookieStore, $state, $interpolate, $domain) {
 	var serviceBase = 'api/platform/security/';
 	var authContext = {
 		userId : null,
@@ -19,9 +19,30 @@
             function (error) { });
 	};
 
+	authContext.checkUser = function(phone){
+		$domain.checkUser({phone: 7 + phone}).then(function(data){
+			$rootScope.$broadcast('onCheckUser',{isUserExist:data})
+		});
+	};
+
+	authContext.registration = function (email) {
+		return $domain.smsRegister(7 + email).then(function () {
+			changeAuth({userName : 7 + email});
+			return true;
+		});
+	};
+
+	authContext.restorePassword = function(phone){
+		$domain.requestResetPassword(7 + phone).then(function (data) {
+
+			//console.log(data)
+			return data;
+		});
+	};
+
 	authContext.login = function (email, password, remember) {
-	    console.log(email);
-	    return Window.domain0.smsLogin(7 + email, password, remember).then(
+
+	    return $domain.smsLogin(7 + email, password, remember).then(
             function () {
                 changeAuth(
                     {
@@ -48,6 +69,7 @@
 		$http.post(serviceBase + 'logout/').then(function (result) {
 		});
 	};
+
 
 	authContext.checkPermission = function (permission, securityScopes) {
 		//first check admin permission

@@ -611,15 +611,34 @@
           "login": "Телефон",
           "password": "Пароль",
           "remember-me": "Запомнить",
+          "restore":"Восстановить пароль",
           "log-in": "Войти"
         }
       },
       "new-account-wizard": {
         "labels": {
+          "title":"Регистрация",
           "login": "Телефон",
           "password": "Пароль",
+          "remember-me": "Запомнить",
+          "success-message": "На ваш номер телефона выслан пароль.",
           "repeat-password": "Repeat password",
           "assign-roles": "Assign roles"
+        },
+        "placeholders": {
+          "login": "Enter email address",
+          "password": "Enter new password",
+          "repeat-password": "Repeat new password"
+        }
+      },
+      "restore-password": {
+        "labels": {
+          "title":"Восстановить пароль",
+          "login": "Телефон",
+          "btn": "Восстановить",
+          "success-message": "На ваш номер телефона выслан пароль.",
+          "repeat-password": "Repeat password"
+
         },
         "placeholders": {
           "login": "Enter email address",

@@ -39,6 +39,11 @@
                 <button class="btn" type="submit" ng-disabled="loginForm.$invalid||loginProgress">
                     <span>{{ 'platform.blades.login.labels.log-in' | translate }}</span>
                 </button>
+                <p>
+                    <a ui-sref="registration">{{ 'platform.blades.new-account-wizard.labels.title' | translate }}</a>
+                    &nbsp;|&nbsp;
+                    <a ui-sref="restorePassword">{{ 'platform.blades.restore-password.labels.title' | translate }}</a>
+                </p>
             </div>
         </form>
     </div>

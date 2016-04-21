@@ -1609,6 +1609,43 @@ Domain0.prototype.smsLogin = function (phone, password,remember) {
 }
 
 /**
+ *
+ * @param {} phone
+ * @returns {}
+ */
+Domain0.prototype.requestResetPassword = function (phone) {
+  return reqwest({
+    url: this._domain + '/sms/requestresetrassword',
+    method: 'delete',
+    data: phone,
+    contentType: 'application/json',
+    crossOrigin: true,
+    withCredentials: false
+  });
+
+}
+
+  /**
+   *
+   * @param {} phone
+   * @param {} resetCode
+   * @returns {}
+   */
+  Domain0.prototype.confirmResetPassword = function (resetCode, phone) {
+    return reqwest({
+      url: this._domain + '/sms/commitresetpassword',
+      method: 'post',
+      data: JSON.stringify({ phone : phone, resetCode: resetCode }),
+      contentType: 'application/json',
+      crossOrigin: true,
+      withCredentials: false
+    });
+  }
+
+
+
+
+/**
  * get refresh_token/access_token pair by refresh token
   * @param {} refreshToken 
  * @returns {} object contains {access_token, refresh_token, profile}

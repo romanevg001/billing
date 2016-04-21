@@ -25,7 +25,7 @@ var opts = {
     "out": "public/",
     "js": "js/",
     "css": "css/",
-    "img": "i/",
+    "img": "images/",
     "map": "../maps/"
 
 
@@ -103,18 +103,26 @@ gulp.task('image',function(){
 
 });
 gulp.task('html', function(){
-    return gulp.src(opts.enter + '**/*.html')
+    return gulp.src(opts.enter + '**/*.html',{since: gulp.lastRun('html')})
         .pipe(gulp.dest(opts.out));
+});
+
+gulp.task('fonts', function(){
+    return gulp.src(opts.enter + 'fonts/**/*.*')
+        .pipe(gulp.dest(opts.out + "fonts"));
+});
+
+gulp.task('lib', function(){
+    return gulp.src(opts.enter + opts.js+ 'lib/**/*.*',{since: gulp.lastRun('lib')})
+        .pipe(gulp.dest(opts.out + opts.js+ 'lib'));
+});
+gulp.task('res', function(){
+    return gulp.src(opts.enter + 'res/**/*.*')
+        .pipe(gulp.dest(opts.out + 'res'));
 });
 gulp.task('other', function(){
 
-    gulp.src(opts.enter + 'fonts/**/*.*')
-        .pipe(gulp.dest(opts.out + "fonts"));
-    gulp.src(opts.enter + opts.js+ 'lib/**/*.*')
-        .pipe(gulp.dest(opts.out + opts.js+ 'lib'));
-    gulp.src(opts.enter + 'res/**/*.*')
-        .pipe(gulp.dest(opts.out + 'res'));
-    return gulp.src(opts.enter + '*.*')
+    return gulp.src(opts.enter + '*.*',{since: gulp.lastRun('other')})
         .pipe(gulp.dest(opts.out));
 
 });
@@ -134,12 +142,16 @@ gulp.task('server', function(){
 });
 
 gulp.task('watch', function(){
-    gulp.watch([`${opts.enter}${opts.css}**`], gulp.series('sass'));
-    gulp.watch([opts.enter + opts.js + "**"], gulp.series('js'));
-    gulp.watch([opts.enter + "*.html"], gulp.series('html'));
-    gulp.watch([opts.img + "**"], gulp.series('image','other'));
+    gulp.watch([`${opts.enter}${opts.css}**/*.*`], gulp.series('sass'));
+    gulp.watch([opts.enter + opts.js + "**/*.*"], gulp.series('js'));
+    gulp.watch([opts.enter + "**/*.html"], gulp.series('html'));
+    gulp.watch([opts.img + "**/*.*"], gulp.series('image','other'));
+    gulp.watch([opts.enter + opts.js+ 'lib/**/*.*'], gulp.series('lib'));
+    gulp.watch([opts.enter + 'res/**/*.*'], gulp.series('res'));
+    gulp.watch([opts.enter + 'fonts/**/*.*'], gulp.series('fonts'));
+
 });
 
-gulp.task('default',gulp.series('clean','sass',gulp.series('js'),'image','html','other',gulp.parallel('server','watch')));
+gulp.task('default',gulp.series('clean','sass',gulp.series('js'),'image','html','other','lib','res','fonts',gulp.parallel('server','watch')));
 
 

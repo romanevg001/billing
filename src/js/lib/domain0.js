@@ -1594,12 +1594,14 @@ Domain0.prototype.smsRegister = function (phone) {
  * @returns {} 
  */
 Domain0.prototype.smsLogin = function (phone, password,remember) {
+ 
     var api = this;
     return reqwest({
         url: this._domain + '/sms/login',
-        contentType: 'application/json',
-        data: JSON.stringify({ phone : phone, password: password }),
         method: 'post',
+        contentType: 'application/json',
+        type:'json',
+        data: JSON.stringify({ "phone": phone, "password": password }),
         crossOrigin: true
     }).then(function(data) {
         api.access_token.set(data.access_token, remember);

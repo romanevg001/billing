@@ -9,15 +9,17 @@
 	            $scope.authError = null;
 	            $scope.authReason = false;
 	            $scope.loginProgress = false;
+
+
 	            $scope.ok = function () {
 	                // Clear any previous security errors
 	                $scope.authError = null;
 	                $scope.loginProgress = true;
 
-
-
-					$scope.login = function(){
-
+//console.log('boom1')
+//
+//					$scope.login = function(){
+//						console.log('boom2')
 						// Try to login
 						authService.login($scope.user.email, $scope.user.password, $scope.user.remember)
 							.then(function (loggedIn) {
@@ -37,8 +39,8 @@
 									$scope.authError = 'Authentication error ' + x;
 								}
 							});
-					}
-					$scope.login();
+					//}
+					//$scope.login();
 					//Check out existing user
 					//authService.checkUser($scope.user.email);
 					//$rootScope.$on('onCheckUser',function(event,data){

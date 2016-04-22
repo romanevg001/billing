@@ -102,7 +102,7 @@ import "./../../node_modules/angular-jwt/dist/angular-jwt"
 
             //Add interceptor
             $httpProvider.interceptors.push('sdl.management.httpErrorInterceptor');
-        //    $urlRouterProvider.otherwise('/workspace');
+            $urlRouterProvider.otherwise('/workspace');
         }
     ]);
 

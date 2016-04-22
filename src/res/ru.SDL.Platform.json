@@ -636,7 +636,8 @@
           "title":"Восстановить пароль",
           "login": "Телефон",
           "btn": "Восстановить",
-          "success-message": "На ваш номер телефона выслан пароль.",
+          "reset-code": "Введите код из sms",
+          "success-message": "На ваш номер телефона выслан новый пароль.",
           "repeat-password": "Repeat password"
 
         },

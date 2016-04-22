@@ -1,7 +1,6 @@
 ﻿import "./../../node_modules/angular-ui-mask/dist/mask"
 import "./../../node_modules/angular-jwt/dist/angular-jwt"
 
-
 (function(){
     var app = angular.module('sdl.management', [
         'angularMoment',
@@ -26,8 +25,8 @@ import "./../../node_modules/angular-jwt/dist/angular-jwt"
 
             this.getDomain = function() {
                 return new Domain0({
-                    //domain: 'http://localhost:3000/api'
-                    domain: 'http://test-domain0.azurewebsites.net/api'
+                    domain: 'http://auth.smartdriving.io/api'
+                    //domain: 'http://test-domain0.azurewebsites.net/api'
                 }, 'domain0');
             };
 

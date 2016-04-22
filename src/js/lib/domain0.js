@@ -1594,15 +1594,16 @@ Domain0.prototype.smsRegister = function (phone) {
  * @returns {} 
  */
 Domain0.prototype.smsLogin = function (phone, password,remember) {
- 
+
     var api = this;
     return reqwest({
-        url: this._domain + '/sms/login',
+        url: this._domain + '/sms/Login',
         method: 'post',
         contentType: 'application/json',
-        type:'json',
-        data: JSON.stringify({ "phone": phone, "password": password }),
-        crossOrigin: true
+
+        data: JSON.stringify({ phone: phone, password: password }),
+        crossOrigin: true,
+      withCredentials: false
     }).then(function(data) {
         api.access_token.set(data.access_token, remember);
         api.refresh_token.set(data.refresh_token, remember);
@@ -1616,8 +1617,9 @@ Domain0.prototype.smsLogin = function (phone, password,remember) {
  * @returns {}
  */
 Domain0.prototype.requestResetPassword = function (phone) {
+
   return reqwest({
-    url: this._domain + '/sms/requestresetrassword',
+    url: this._domain + '/sms/RequestResetPassword',
     method: 'delete',
     data: phone,
     contentType: 'application/json',
@@ -1633,9 +1635,9 @@ Domain0.prototype.requestResetPassword = function (phone) {
    * @param {} resetCode
    * @returns {}
    */
-  Domain0.prototype.confirmResetPassword = function (resetCode, phone) {
+  Domain0.prototype.confirmResetPassword = function (phone, resetCode) {
     return reqwest({
-      url: this._domain + '/sms/commitresetpassword',
+      url: this._domain + '/sms/CommitResetPassword',
       method: 'post',
       data: JSON.stringify({ phone : phone, resetCode: resetCode }),
       contentType: 'application/json',

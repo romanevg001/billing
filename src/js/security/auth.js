@@ -20,8 +20,8 @@
 	};
 
 	authContext.checkUser = function(phone){
-		$domain.checkUser({phone: 7 + phone}).then(function(data){
-			$rootScope.$broadcast('onCheckUser',{isUserExist:data})
+		return $domain.checkUser({phone: 7 + phone}).then(function(data){
+			return {isUserExist:data}
 		});
 	};
 
@@ -32,12 +32,12 @@
 		});
 	};
 
-	authContext.restorePassword = function(phone){
-		$domain.requestResetPassword(7 + phone).then(function (data) {
+	authContext.resetPassword = function(phone){
+		return $domain.requestResetPassword(7 + phone);
+	};
 
-			//console.log(data)
-			return data;
-		});
+	authContext.confirmResetPassword = function(phone, code){
+		return $domain.confirmResetPassword(7 + phone, code);
 	};
 
 	authContext.login = function (email, password, remember) {

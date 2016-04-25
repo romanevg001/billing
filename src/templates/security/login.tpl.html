@@ -10,7 +10,7 @@
             <div class="form-group">
                 <label class="form-label">{{ 'platform.blades.login.labels.login' | translate }}</label>
                 <div class="form-input">
-                    <input name="login" id="login" ng-model="user.email" required autofocus va-autofill
+                    <input name="login" id="login" ng-model="user.phone" required autofocus va-autofill
                            type="tel" ui-mask="+7 (999) 999-9999" 
                            ui-mask-placeholder ui-mask-placeholder-char="_"/>
                 </div>
@@ -31,8 +31,12 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="form-error" ng-if="authError">
-                    {{authError}}
+                <div class="form-error" ng-if="errorLoginPass">
+
+                    {{ 'platform.blades.new-account-wizard.labels.err-login-pass' | translate }}
+                </div>
+                <div class="form-error" ng-if="errorAuth">
+                    {{ 'platform.blades.new-account-wizard.labels.err-auto' | translate }}
                 </div>
             </div>
             <div class="form-group __right">

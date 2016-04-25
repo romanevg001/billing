@@ -612,7 +612,9 @@
           "password": "Пароль",
           "remember-me": "Запомнить",
           "restore":"Восстановить пароль",
-          "log-in": "Войти"
+          "log-in": "Войти",
+          "err-login-pass": "Неверный логин или пароль.",
+          "err-auto": "Ошибка авторизации."
         }
       },
       "new-account-wizard": {

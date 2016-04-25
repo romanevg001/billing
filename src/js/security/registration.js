@@ -16,7 +16,7 @@ angular.module('sdl.management')
                 $scope.registration = function(){
                     // Try to reg
                     $scope.progress = false;
-                    authService.registration($scope.user.email).then(function(isRegistrated){
+                    authService.registration($scope.user.phone).then(function(isRegistrated){
                         $scope.progress = false;
                         if (isRegistrated) {
                             $scope.successMessage = true;
@@ -37,7 +37,7 @@ angular.module('sdl.management')
                     $scope.progress = true;
 
                     //Check out existing user
-                    authService.checkUser($scope.user.email).then(function (data) {
+                    authService.checkUser($scope.user.phone).then(function (data) {
                         if(data.isUserExist) {
                             $state.go('loginDialog');
                         }else{

@@ -25,9 +25,9 @@
 		});
 	};
 
-	authContext.registration = function (email) {
-		return $domain.smsRegister(7 + email).then(function () {
-			changeAuth({userName : 7 + email});
+	authContext.registration = function (phone) {
+		return $domain.smsRegister(7 + phone).then(function () {
+			changeAuth({userName : 7 + phone});
 			return true;
 		});
 	};
@@ -40,9 +40,9 @@
 		return $domain.confirmResetPassword(7 + phone, code);
 	};
 
-	authContext.login = function (email, password, remember) {
+	authContext.login = function (phone, password, remember) {
 
-	    return $domain.smsLogin(7 + email, password, remember).then(
+	    return $domain.smsLogin(7 + phone, password, remember).then(
             function () {
                 changeAuth(
                     {

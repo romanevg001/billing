@@ -18,7 +18,7 @@
 					$scope.authError = null;
 					$scope.progress = true;
 
-					authService.confirmResetPassword($scope.user.email, $scope.user.resetCode).then(function (data) {
+					authService.confirmResetPassword($scope.user.phone, $scope.user.resetCode).then(function (data) {
 						$scope.progress = false;
 						$scope.successMessage = true;
 
@@ -33,7 +33,7 @@
 
 				$scope.restorePassword = function(scope){
 
-					authService.resetPassword($scope.user.email).then(function (data) {
+					authService.resetPassword($scope.user.phone).then(function (data) {
 						$scope.authError = null;
 						$scope.progress = false;
 						$scope.proveResetPassword = true;
@@ -50,7 +50,7 @@
 	                $scope.progress = true;
 
 					//Check out existing user
-					authService.checkUser($scope.user.email).then(function(data){
+					authService.checkUser($scope.user.phone).then(function(data){
 						if(data.isUserExist){
 							$scope.restorePassword();
 						}else{

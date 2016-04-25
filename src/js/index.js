@@ -1,6 +1,7 @@
 ﻿import "./../../node_modules/angular-ui-mask/dist/mask"
 import "./../../node_modules/angular-jwt/dist/angular-jwt"
 
+
 (function(){
     var app = angular.module('sdl.management', [
         'angularMoment',
@@ -12,7 +13,9 @@ import "./../../node_modules/angular-jwt/dist/angular-jwt"
         'restangular',
         'pascalprecht.translate',
         'ui.mask',
-        'angular-jwt'
+        'ui.grid',
+        'angular-jwt',
+        'sdl.clientsModule'
     ]);
 
 
@@ -20,6 +23,8 @@ import "./../../node_modules/angular-jwt/dist/angular-jwt"
         function() {
         }
     ]);
+
+console.log('ui.grid=>',app.constant("uiGridConstants"));
 
     app.provider('$domain', function  (){
 

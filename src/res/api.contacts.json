@@ -1,0 +1,158 @@
+{
+  "fullName": "Rob White",
+  "organizations": [],
+  "securityAccounts": [
+    {
+      "id": "237a4784-d25f-419e-b4d7-cf151393d1cc",
+      "userName": "whity@example.com",
+      "email": "whity@example.com",
+      "storeId": "Electronics",
+      "memberId": "237a4784-d25f-419e-b4d7-cf151393d1cc",
+      "isAdministrator": false,
+      "userType": "Customer",
+      "userState": "Approved",
+      "roles": [],
+      "permissions": [],
+      "apiAccounts": []
+    }
+  ],
+  "name": "Rob White",
+  "memberType": "Contact",
+  "addresses": [
+    {
+      "addressType": 0,
+      "name": "Rob White",
+      "countryCode": "US",
+      "countryName": "United States",
+      "city": "Concord",
+      "postalCode": "03301",
+      "line1": "63 Clinton Street",
+      "regionId": "CA",
+      "regionName": "New Hampshire",
+      "firstName": "Rob",
+      "lastName": "White",
+      "phone": "(603) 394-9867"
+    }
+  ],
+  "phones": [],
+  "emails": [
+    "whity@example.com"
+  ],
+  "notes": [],
+  "objectType": "VirtoCommerce.Domain.Customer.Model.Contact",
+  "dynamicProperties": [
+    {
+      "objectId": "237a4784-d25f-419e-b4d7-cf151393d1cc",
+      "values": [],
+      "name": "Married",
+      "objectType": "VirtoCommerce.Domain.Customer.Model.Contact",
+      "isArray": false,
+      "isDictionary": false,
+      "isMultilingual": false,
+      "isRequired": false,
+      "valueType": "Boolean",
+      "displayNames": [
+        {
+          "locale": "ja-JP"
+        },
+        {
+          "locale": "de-DE"
+        },
+        {
+          "locale": "zh-CN"
+        },
+        {
+          "locale": "ru-RU"
+        },
+        {
+          "locale": "fr-FR"
+        },
+        {
+          "locale": "en-US"
+        }
+      ],
+      "createdDate": "2015-10-06T22:39:14.82Z",
+      "modifiedDate": "2015-10-06T22:39:14.82Z",
+      "createdBy": "unknown",
+      "modifiedBy": "unknown",
+      "id": "1d2174502bf4489cbd04504e2521bbec"
+    },
+    {
+      "objectId": "237a4784-d25f-419e-b4d7-cf151393d1cc",
+      "values": [],
+      "name": "occupation",
+      "objectType": "VirtoCommerce.Domain.Customer.Model.Contact",
+      "isArray": true,
+      "isDictionary": true,
+      "isMultilingual": false,
+      "isRequired": false,
+      "valueType": "ShortText",
+      "displayNames": [
+        {
+          "locale": "ja-JP"
+        },
+        {
+          "locale": "de-DE"
+        },
+        {
+          "locale": "zh-CN"
+        },
+        {
+          "locale": "en-US"
+        },
+        {
+          "locale": "ru-RU"
+        },
+        {
+          "locale": "fr-FR"
+        }
+      ],
+      "createdDate": "2015-10-06T22:39:14.82Z",
+      "modifiedDate": "2015-10-06T22:39:14.82Z",
+      "createdBy": "unknown",
+      "modifiedBy": "unknown",
+      "id": "fc83840c443547719e6545637acde1c8"
+    },
+    {
+      "objectId": "237a4784-d25f-419e-b4d7-cf151393d1cc",
+      "values": [],
+      "name": "Sex",
+      "objectType": "VirtoCommerce.Domain.Customer.Model.Contact",
+      "isArray": false,
+      "isDictionary": true,
+      "isMultilingual": false,
+      "isRequired": false,
+      "valueType": "ShortText",
+      "displayNames": [
+        {
+          "locale": "fr-FR"
+        },
+        {
+          "locale": "ja-JP"
+        },
+        {
+          "locale": "en-US"
+        },
+        {
+          "locale": "ru-RU"
+        },
+        {
+          "locale": "zh-CN"
+        },
+        {
+          "locale": "de-DE"
+        }
+      ],
+      "createdDate": "2015-10-06T22:39:14.82Z",
+      "modifiedDate": "2015-10-06T22:39:14.82Z",
+      "createdBy": "unknown",
+      "modifiedBy": "unknown",
+      "id": "5869be3e8fa249c7a96d8d874353f943"
+    }
+  ],
+  "createdDate": "2015-10-06T22:39:44.29Z",
+  "modifiedDate": "2015-10-06T22:39:44.29Z",
+  "createdBy": "unknown",
+  "modifiedBy": "unknown",
+  "id": "237a4784-d25f-419e-b4d7-cf151393d1cc"
+}

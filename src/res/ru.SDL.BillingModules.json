@@ -1,4 +1,32 @@
 ﻿{
+  "blade": {
+    "title": "Клиенты",
+    "error": "Ошибка",
+    "subtitle": ""
+  },
+  "clients": {
+    "blades" : {
+      "member-list": {
+        "title": "Клиенты",
+        "labels": {
+          "name": "ФИО",
+          "type": "Тип",
+          "subtitle": ""
+
+        }
+      },
+      "member-add": {
+        "menu": {
+          "clients": {
+            "title": "Создать клиента",
+            "description":""
+          }
+        }
+      }
+    }
+  },
+
+
   "modules": {
     "blades": {
       "clients": {

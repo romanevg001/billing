@@ -1,26 +1,27 @@
-﻿angular.module('sdl.clientsModule')
-.controller('clientsModule.memberListController', ['$scope',
-    '','','',//'virtoCommerce.customerModule.members', 'virtoCommerce.customerModule.contacts', 'virtoCommerce.customerModule.organizations',
-    'sdl.management.dialogService',
-    '',//'platformWebApp.bladeUtils',
-    'sdl.management.uiGridHelper',
-    function ($scope, members, contacts, organizations, dialogService, bladeUtils, uiGridHelper) {
+﻿//'virtoCommerce.customerModule.contacts', 'virtoCommerce.customerModule.organizations',
+
+angular.module('sdl.clientsModule')
+.controller('clientsModule.memberListController', ['$scope', 'clientsModule.members','sdl.management.dialogService', 'sdl.management.bladeUtils', 'sdl.management.uiGridHelper',
+    function ($scope, members, dialogService, bladeUtils, uiGridHelper) {
+        //, contacts, organizations,
         $scope.uiGridConstants = uiGridHelper.uiGridConstants;
 
         var blade = $scope.blade;
-        blade.title = 'customer.blades.member-list.title';
+        blade.title = 'clients.blades.member-list.title';
         var bladeNavigationService = bladeUtils.bladeNavigationService;
 
         blade.refresh = function () {
             blade.isLoading = true;
+
+
             members.search(
-            {
-                memberId: blade.currentEntity.id,
-                keyword: filter.keyword ? filter.keyword : undefined,
-                sort: uiGridHelper.getSortExpression($scope),
-                skip: ($scope.pageSettings.currentPage - 1) * $scope.pageSettings.itemsPerPageCount,
-                take: $scope.pageSettings.itemsPerPageCount
-            },
+                {
+                    memberId: blade.currentEntity.id,
+                    keyword: filter.keyword ? filter.keyword : undefined,
+                    sort: uiGridHelper.getSortExpression($scope),
+                    skip: ($scope.pageSettings.currentPage - 1) * $scope.pageSettings.itemsPerPageCount,
+                    take: $scope.pageSettings.itemsPerPageCount
+                },
                 function (data) {
                     blade.isLoading = false;
                     $scope.pageSettings.totalItems = data.totalCount;
@@ -101,15 +102,15 @@
                 isOrganization: false,
                 title: title,
                 subtitle: 'customer.blades.customer-detail.subtitle',
-                controller: 'virtoCommerce.customerModule.memberDetailController',
-                template: 'Modules/$(VirtoCommerce.Customer)/Scripts/blades/customer-detail.tpl.html'
+                controller: 'clientsModule.memberDetailController',
+                template: 'template/clients/client-detail.tpl.html'
             };
 
-            if (listItem.memberType === 'Organization') {
-                newBlade.isOrganization = true;
-                newBlade.subtitle = 'customer.blades.organization-detail.subtitle';
-                newBlade.template = 'Modules/$(VirtoCommerce.Customer)/Scripts/blades/organization-detail.tpl.html';
-            }
+            //if (listItem.memberType === 'Organization') {
+            //    newBlade.isOrganization = true;
+            //    newBlade.subtitle = 'customer.blades.organization-detail.subtitle';
+            //    newBlade.template = 'Modules/$(VirtoCommerce.Customer)/Scripts/blades/organization-detail.tpl.html';
+            //}
 
             bladeNavigationService.showBlade(newBlade, blade);
         };
@@ -130,14 +131,14 @@
                             var customerIds = _.pluck(_.where(selection, { memberType: 'Contact' }), 'id');
 
                             if (_.any(organizationIds)) {
-                                organizations.remove({ ids: organizationIds },
-                                blade.refresh,
-                                function (error) { bladeNavigationService.setError('Error ' + error.status, blade); });
+                                //organizations.remove({ ids: organizationIds },
+                                //blade.refresh,
+                                //function (error) { bladeNavigationService.setError('Error ' + error.status, blade); });
                             }
                             if (_.any(customerIds)) {
-                                contacts.remove({ ids: customerIds },
-                                blade.refresh,
-                                function (error) { bladeNavigationService.setError('Error ' + error.status, blade); });
+                                //contacts.remove({ ids: customerIds },
+                                //blade.refresh,
+                                //function (error) { bladeNavigationService.setError('Error ' + error.status, blade); });
                             }
                         });
                     }
@@ -182,14 +183,14 @@
                 }
             },
             {
-                name: "platform.commands.add", icon: 'fa fa-plus',
+                name: "platform.commands.create", icon: 'fa fa-plus',
                 executeMethod: function () {
                     var newBlade = {
                         id: 'listItemChild',
                         title: 'customer.blades.member-add.title',
                         subtitle: 'customer.blades.member-add.subtitle',
-                        controller: 'virtoCommerce.customerModule.memberAddController',
-                        template: 'Modules/$(VirtoCommerce.Customer)/Scripts/blades/member-add.tpl.html'
+                        controller: 'clientsModule.memberAddController',
+                        template: 'templates/clients/member-add.tpl.html'
                     };
                     bladeNavigationService.showBlade(newBlade, blade);
                 },
@@ -197,14 +198,14 @@
                     return true;
                 },
                 permission: 'customer:create'
-            },
-            {
-                name: "platform.commands.delete", icon: 'fa fa-trash-o',
-                executeMethod: function () { deleteList($scope.gridApi.selection.getSelectedRows()); },
-                canExecuteMethod: function () {
-                    return $scope.gridApi && _.any($scope.gridApi.selection.getSelectedRows());
-                },
-                permission: 'customer:delete'
+            //},
+            //{
+            //    name: "platform.commands.delete", icon: 'fa fa-trash-o',
+            //    executeMethod: function () { deleteList($scope.gridApi.selection.getSelectedRows()); },
+            //    canExecuteMethod: function () {
+            //        return $scope.gridApi && _.any($scope.gridApi.selection.getSelectedRows());
+            //    },
+            //    permission: 'customer:delete'
             }
         ];
 

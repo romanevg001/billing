@@ -1,8 +1,12 @@
 //@import "../../node_modules/node.normalize.scss/_normalize.scss";
 
+$font-url: "../../fonts/";
 
 
-@import "font-awesome.css";
-@import "ui-grid.css";
+@import "font-awesome";
+@import "ui-grid";
 @import "app.css";
 
+.nav-bar .bar {
+  margin-top: 0;
+}

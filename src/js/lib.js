@@ -1,8 +1,5 @@
-import "./clients/clientsModule"
-import "./clients/member-list"
-
-
 import "./common/uiGridUtils"
+import "./common/bladeUtils"
 
 import "./menu/mainMenu";
 
@@ -11,6 +8,13 @@ import "./navigation/widget";
 
 
 import "./dialogs/confirmDialog";
+
+import "./clients/clientsModule"
+import "./clients/resources/members"
+import "./clients/member-add"
+import "./clients/member-detail"
+import "./clients/member-list"
+
 
 
 import "./security/auth";

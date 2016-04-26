@@ -4406,6 +4406,7 @@ tags-input .tags .tag-item {
     right: 0;
     white-space: nowrap;
     z-index: 50;
+
 }
 
     .cnt.__hidden {
@@ -4525,6 +4526,7 @@ tags-input .tags .tag-item {
 .blade-nav .menu {
     background: #232323;
     position: relative;
+    margin: 0;
 }
 
 .blade-nav .menu-item {

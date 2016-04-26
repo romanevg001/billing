@@ -1,13 +1,15 @@
-﻿angular.module('virtoCommerce.customerModule')
-.controller('virtoCommerce.customerModule.memberDetailController', ['$scope', 'platformWebApp.bladeNavigationService', 'virtoCommerce.customerModule.contacts', 'virtoCommerce.customerModule.organizations', 'platformWebApp.dynamicProperties.api', function ($scope, bladeNavigationService, contacts, organizations, dynamicPropertiesApi) {
+﻿angular.module('sdl.clientsModule')
+.controller('clientsModule.memberDetailController', ['$scope', 'sdl.management.bladeNavigationService',
+    'clientsModule.contacts', //'virtoCommerce.customerModule.organizations',
+  //  'platformWebApp.dynamicProperties.api',
+    function ($scope, bladeNavigationService, contacts) {
     var blade = $scope.blade;
     blade.updatePermission = 'customer:update';
-    blade.currentResource = blade.isOrganization ? organizations : contacts;
+    blade.currentResource = contacts;//blade.isOrganization ? organizations : contacts;
 
     blade.refresh = function (parentRefresh) {
         if (blade.currentEntityId) {
             blade.isLoading = true;
-
             blade.currentResource.get({ _id: blade.currentEntityId }, function (data) {
                 initializeBlade(data);
                 if (parentRefresh) {
@@ -23,16 +25,16 @@
                 emails: []
             };
 
-            if (blade.isOrganization) {
-                newEntity.parentId = blade.parentBlade.currentEntity.id;
-                fillDynamicProperties(newEntity, 'VirtoCommerce.Domain.Customer.Model.Organization');
-            } else {
-                newEntity.organizations = [];
-                if (blade.parentBlade.currentEntity.id) {
-                    newEntity.organizations.push(blade.parentBlade.currentEntity.id);
-                }
-                fillDynamicProperties(newEntity, 'VirtoCommerce.Domain.Customer.Model.Contact');
-            }
+            //if (blade.isOrganization) {
+            //    newEntity.parentId = blade.parentBlade.currentEntity.id;
+            ////    fillDynamicProperties(newEntity, 'VirtoCommerce.Domain.Customer.Model.Organization');
+            //} else {
+            //    newEntity.organizations = [];
+            //    if (blade.parentBlade.currentEntity.id) {
+            //        newEntity.organizations.push(blade.parentBlade.currentEntity.id);
+            //    }
+            ////    fillDynamicProperties(newEntity, 'VirtoCommerce.Domain.Customer.Model.Contact');
+            //}
         }
     }
 
@@ -87,7 +89,8 @@
     }
 
     blade.onClose = function (closeCallback) {
-        bladeNavigationService.showConfirmationIfNeeded(isDirty(), canSave(), blade, $scope.saveChanges, closeCallback, "customer.dialogs.customer-save.title", "customer.dialogs.customer-save.message");
+        bladeNavigationService.showConfirmationIfNeeded(isDirty(), canSave(), blade,
+            $scope.saveChanges, closeCallback, "customer.dialogs.customer-save.title", "customer.dialogs.customer-save.message");
     };
 
     blade.headIcon = blade.isOrganization ? 'fa fa-university' : 'fa fa-user';
@@ -132,9 +135,9 @@
     $scope.format = $scope.formats[0];
 
     // other on load
-    if (!blade.isOrganization) {
-        $scope.organizations = organizations.query();
-    }
+    //if (!blade.isOrganization) {
+    //    //$scope.organizations = organizations.query();
+    //}
 
     blade.refresh(false);
 }]);

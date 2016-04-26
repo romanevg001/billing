@@ -46,6 +46,7 @@ angular.module('sdl.management')
             element.attr('id', scope.blade.id);
             element.attr('ng-model', "blade");
             element.removeAttr("va-blade");
+
             $compile(element)(scope);
 
             var mainContent = $('.cnt');

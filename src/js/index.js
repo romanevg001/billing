@@ -13,9 +13,11 @@ import "./../../node_modules/angular-jwt/dist/angular-jwt"
         'restangular',
         'pascalprecht.translate',
         'ui.mask',
-        'ui.grid',
+        'ngResource',
         'angular-jwt',
-        'sdl.clientsModule'
+        'sdl.clientsModule',
+        'ui.grid', 'ui.grid.autoResize', 'ui.grid.resizeColumns', 'ui.grid.moveColumns', 'ui.grid.saveState',
+        'ui.grid.selection', 'ui.grid.pagination', 'ui.grid.pinning', 'ui.grid.grouping'
     ]);
 
 
@@ -24,7 +26,7 @@ import "./../../node_modules/angular-jwt/dist/angular-jwt"
         }
     ]);
 
-console.log('ui.grid=>',app.constant("uiGridConstants"));
+
 
     app.provider('$domain', function  (){
 

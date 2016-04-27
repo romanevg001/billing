@@ -8,10 +8,14 @@
     "blades" : {
       "member-list": {
         "title": "Клиенты",
+        "keywordType": "Выберите критерий",
         "labels": {
-          "name": "ФИО",
-          "type": "Тип",
-          "subtitle": ""
+          "name": "Имя",
+          "phone": "Телефон",
+          "lastName": "Фамилия",
+          "middleName":"Отчество",
+          "email":"Email"
+
 
         }
       },

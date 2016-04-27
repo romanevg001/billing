@@ -10,9 +10,11 @@ angular.module('sdl.clientsModule')
         blade.title = 'clients.blades.member-list.title';
         var bladeNavigationService = bladeUtils.bladeNavigationService;
 
+        $scope.keywordType = {};
+        $scope.keywordTypes = ["name","phone","lastName"];
+
         blade.refresh = function () {
             blade.isLoading = true;
-
 
             members.search(
                 {
@@ -25,6 +27,7 @@ angular.module('sdl.clientsModule')
                 function (data) {
                     blade.isLoading = false;
                     $scope.pageSettings.totalItems = data.totalCount;
+
                     $scope.listEntries = data.members;
 
                     //Set navigation breadcrumbs
@@ -32,7 +35,10 @@ angular.module('sdl.clientsModule')
                 }, function (error) {
                     bladeNavigationService.setError('Error ' + error.status, blade);
                 });
-        }
+        };
+
+
+
 
         //Breadcrumbs
         function setBreadcrumbs() {
@@ -237,9 +243,45 @@ angular.module('sdl.clientsModule')
             uiGridHelper.initialize($scope, gridOptions, function (gridApi) {
                 uiGridHelper.bindRefreshOnSortChanged($scope);
             });
-
             bladeUtils.initializePagination($scope);
         };
+
+        //$scope.gridOptions = {
+        //    useExternalSorting: true,
+        //    enableSorting: true,
+        //    data: 'listEntries',
+        //    rowTemplate: 'member-list.row.html',
+        //    rowHeight: 61,
+        //    paginationPageSizes: [5, 10, 15],
+        //    paginationPageSize: 5,
+        //    useExternalPagination: true,
+        //    columnDefs: [
+        //        { name: 'phone', displayName: 'clients.blades.member-list.labels.phone'},
+        //        { name: 'lastName', displayName: 'clients.blades.member-list.labels.lastName'},
+        //        { name: 'name', displayName: 'clients.blades.member-list.labels.name', enableSorting: false}
+        //    ]
+        //    //,
+        //    //onRegisterApi: function(gridApi) {
+        //    //    $scope.gridApi = gridApi;
+        //    //    $scope.gridApi.core.on.sortChanged($scope, function(grid, sortColumns) {
+        //    //        if (sortColumns.length == 0) {
+        //    //            paginationOptions.sort = null;
+        //    //        } else {
+        //    //            paginationOptions.sort = sortColumns[0].sort.direction;
+        //    //        }
+        //    //    });
+        //    //    gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+        //    //        paginationOptions.pageNumber = newPage;
+        //    //        paginationOptions.pageSize = pageSize;
+        //    //    });
+        //    //}
+        //};
+        //
+        //var paginationOptions = {
+        //    pageNumber: 1,
+        //    pageSize: 5,
+        //    sort: null
+        //};
 
 
         //No need to call this because page 'pageSettings.currentPage' is watched!!! It would trigger subsequent duplicated req...

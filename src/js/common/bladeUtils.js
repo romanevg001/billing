@@ -6,7 +6,7 @@
          $scope.pageSettings.totalItems = 0;
          $scope.pageSettings.currentPage = 1;
          $scope.pageSettings.numPages = 5;
-         $scope.pageSettings.itemsPerPageCount = 20;
+         $scope.pageSettings.itemsPerPageCount = 5;
 
          $scope.$watch('pageSettings.currentPage', $scope.blade.refresh);
      }

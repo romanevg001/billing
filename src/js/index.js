@@ -1,5 +1,6 @@
 ﻿import "./../../node_modules/angular-ui-mask/dist/mask"
 import "./../../node_modules/angular-jwt/dist/angular-jwt"
+import "./../../node_modules/angular-ui-select/select"
 
 
 (function(){
@@ -10,6 +11,9 @@ import "./../../node_modules/angular-jwt/dist/angular-jwt"
         'ngStorage',
         'ngCookies',
         'ui.bootstrap',
+        //'ui.sortable',
+        'ui.select',
+        //'ngAnimate',
         'restangular',
         'pascalprecht.translate',
         'ui.mask',
@@ -112,10 +116,8 @@ import "./../../node_modules/angular-jwt/dist/angular-jwt"
         }
     ]);
 
-    app.run(['amMoment', 'gridsterConfig', 'mainMenuService', '$state',
-        '$rootScope', 'authService',
-        function (amMoment, gridsterConfig, mainMenuService, $state,
-            $rootScope, authService) {
+    app.run(['amMoment', 'gridsterConfig', 'mainMenuService', '$state', '$rootScope', 'authService', '$templateCache',
+        function (amMoment, gridsterConfig, mainMenuService, $state, $rootScope, authService,$templateCache) {
         amMoment.changeLocale('ru');
 
         var homeMenuItem = {
@@ -160,6 +162,9 @@ import "./../../node_modules/angular-jwt/dist/angular-jwt"
                 $state.go('loginDialog');
             }
         });
+
+        // cache application level templates
+      //  $templateCache.put('pagerTemplate.html', '<div class="pagination"><pagination boundary-links="true" max-size="pageSettings.numPages" items-per-page="pageSettings.itemsPerPageCount" total-items="pageSettings.totalItems" ng-model="pageSettings.currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination></div>');
 
         gridsterConfig.columns = 4;
         gridsterConfig.colWidth = 130;

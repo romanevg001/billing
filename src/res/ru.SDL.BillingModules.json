@@ -10,13 +10,13 @@
         "title": "Клиенты",
         "keywordType": "Выберите критерий",
         "labels": {
-          "name": "Имя",
           "phone": "Телефон",
+          "name": "Имя",
           "lastName": "Фамилия",
-          "middleName":"Отчество",
-          "email":"Email"
-
-
+          "nPassport":"Номер паспорта",
+          "nContract":"Номер контракта",
+          "email":"Email",
+          "nCar":"Номер машины"
         }
       },
       "member-add": {

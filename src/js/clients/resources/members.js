@@ -11,6 +11,11 @@ angular.module('sdl.clientsModule')
 	});
 }]);
 
+
+
+
+
+
 //.factory('virtoCommerce.customerModule.organizations', ['$resource', function ($resource) {
 //	return $resource('api/organizations/:_id', { _id: '@_id' }, {
 //		update: { method: 'PUT' }

@@ -1,6 +1,10 @@
-﻿import "./../../node_modules/angular-ui-mask/dist/mask"
+﻿"use strict";
+import "./../../node_modules/angular-ui-mask/dist/mask"
 import "./../../node_modules/angular-jwt/dist/angular-jwt"
-import "./../../node_modules/angular-ui-select/select"
+import "./../../node_modules/ui-select/dist/select"
+import "./../../node_modules/angular-sanitize/angular-sanitize"
+import "./../../node_modules/angular-touch/angular-touch"
+
 
 
 (function(){
@@ -13,6 +17,7 @@ import "./../../node_modules/angular-ui-select/select"
         'ui.bootstrap',
         //'ui.sortable',
         'ui.select',
+        'ngSanitize',
         //'ngAnimate',
         'restangular',
         'pascalprecht.translate',
@@ -20,8 +25,9 @@ import "./../../node_modules/angular-ui-select/select"
         'ngResource',
         'angular-jwt',
         'sdl.clientsModule',
+        'ngTouch',
         'ui.grid', 'ui.grid.autoResize', 'ui.grid.resizeColumns', 'ui.grid.moveColumns', 'ui.grid.saveState',
-        'ui.grid.selection', 'ui.grid.pagination', 'ui.grid.pinning', 'ui.grid.grouping'
+        'ui.grid.selection', 'ui.grid.pagination', 'ui.grid.pinning', 'ui.grid.grouping','ui.grid.infiniteScroll'
     ]);
 
 

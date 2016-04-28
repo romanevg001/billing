@@ -1,12 +1,23 @@
 //@import "../../node_modules/node.normalize.scss/_normalize.scss";
+@import "../../node_modules/ui-select/dist/select.css";
+//@import "../../node_modules/angular-ui-grid/ui-grid.css";
 
 $font-url: "../../fonts/";
 
 
+
 @import "font-awesome";
 @import "ui-grid";
-@import "app.css";
+@import "app";
 
+@font-face {
+  font-family: 'ui-grid';
+  src: url($font-url + 'ui-grid.eot');
+  src: url($font-url + 'ui-grid.eot#iefix') format('embedded-opentype'), url($font-url + 'ui-grid.woff') format('woff'),
+  url($font-url + 'ui-grid.ttf') format('truetype'), url($font-url + 'ui-grid.svg?#ui-grid') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
 .nav-bar .bar {
   margin-top: 0;
 }

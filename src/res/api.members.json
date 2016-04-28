@@ -1,5 +1,5 @@
 {
-  "totalCount": 12,
+  "totalCount": 10,
   "members": [
     {
       "name": "Vendor",
@@ -398,85 +398,9 @@
       "notes": "",
       "codeWord": "boom",
       "id": "a3a55ec1-e333-4171-9610-b7a33ac1d66b"
-    },
-    {
-      "name": "John ",
-      "lastName": "Starberg",
-      "middleName": "Collins",
-      "addresses": [],
-      "phone": "9885753774",
-      "email": "qwerty@gmail.com",
-      "address": {
-        "country": "Российская Федерация",
-        "subject": "",
-        "region": "",
-        "typePlace": "city",
-        "street": "Gorkogo",
-        "home": "28",
-        "flat":"34",
-        "postcode": ""
-      },
-      "passport": {
-        "series": 234234,
-        "number": 324234,
-        "organization": "",
-        "code":"612-78",
-        "date": "2015-10-06T22:39:44.267Z"
-      },
-      "registration": {
-        "equalAddress": true,
-        "country": "Российская Федерация",
-        "subject": "Московская область",
-        "region": "",
-        "typePlace": "city",
-        "placeName": "Москва",
-        "street": "Gorkogo",
-        "home": "28",
-        "flat":"34",
-        "postcode": "324565"
-      },
-      "notes": "",
-      "codeWord": "qwertyui",
-      "id": "ae0e9e44-a1ca-4527-8319-0e92b0eb16f9"
-    },
-    {
-      "name": "Barny",
-      "lastName": "Collins",
-      "middleName": "Collins",
-      "phone": "9885753774",
-      "email": "qwerty@gmail.com",
-      "address": {
-        "country": "Российская Федерация",
-        "subject": "",
-        "region": "",
-        "typePlace": "city",
-        "street": "Gorkogo",
-        "home": "28",
-        "flat":"34",
-        "postcode": ""
-      },
-      "passport": {
-        "series": 234234,
-        "number": 324234,
-        "organization": "",
-        "code":"612-78",
-        "date": "2015-10-06T22:39:44.267Z"
-      },
-      "registration": {
-        "equalAddress": true,
-        "country": "Российская Федерация",
-        "subject": "Московская область",
-        "region": "",
-        "typePlace": "city",
-        "placeName": "Москва",
-        "street": "Gorkogo",
-        "home": "28",
-        "flat":"34",
-        "postcode": "324565"
-      },
-      "notes": "",
-      "codeWord": "boom",
-      "id": "d2d9b741-5453-4ad8-aa46-d07478b9a931"
     }
+
+
+
   ]
 }

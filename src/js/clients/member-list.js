@@ -6,15 +6,35 @@ angular.module('sdl.clientsModule')
         //, contacts, organizations,
         $scope.uiGridConstants = uiGridHelper.uiGridConstants;
 
+
+
         var blade = $scope.blade;
         blade.title = 'clients.blades.member-list.title';
+
         var bladeNavigationService = bladeUtils.bladeNavigationService;
 
-        $scope.keywordType = {};
-        $scope.keywordTypes = ["name","phone","lastName"];
+        $scope.searchType = null;
+        $scope.searchTypes = [
+            {searchId: 'phone', name: 'clients.blades.member-list.labels.phone'},
+            {searchId: 'name', name: 'clients.blades.member-list.labels.name'},
+            {searchId: 'lastName', name: 'clients.blades.member-list.labels.lastName'},
+            {searchId: 'nPassport', name: 'clients.blades.member-list.labels.nPassport'},
+            {searchId: 'nContract', name: 'clients.blades.member-list.labels.nContract'},
+            {searchId: 'email', name: 'clients.blades.member-list.labels.email'},
+            {searchId: 'nCar', name: 'clients.blades.member-list.labels.nCar'}
+        ];
+        $scope.selected = { value: $scope.searchTypes[0] };
 
-        blade.refresh = function () {
+        $scope.choseSearchTypes = function(item){
+            $scope.searchType = item.searchId;
+        };
+
+
+        blade.refresh = function (callback) {
             blade.isLoading = true;
+
+
+            callback = (typeof callback) === 'function' ? callback : false;
 
             members.search(
                 {
@@ -22,9 +42,10 @@ angular.module('sdl.clientsModule')
                     keyword: filter.keyword ? filter.keyword : undefined,
                     sort: uiGridHelper.getSortExpression($scope),
                     skip: ($scope.pageSettings.currentPage - 1) * $scope.pageSettings.itemsPerPageCount,
-                    take: $scope.pageSettings.itemsPerPageCount
+                    take: $scope.pageSettings.itemsPerPageCount,
+                    group: $scope.searchType
                 },
-                function (data) {
+                callback || function (data) {
                     blade.isLoading = false;
                     $scope.pageSettings.totalItems = data.totalCount;
 
@@ -36,6 +57,49 @@ angular.module('sdl.clientsModule')
                     bladeNavigationService.setError('Error ' + error.status, blade);
                 });
         };
+
+
+        $scope._registerApi = (gridApi)=>{
+            return (gridApi)=>{
+                gridApi.infiniteScroll.on.needLoadMoreData($scope, $scope.getDataDown);
+                gridApi.infiniteScroll.on.needLoadMoreDataTop($scope, $scope.getDataUp);
+                $scope.gridApi = gridApi;
+            }
+        };
+
+        $scope.data = [];
+
+        $scope.firstPage = 2;
+        $scope.lastPage = 2;
+        $scope.getDataDown = function(){
+            //blade.refresh();
+            console.log('getDataDown');
+
+            blade.refresh(function(data) {
+                blade.isLoading = false;
+           //     var newData = $scope.getPage(data, $scope.lastPage);
+                $scope.gridApi.infiniteScroll.saveScrollPercentage();
+                $scope.listEntries = $scope.listEntries.concat(data.members);
+                $scope.gridApi.infiniteScroll.dataLoaded();
+
+console.log(data.members)
+console.log($scope.listEntries)
+
+                $scope.pageSettings.totalItems =  $scope.pageSettings.totalItems * $scope.lastPage;
+
+                $scope.lastPage++;
+
+                //Set navigation breadcrumbs
+                //setBreadcrumbs();
+                //$scope.gridApi.infiniteScroll.dataLoaded($scope.firstPage > 0, $scope.lastPage < 4).then(function() {$scope.checkDataLength('up');}).then(function() {
+                //    promise.resolve();
+                //});
+            })
+
+        }
+        $scope.getDataUp = function(){
+            console.log('getDataUp')
+        }
 
 
 
@@ -245,43 +309,6 @@ angular.module('sdl.clientsModule')
             });
             bladeUtils.initializePagination($scope);
         };
-
-        //$scope.gridOptions = {
-        //    useExternalSorting: true,
-        //    enableSorting: true,
-        //    data: 'listEntries',
-        //    rowTemplate: 'member-list.row.html',
-        //    rowHeight: 61,
-        //    paginationPageSizes: [5, 10, 15],
-        //    paginationPageSize: 5,
-        //    useExternalPagination: true,
-        //    columnDefs: [
-        //        { name: 'phone', displayName: 'clients.blades.member-list.labels.phone'},
-        //        { name: 'lastName', displayName: 'clients.blades.member-list.labels.lastName'},
-        //        { name: 'name', displayName: 'clients.blades.member-list.labels.name', enableSorting: false}
-        //    ]
-        //    //,
-        //    //onRegisterApi: function(gridApi) {
-        //    //    $scope.gridApi = gridApi;
-        //    //    $scope.gridApi.core.on.sortChanged($scope, function(grid, sortColumns) {
-        //    //        if (sortColumns.length == 0) {
-        //    //            paginationOptions.sort = null;
-        //    //        } else {
-        //    //            paginationOptions.sort = sortColumns[0].sort.direction;
-        //    //        }
-        //    //    });
-        //    //    gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
-        //    //        paginationOptions.pageNumber = newPage;
-        //    //        paginationOptions.pageSize = pageSize;
-        //    //    });
-        //    //}
-        //};
-        //
-        //var paginationOptions = {
-        //    pageNumber: 1,
-        //    pageSize: 5,
-        //    sort: null
-        //};
 
 
         //No need to call this because page 'pageSettings.currentPage' is watched!!! It would trigger subsequent duplicated req...

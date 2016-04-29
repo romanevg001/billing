@@ -18,16 +18,25 @@
 					$scope.authError = null;
 					$scope.progress = true;
 
-					authService.confirmResetPassword($scope.user.phone, $scope.user.resetCode).then(function (data) {
+					authService.login($scope.user.phone, $scope.user.resetCode).then(function (data) {
 						$scope.progress = false;
 						$scope.successMessage = true;
+						$scope.$apply();
 
 						setTimeout(()=>{
-							$state.go('loginDialog');
-						},3000);
-
-						$scope.$apply();
+							$state.go('workspace');
+						},1500);
 					});
+					//authService.confirmResetPassword($scope.user.phone, $scope.user.resetCode).then(function (data) {
+					//	$scope.progress = false;
+					//	$scope.successMessage = true;
+                    //
+					//	setTimeout(()=>{
+					//		$state.go('loginDialog');
+					//	},3000);
+                    //
+					//	$scope.$apply();
+					//});
 				};
 
 
@@ -58,19 +67,6 @@
 						}
 					});
 
-					//$scope.$on('onCheckUser',function(event,data){
-					//	if(data.isUserExist) {
-					//		//$scope.restorePassword();
-					//		_scope().proveResetPassword = true;
-                    //
-					//		console.log('ddd')
-					//		_scope().progress = false;
-					//		//$scope.proveResetPassword = true;
-                    //
-					//	}else{
-					//		$state.go('registration');
-					//	}
-					//});
 	            };
 
 	        }]

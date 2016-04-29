@@ -1,11 +1,13 @@
 ﻿angular.module('sdl.clientsModule')
 .controller('clientsModule.memberDetailController', ['$scope', 'sdl.management.bladeNavigationService',
-    'clientsModule.contacts', //'virtoCommerce.customerModule.organizations',
-  //  'platformWebApp.dynamicProperties.api',
-    function ($scope, bladeNavigationService, contacts) {
+    //'clientsModule.contacts', //'virtoCommerce.customerModule.organizations',
+    'clientsModule.member', 'clientsModule.subjects', 'clientsModule.regions', 'clientsModule.pointsName',
+    function ($scope, bladeNavigationService, member, subjects, regions, pointsName) {
+
     var blade = $scope.blade;
     blade.updatePermission = 'customer:update';
-    blade.currentResource = contacts;//blade.isOrganization ? organizations : contacts;
+    blade.currentResource = '';//contacts;//blade.isOrganization ? organizations : contacts;
+    blade.isLoading = false;
 
     blade.refresh = function (parentRefresh) {
         if (blade.currentEntityId) {
@@ -38,14 +40,53 @@
         }
     }
 
+    $scope.subjects = '';
+    $scope.regions = '';
+    $scope.typeofPoints = '';
+    $scope.pointsName = '';
+
+    //get subjects
+    subjects.list({},function(data){
+        $scope.subjects = data.subjects;
+    });
+
+    //get regions
+    $scope.choseSubject = function(item){
+        regions.list({}, function(data){
+            $scope.regions = data.regions;
+        });
+    }
+
+    //get regions
+    $scope.choseRegion = function(item){
+        $scope.typeofPoints = [
+            {"name":"Город"}, {"name":"Деревня"}, {"name":"Поселок городского типа"}, {"name":"Поселок"},
+            {"name":"Сельское поселение"},
+            {"name":"Рабочий поселок"}, {"name":"Село"}, {"name":"Дачный поселок"}, {"name":"Нет"}
+        ];
+
+        pointsName.list({}, function(data){
+            $scope.pointsName = data.pointsName;
+        });
+    }
+
+
+
+
+
+
+
+
     function fillDynamicProperties(newEntity, typeName) {
-        dynamicPropertiesApi.query({ id: typeName }, function (results) {
-            _.each(results, function (x) {
-                x.displayNames = undefined;
-                x.values = [];
-            });
-            newEntity.dynamicProperties = results;
-            initializeBlade(newEntity);
+    //    console.log('boom')
+        member.query({ id: 0 }, function (results) {
+        //    _.each(results, function (x) {
+        //        x.displayNames = undefined;
+        //        x.values = [];
+        //    });
+        //    newEntity.dynamicProperties = results;
+            console.log(results.members[0]);
+            initializeBlade(results.members[0]);
         }, function (error) { bladeNavigationService.setError('Error ' + error.status, blade); });
     }
 
@@ -64,6 +105,7 @@
     }
 
     $scope.saveChanges = function () {
+
         blade.isLoading = true;
 
         if (blade.currentEntityId) {
@@ -90,7 +132,7 @@
 
     blade.onClose = function (closeCallback) {
         bladeNavigationService.showConfirmationIfNeeded(isDirty(), canSave(), blade,
-            $scope.saveChanges, closeCallback, "customer.dialogs.customer-save.title", "customer.dialogs.customer-save.message");
+            $scope.saveChanges, closeCallback, "clients.dialogs.customer-save.title", "customer.dialogs.customer-save.message");
     };
 
     blade.headIcon = blade.isOrganization ? 'fa fa-university' : 'fa fa-user';

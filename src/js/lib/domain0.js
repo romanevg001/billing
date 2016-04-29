@@ -1593,7 +1593,7 @@ Domain0.prototype.smsRegister = function (phone) {
  * @param {} password 
  * @returns {} 
  */
-Domain0.prototype.smsLogin = function (phone, password,remember) {
+Domain0.prototype.smsLogin = function (phone, password, remember) {
 
     var api = this;
     return reqwest({
@@ -1620,7 +1620,7 @@ Domain0.prototype.requestResetPassword = function (phone) {
 
   return reqwest({
     url: this._domain + '/sms/RequestResetPassword',
-    method: 'delete',
+    method: 'post',
     data: phone,
     contentType: 'application/json',
     crossOrigin: true,

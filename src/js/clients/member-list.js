@@ -62,47 +62,24 @@ angular.module('sdl.clientsModule')
         $scope._registerApi = (gridApi)=>{
             return (gridApi)=>{
                 gridApi.infiniteScroll.on.needLoadMoreData($scope, $scope.getDataDown);
-                gridApi.infiniteScroll.on.needLoadMoreDataTop($scope, $scope.getDataUp);
                 $scope.gridApi = gridApi;
             }
         };
 
-        $scope.data = [];
 
-        $scope.firstPage = 2;
-        $scope.lastPage = 2;
         $scope.getDataDown = function(){
-            //blade.refresh();
-            console.log('getDataDown');
 
             blade.refresh(function(data) {
                 blade.isLoading = false;
-           //     var newData = $scope.getPage(data, $scope.lastPage);
                 $scope.gridApi.infiniteScroll.saveScrollPercentage();
                 $scope.listEntries = $scope.listEntries.concat(data.members);
                 $scope.gridApi.infiniteScroll.dataLoaded();
 
-console.log(data.members)
-console.log($scope.listEntries)
-
-                $scope.pageSettings.totalItems =  $scope.pageSettings.totalItems * $scope.lastPage;
-
-                $scope.lastPage++;
-
-                //Set navigation breadcrumbs
-                //setBreadcrumbs();
-                //$scope.gridApi.infiniteScroll.dataLoaded($scope.firstPage > 0, $scope.lastPage < 4).then(function() {$scope.checkDataLength('up');}).then(function() {
-                //    promise.resolve();
-                //});
+//console.log(data.members)
+//console.log($scope.listEntries)
+                $scope.pageSettings.totalItems =  $scope.listEntries.length;
             })
-
-        }
-        $scope.getDataUp = function(){
-            console.log('getDataUp')
-        }
-
-
-
+        };
 
         //Breadcrumbs
         function setBreadcrumbs() {
@@ -171,9 +148,9 @@ console.log($scope.listEntries)
                 currentEntityId: listItem.id,
                 isOrganization: false,
                 title: title,
-                subtitle: 'customer.blades.customer-detail.subtitle',
+                subtitle: 'clients.blades.member-detail.subtitle',
                 controller: 'clientsModule.memberDetailController',
-                template: 'template/clients/client-detail.tpl.html'
+                template: 'templates/clients/member-detail.tpl.html'
             };
 
             //if (listItem.memberType === 'Organization') {

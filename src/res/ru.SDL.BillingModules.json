@@ -4,8 +4,12 @@
     "error": "Ошибка",
     "subtitle": ""
   },
+  "typeOfPoints": "[{name:Город}, {name:Деревня}]",
   "clients": {
     "blades" : {
+      "new-member":{
+        "title": "Новый клиент"
+      },
       "member-list": {
         "title": "Клиенты",
         "keywordType": "Выберите критерий",
@@ -25,6 +29,32 @@
             "title": "Создать клиента",
             "description":""
           }
+        }
+      },
+      "member-detail":{
+        "subtitle": "",
+        "labels": {
+           "phone": "Телефон",
+           "email": "Email",
+           "name": "Имя",
+           "lastName": "Фамилия",
+           "middleName": "Отчество",
+           "country": "Страна",
+           "countryName": "Российская Федерация",
+           "subject": "Субъект",
+           "region": "Регион",
+           "typeofPoint": "Тип населенного пункта",
+           "pointName": "Населенный пункт",
+           "street": "Улица",
+           "home": "Дом",
+           "flat": "Квартира",
+           "postcode": "Индекс"
+        },
+        "placeholders": {
+          "email": "me@example.com",
+          "name": "Введите Имя",
+          "lastName": "Введите Фамилию",
+          "middleName": "Введите Отчество"
         }
       }
     }

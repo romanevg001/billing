@@ -6,7 +6,12 @@
         <div class="window-t __logo">{{ 'platform.blades.restore-password.labels.title' | translate }}</div>
     </header>
     <div class="window-cnt">
-        <form class="form" novalidate ng-submit="(proveResetPassword)?resetPassword():ok()" name="restoreForm">
+        <div class="form-group" ng-if="successMessage">
+            <div class="form-error">
+                {{ 'platform.blades.restore-password.labels.success-message' | translate }}
+            </div>
+        </div>
+        <form class="form" novalidate ng-submit="(proveResetPassword)?resetPassword():ok()" name="restoreForm"  ng-if="!successMessage">
             <div class="form-group">
                 <label class="form-label">{{ 'platform.blades.restore-password.labels.login' | translate }}</label>
                 <div class="form-input">
@@ -26,9 +31,9 @@
                 <div class="form-error" ng-if="authError">
                     {{authError}}
                 </div>
-                <div class="form-error" ng-if="successMessage">
-                    {{ 'platform.blades.restore-password.labels.success-message' | translate }}
-                </div>
+                <!--<div class="form-error" ng-if="successMessage">-->
+                    <!--{{ 'platform.blades.restore-password.labels.success-message' | translate }}-->
+                <!--</div>-->
 
             </div>
             <div class="form-group __right">

@@ -1,12 +1,11 @@
 ﻿//'virtoCommerce.customerModule.contacts', 'virtoCommerce.customerModule.organizations',
 
 angular.module('sdl.clientsModule')
-.controller('clientsModule.memberListController', ['$scope', 'clientsModule.members','sdl.management.dialogService', 'sdl.management.bladeUtils', 'sdl.management.uiGridHelper',
+.controller('clientsModule.memberListController', ['$scope', 'clientsModule.members','sdl.management.dialogService',
+    'sdl.management.bladeUtils', 'sdl.management.uiGridHelper',
     function ($scope, members, dialogService, bladeUtils, uiGridHelper) {
         //, contacts, organizations,
         $scope.uiGridConstants = uiGridHelper.uiGridConstants;
-
-
 
         var blade = $scope.blade;
         blade.title = 'clients.blades.member-list.title';
@@ -33,7 +32,6 @@ angular.module('sdl.clientsModule')
         blade.refresh = function (callback) {
             blade.isLoading = true;
 
-
             callback = (typeof callback) === 'function' ? callback : false;
 
             members.search(
@@ -58,7 +56,6 @@ angular.module('sdl.clientsModule')
                 });
         };
 
-
         $scope._registerApi = (gridApi)=>{
             return (gridApi)=>{
                 gridApi.infiniteScroll.on.needLoadMoreData($scope, $scope.getDataDown);
@@ -66,17 +63,13 @@ angular.module('sdl.clientsModule')
             }
         };
 
-
         $scope.getDataDown = function(){
-
             blade.refresh(function(data) {
                 blade.isLoading = false;
                 $scope.gridApi.infiniteScroll.saveScrollPercentage();
                 $scope.listEntries = $scope.listEntries.concat(data.members);
                 $scope.gridApi.infiniteScroll.dataLoaded();
 
-//console.log(data.members)
-//console.log($scope.listEntries)
                 $scope.pageSettings.totalItems =  $scope.listEntries.length;
             })
         };
@@ -201,22 +194,22 @@ angular.module('sdl.clientsModule')
         $scope.selectNode = function (listItem) {
             blade.setSelectedNode(listItem);
 
-            if (listItem.memberType === 'Organization') {
-                var newBlade = {
-                    id: 'memberList',
-                    breadcrumbs: blade.breadcrumbs,
-                    subtitle: 'customer.blades.member-list.subtitle',
-                    subtitleValues: { name: listItem.name },
-                    currentEntity: listItem,
-                    disableOpenAnimation: true,
-                    controller: blade.controller,
-                    template: blade.template,
-                    isClosingDisabled: true
-                };
-                bladeNavigationService.showBlade(newBlade, blade.parentBlade);
-            } else {
+            //if (listItem.memberType === 'Organization') {
+            //    var newBlade = {
+            //        id: 'memberList',
+            //        breadcrumbs: blade.breadcrumbs,
+            //        subtitle: 'customer.blades.member-list.subtitle',
+            //        subtitleValues: { name: listItem.name },
+            //        currentEntity: listItem,
+            //        disableOpenAnimation: true,
+            //        controller: blade.controller,
+            //        template: blade.template,
+            //        isClosingDisabled: true
+            //    };
+            //    bladeNavigationService.showBlade(newBlade, blade.parentBlade);
+            //} else {
                 blade.showDetailBlade(listItem, listItem.name);
-            }
+            //}
         };
 
         blade.headIcon = 'fa-user';

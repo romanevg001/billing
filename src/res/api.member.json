@@ -1,0 +1,40 @@
+ {
+    "name": "Vendor",
+    "lastName": "Ltd",
+    "middleName": "Collins",
+    "phone": "9885753774",
+    "email": "qwerty@yandex.ru",
+    "address": {
+      "country": "Российская Федерация",
+      "subject": { "name": "Ростовская область", "code":"61" },
+      "region": { "name": "Кошехабльский район" },
+      "typePlace": "city",
+      "place": {  "name": "Ростов-на-Дону" },
+      "street": "Gorkogo",
+      "home": "28",
+      "flat":"34",
+      "postcode": "342334"
+    },
+    "passport": {
+      "series": 234234,
+      "number": 324234,
+      "organization": "",
+      "code":"612-78",
+      "date": "2015-10-06T22:39:44.267Z"
+    },
+    "registration": {
+      "equalAddress": true,
+      "country": "Российская Федерация",
+      "subject": "Московская область",
+      "region": "",
+      "typePlace": "city",
+      "placeName": "Москва",
+      "street": "Gorkogo",
+      "home": "28",
+      "flat":"34",
+      "postcode": "324565"
+    },
+    "notes": "",
+    "codeWord": "3456df",
+    "id": "b07b31a97608491c8904f8a8f9441811"
+ }

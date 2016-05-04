@@ -1,8 +1,10 @@
 ﻿angular.module('sdl.management')
 .factory('authService', ['$http', '$rootScope', '$cookieStore',
-    '$state', '$interpolate', '$domain',
-    function ($http, $rootScope, $cookieStore, $state, $interpolate, $domain) {
+    '$state', '$interpolate', '$domain', '$localStorage',
+    function ($http, $rootScope, $cookieStore, $state, $interpolate, $domain, $localStorage) {
+
 	var serviceBase = 'api/platform/security/';
+
 	var authContext = {
 		userId : null,
 		userLogin: null,
@@ -65,20 +67,27 @@
 	};
 	authContext.logout = function () {
 		changeAuth({});
-
 		$http.post(serviceBase + 'logout/').then(function (result) {
 		});
 	};
 
 
 	authContext.checkPermission = function (permission, securityScopes) {
+
 		//first check admin permission
 		// var hasPermission = $.inArray('admin', authContext.permissions) > -1;
 		var hasPermission = authContext.isAdministrator;
+
+		if(localStorage.getItem('domain0:accessToken')){
+			hasPermission = localStorage.getItem('isAdministrator')
+		}
+
 		if (!hasPermission) {
 			permission = permission.trim();
+
 			//first check global permissions
 			hasPermission = $.inArray(permission, authContext.permissions) > -1;
+
 			if (!hasPermission && securityScopes)
 			{
 				securityScopes = angular.isArray(securityScopes) ? securityScopes : securityScopes.split(',');
@@ -86,7 +95,6 @@
 				hasPermission = _.some(securityScopes, function (x) {
 					var permissionWithScope = permission + ":" + x;
 					var retVal = $.inArray(permissionWithScope, authContext.permissions) > -1;
-					//console.log(permissionWithScope + "=" + retVal);
 					return retVal;
 				});
 			
@@ -103,6 +111,8 @@
 		authContext.isAuthenticated = results.userName != null;
 		authContext.userType = results.userType;
 		authContext.isAdministrator = results.isAdministrator;
+		localStorage.setItem('isAdministrator',results.isAdministrator);
+
 		//Interpolate permissions to replace some template to real value
 		if (authContext.permissions)
 		{

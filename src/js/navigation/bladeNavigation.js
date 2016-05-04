@@ -127,7 +127,7 @@ angular.module('sdl.management')
                 $timeout(function () {
                     if (toolbar.height() > 55 && scope.toolsPerLineCount > 1) {
                         var maxToolbarWidth = toolbar.width() - 46; // the 'more' button is 46px wide
-                        //console.log(toolbar.width() + 'maxToolbarWidth: ' + maxToolbarWidth);
+
                         var toolsWidth = 0;
                         var lis = toolbar.find("li");
                         var i = 0;
@@ -191,6 +191,7 @@ angular.module('sdl.management')
         currentBlade: undefined,
         showConfirmationIfNeeded: showConfirmationIfNeeded,
         closeBlade: function (blade, callback, onBeforeClosing) {
+
             //Need in case a copy was passed
             blade = service.findBlade(blade.id);
 
@@ -270,6 +271,7 @@ angular.module('sdl.management')
             blade.parentBlade = parentBlade;
             blade.childrenBlades = [];
             //copy securityscopes from parent blade
+
             if (parentBlade != null && parentBlade.securityScopes) {
                 //need merge scopes
                 if (angular.isArray(blade.securityScopes) && angular.isArray(parentBlade.securityScopes)) {

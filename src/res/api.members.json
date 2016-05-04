@@ -9,9 +9,10 @@
       "email": "qwerty@yandex.ru",
       "address": {
         "country": "Российская Федерация",
-        "subject": "",
-        "region": "",
+        "subject": "61",
+        "region": "6",
         "typePlace": "city",
+        "place": "7",
         "street": "Gorkogo",
         "home": "28",
         "flat":"34",

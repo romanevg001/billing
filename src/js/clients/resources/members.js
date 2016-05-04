@@ -6,9 +6,9 @@ angular.module('sdl.clientsModule')
     });
 }])
 .factory('clientsModule.member', ['$resource', function ($resource) {
-	return $resource('res/api.members.json', {}, {
-		query: { url: 'res/api.members.json' },
-		update: { method: 'PUT' }
+	return $resource('res/api.member.json', { _id: '@_id' }, {
+		//query: { url: 'res/api.member.json:id' },
+		update: { method: 'GET' }
 	});
 }])
 .factory('clientsModule.subjects', ['$resource', function ($resource) {

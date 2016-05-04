@@ -5,11 +5,13 @@
     function ($scope, bladeNavigationService, member, subjects, regions, pointsName) {
 
     var blade = $scope.blade;
-    blade.updatePermission = 'customer:update';
-    blade.currentResource = '';//contacts;//blade.isOrganization ? organizations : contacts;
+
+    blade.updatePermission = 'client:update';
+    blade.currentResource = member;//contacts;//blade.isOrganization ? organizations : contacts;
     blade.isLoading = false;
 
     blade.refresh = function (parentRefresh) {
+
         if (blade.currentEntityId) {
             blade.isLoading = true;
             blade.currentResource.get({ _id: blade.currentEntityId }, function (data) {
@@ -40,10 +42,11 @@
         }
     }
 
-    $scope.subjects = '';
-    $scope.regions = '';
-    $scope.typeofPoints = '';
-    $scope.pointsName = '';
+    //$scope.subjects = '';
+    //$scope.regions = '';
+    //$scope.typeofPoints = '';
+    //$scope.pointsName = '';
+
 
     //get subjects
     subjects.list({},function(data){
@@ -70,25 +73,19 @@
         });
     }
 
+    //function fillDynamicProperties(newEntity, typeName) {
+    ////    console.log('boom')
+    //    member.query({ id: 0 }, function (results) {
+    //    //    _.each(results, function (x) {
+    //    //        x.displayNames = undefined;
+    //    //        x.values = [];
+    //    //    });
+    //    //    newEntity.dynamicProperties = results;
+    //    //    console.log(results.members[0]);
+    //        initializeBlade(results.members[0]);
+    //    }, function (error) { bladeNavigationService.setError('Error ' + error.status, blade); });
+    //}
 
-
-
-
-
-
-
-    function fillDynamicProperties(newEntity, typeName) {
-    //    console.log('boom')
-        member.query({ id: 0 }, function (results) {
-        //    _.each(results, function (x) {
-        //        x.displayNames = undefined;
-        //        x.values = [];
-        //    });
-        //    newEntity.dynamicProperties = results;
-            console.log(results.members[0]);
-            initializeBlade(results.members[0]);
-        }, function (error) { bladeNavigationService.setError('Error ' + error.status, blade); });
-    }
 
     function initializeBlade(data) {
         blade.currentEntity = angular.copy(data);
@@ -135,7 +132,8 @@
             $scope.saveChanges, closeCallback, "clients.dialogs.customer-save.title", "customer.dialogs.customer-save.message");
     };
 
-    blade.headIcon = blade.isOrganization ? 'fa fa-university' : 'fa fa-user';
+    blade.headIcon = 'fa fa-user';
+
     blade.toolbarCommands = [
         {
             name: "platform.commands.save",
@@ -146,14 +144,30 @@
         },
         {
             name: "platform.commands.reset",
-            icon: 'fa fa-undo',
+            icon: 'fa fa-eraser',
             executeMethod: function () {
                 angular.copy(blade.origEntity, blade.currentEntity);
             },
             canExecuteMethod: isDirty,
             permission: blade.updatePermission
+        },
+        {
+            name: "platform.commands.undo",
+            icon: 'fa fa-undo',
+            executeMethod: () =>{
+                angular.copy(blade.origEntity, blade.currentEntity);
+                bladeNavigationService.closeBlade(blade, '', function () {
+                    let blade = $('.blade:last', $('.cnt'));
+                        blade.addClass('__animate').animate({ 'margin-left': '-' + blade.width() + 'px' }, 145, function () {
+                        blade.remove();
+                    });
+                });
+            },
+            canExecuteMethod: isDirty,
+            permission: blade.updatePermission
         }
     ];
+
 
     // datepicker
     $scope.datepickers = {
@@ -164,7 +178,6 @@
     $scope.open = function ($event, which) {
         $event.preventDefault();
         $event.stopPropagation();
-
         $scope.datepickers[which] = true;
     };
 

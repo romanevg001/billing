@@ -2,7 +2,7 @@
     <div class="blade-inner">
         <div class="inner-block clearfix">
             <form class="form" name="detailForm">
-                <div class="columns clearfix">
+                <div class="columns clearfix" ng-init="setForm(detailForm)">
                     <div class="column">
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.phone' | translate }}</label>
@@ -65,7 +65,7 @@
                 <div class="form-group clearfix">
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.subject' | translate }}</label>
                     <div class="form-input">
-                        <ui-select ng-model="blade.currentEntity.subject" theme="select2" on-select="choseSubject($item)">
+                        <ui-select ng-model="blade.currentEntity.address.subject" theme="select2" on-select="choseSubject($item)">
                             <ui-select-match>
                                 <span>{{$select.selected.name | translate}}</span>
                             </ui-select-match>
@@ -75,10 +75,11 @@
                         </ui-select>
                     </div>
                 </div>
-                <div class="form-group" ng-if="regions">
+
+                <div class="form-group" ng-if="blade.currentEntity.address.region || regions">
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.region' | translate }}</label>
                     <div class="form-input">
-                        <ui-select ng-model="blade.currentEntity.region" theme="select2" on-select="choseRegion($item)">
+                        <ui-select ng-model="blade.currentEntity.address.region" theme="select2" on-select="choseRegion($item)">
                             <ui-select-match>
                                 <span>{{$select.selected.name | translate}}</span>
                             </ui-select-match>
@@ -91,7 +92,7 @@
 
                 <div class="columns clearfix">
                     <div class="column">
-                        <div class="form-group" ng-if="typeofPoints">
+                        <div class="form-group" ng-if="blade.currentEntity.address.typeofPoints || typeofPoints">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.typeofPoint' | translate }}</label>
                             <div class="form-input">
                                 <ui-select ng-model="blade.currentEntity.typeofPoint" theme="select2" on-select="choseSearchTypes($item)">
@@ -106,7 +107,7 @@
                         </div>
                     </div>
                     <div class="column">
-                        <div class="form-group" ng-if="pointsName">
+                        <div class="form-group" ng-if="blade.currentEntity.address.pointsName || pointsName">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.pointName' | translate }}</label>
                             <div class="form-input">
                                 <ui-select ng-model="blade.currentEntity.pointName" theme="select2" on-select="choseSearchTypes($item)">
@@ -122,51 +123,63 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group " ng-if="blade.currentEntity.pointName">
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.street' | translate }}</label>
                     <div class="form-input">
-                        <input ng-model="blade.currentEntity.street" ng-maxlength="50" />
-                        <!--<ui-select ng-model="blade.currentEntity.street" theme="select2" on-select="choseSearchTypes($item)">-->
-                            <!--<ui-select-match>-->
-                                <!--<span>{{$select.selected.name | translate}}</span>-->
-                            <!--</ui-select-match>-->
-                            <!--<ui-select-choices repeat="item in pointsName">-->
-                                <!--<span>{{item.name | translate}}</span>-->
-                            <!--</ui-select-choices>-->
-                        <!--</ui-select>-->
+                        <input ng-model="blade.currentEntity.address.street" ng-maxlength="50" />
                     </div>
                 </div>
 
-
-                <div class="columns clearfix">
-
+                <div class="columns clearfix" ng-if="blade.currentEntity.pointName">
                     <div class="column">
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.home' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.home" ng-maxlength="50" />
+                                <input ng-model="blade.currentEntity.address.home" ng-maxlength="50" />
                             </div>
                         </div>
                     </div>
+
                     <div class="column">
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.flat' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.flat" ng-maxlength="20" />
+                                <input ng-model="blade.currentEntity.address.flat" ng-maxlength="20" />
                             </div>
                         </div>
                     </div>
+
                     <div class="column">
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.postcode' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.postcode" required type="tel" ui-mask="999999" ui-mask-placeholder ui-mask-placeholder-char="_" />
+                                <input ng-model="blade.currentEntity.address.postcode" required type="tel" ui-mask="999999" ui-mask-placeholder ui-mask-placeholder-char="_" />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!--<fieldset>-->
+
+                <!--<div class="columns clearfix" ng-if="blade.currentEntity.pointName">-->
+                    <!--<div class="column">-->
+                        <!--<div class="form-group">-->
+                            <!--<label class="form-label">{{ 'clients.blades.member-detail.labels.home' | translate }}</label>-->
+                            <!--<div class="form-input">-->
+                                <!--<input ng-model="blade.currentEntity.address.home" ng-maxlength="50" />-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="column">-->
+                        <!--<div class="form-group">-->
+                            <!--<label class="form-label">{{ 'clients.blades.member-detail.labels.flat' | translate }}</label>-->
+                            <!--<div class="form-input">-->
+                                <!--<input ng-model="blade.currentEntity.address.flat" ng-maxlength="20" />-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
                     <!--<div class="form-group" ng-init="setForm(detailForm)">-->
                         <!--<label class="form-label">{{ 'clients.blades.member-detail.labels.name' | translate }}</label>-->
                         <!--<div class="form-input">-->

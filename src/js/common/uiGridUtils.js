@@ -22,10 +22,13 @@
         }]);
     }])
 
-    .factory('sdl.management.uiGridHelper', ['$localStorage', '$timeout', 'uiGridConstants', '$translate', function ($localStorage, $timeout, uiGridConstants, $translate) {
+    .factory('sdl.management.uiGridHelper', ['$localStorage', '$timeout', 'uiGridConstants', '$translate',
+        function ($localStorage, $timeout, uiGridConstants, $translate) {
+
         var retVal = {};
 
         retVal.uiGridConstants = uiGridConstants;
+
         retVal.initialize = function ($scope, gridOptions, externalRegisterApiCallback) {
             var savedState = $localStorage['gridState:' + $scope.blade.template];
             if (savedState) {

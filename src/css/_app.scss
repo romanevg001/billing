@@ -3781,6 +3781,8 @@ button.btn {
         font-weight: 400;
         position: static;
         text-shadow: none;
+        min-width: 25px;
+
     }
 
         .form-input.__calendar .dropdown-menu .btn:disabled:hover {

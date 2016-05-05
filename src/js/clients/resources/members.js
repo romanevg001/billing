@@ -1,8 +1,8 @@
 ﻿
 angular.module('sdl.clientsModule')
 .factory('clientsModule.members', ['$resource', function ($resource) {
-    return $resource('res/api.members.json', {}, {
-    	search: { method: 'GET', url: 'res/api.members.json' }
+    return $resource('http://testbillingapi.azurewebsites.net/api/clients', {}, {
+    	search: { method: 'GET' }
     });
 }])
 .factory('clientsModule.member', ['$resource', function ($resource) {

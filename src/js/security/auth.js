@@ -65,12 +65,12 @@
 		//		return authContext.isAuthenticated;
 		//	});
 	};
+
 	authContext.logout = function () {
 		changeAuth({});
 		$http.post(serviceBase + 'logout/').then(function (result) {
 		});
 	};
-
 
 	authContext.checkPermission = function (permission, securityScopes) {
 
@@ -122,5 +122,6 @@
 		}
 		$rootScope.$broadcast('loginStatusChanged', authContext);
 	}
+
 	return authContext;
 }]);

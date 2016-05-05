@@ -4,6 +4,8 @@ import "./../../node_modules/angular-jwt/dist/angular-jwt"
 import "./../../node_modules/ui-select/dist/select"
 import "./../../node_modules/angular-sanitize/angular-sanitize"
 import "./../../node_modules/angular-touch/angular-touch"
+import "./../../node_modules/angular-bootstrap/ui-bootstrap"
+import "./../../node_modules/angular-bootstrap/ui-bootstrap-tpls"
 
 
 
@@ -42,8 +44,8 @@ import "./../../node_modules/angular-touch/angular-touch"
 
             this.getDomain = function() {
                 return new Domain0({
-                    domain: 'http://auth.smartdriving.io/api'
-                    //domain: 'http://test-domain0.azurewebsites.net/api'
+                    //domain: 'http://auth.smartdriving.io/api'
+                    domain: 'http://test-domain0.azurewebsites.net/api'
                 }, 'domain0');
             };
 
@@ -52,6 +54,8 @@ import "./../../node_modules/angular-touch/angular-touch"
             }
 
     });
+
+    //app.values('domainBilling', 'http://testbillingapi.azurewebsites.net/api');
 
     app.factory('sdl.management.httpErrorInterceptor', [
         '$q', '$rootScope', function($q, $rootScope) {

@@ -42,10 +42,6 @@
         }
     }
 
-    //$scope.subjects = '';
-    //$scope.regions = '';
-    //$scope.typeofPoints = '';
-    //$scope.pointsName = '';
 
 
     //get subjects
@@ -186,7 +182,7 @@
         'starting-day': 1
     };
 
-    $scope.formats = ['shortDate', 'dd-MMMM-yyyy', 'yyyy/MM/dd'];
+    $scope.formats = ['dd.MM.yy', 'dd-MMMM-yyyy', 'yyyy/MM/dd'];
     $scope.format = $scope.formats[0];
 
     // other on load

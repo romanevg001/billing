@@ -276,8 +276,7 @@ angular.module('sdl.management')
                 //need merge scopes
                 if (angular.isArray(blade.securityScopes) && angular.isArray(parentBlade.securityScopes)) {
                     blade.securityScopes = parentBlade.securityScopes.concat(blade.securityScopes);
-                }
-                else {
+                } else {
                     blade.securityScopes = parentBlade.securityScopes;
                 }
             }

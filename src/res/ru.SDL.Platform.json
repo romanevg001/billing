@@ -2,7 +2,6 @@
   "platform": {
     "commands": {
       "add": "Добавить",
-
       "assign": "Assign",
       "cancel": "Cancel",
       "clear-all": "Clear all",
@@ -628,7 +627,8 @@
           "remember-me": "Запомнить",
           "success-message": "На ваш номер телефона выслан пароль.",
           "repeat-password": "Repeat password",
-          "assign-roles": "Assign roles"
+          "assign-roles": "Assign roles",
+          "err-auto": "Неверный логин или пароль."
         },
         "placeholders": {
           "login": "Enter email address",

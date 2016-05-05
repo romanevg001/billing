@@ -1,5 +1,3 @@
-//moduleName = "virtoCommerce.customerModule";
-//AppDependencies != undefined && AppDependencies.push(moduleName);
 
 angular.module("sdl.clientsModule",[])
     .config(["$stateProvider", function($stateProvider) {

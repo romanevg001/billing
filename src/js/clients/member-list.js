@@ -28,7 +28,6 @@ angular.module('sdl.clientsModule')
             $scope.searchType = item.searchId;
         };
 
-
         blade.refresh = function (callback) {
             blade.isLoading = true;
 

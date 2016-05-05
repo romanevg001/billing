@@ -21,6 +21,7 @@
           "nContract":"Номер контракта",
           "email":"Email",
           "nCar":"Номер машины"
+
         }
       },
       "member-add": {
@@ -48,13 +49,23 @@
            "street": "Улица",
            "home": "Дом",
            "flat": "Квартира",
-           "postcode": "Индекс"
+           "postcode": "Индекс",
+           "passport_series": "Серия паспорта",
+           "passport_number": "Номер паспорта",
+           "name_organization": "Название организации, выдавшей паспорт",
+           "code_organization": "Код организации",
+           "date_produce": "Дата выдачи паспорта",
+           "address_residence": "Адрес прописки",
+           "address_residence_thesame": "использовать почтовый адрес",
+           "code_word": "Кодовое слово",
+           "comment": "Комментарий"
         },
         "placeholders": {
           "email": "me@example.com",
           "name": "Введите Имя",
           "lastName": "Введите Фамилию",
-          "middleName": "Введите Отчество"
+          "middleName": "Введите Отчество",
+          "date-produce": "Выберите дату..."
         }
       }
     }

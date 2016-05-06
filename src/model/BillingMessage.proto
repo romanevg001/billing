@@ -1,0 +1,162 @@
+﻿syntax = "proto3";
+package Messaging;
+option optimize_for = SPEED;
+
+enum CityTypeEnum 
+{
+    City = 0;
+}
+
+enum StreetTypeEnum
+{
+    Street = 0;
+}
+
+/// <summary>
+/// Информация о paging'e
+/// </summary>
+message PagingInfo
+{
+    /// <summary>
+    /// Общее количество элементов удовлетворяющих запросу
+    /// </summary>
+    uint32 TotalCount = 1;
+
+    /// <summary>
+    /// Первая страница
+    /// </summary>
+    string FirstPage = 2;
+
+    /// <summary>
+    /// Последняя страница
+    /// </summary>
+    string Last = 3;
+
+    /// <summary>
+    /// предыдушая страница
+    /// </summary>
+    string Prev = 4;
+
+    /// <summary>
+    /// следующая страница
+    /// </summary>
+    string Next = 5;
+
+    /// <summary>
+    /// следующая страница
+    /// </summary>
+    string SelfLink = 6;
+}
+
+    /// <summary>
+/// Информация для пейджинка через итератор
+/// </summary>
+message CursorInfo
+{
+    /// <summary>
+    /// Текущая позиция, по какой элемент получена информация
+    /// </summary>
+    uint32 CurrentOffset = 1;
+
+    /// <summary>
+    /// Сколько еще элементов осталось получить
+    /// </summary>
+    uint32 ItemsLeft = 2;
+}
+
+
+message Address
+{
+	uint32 Id = 1;
+    string Country = 2;
+    string Subject =3;
+    string Region =4;
+    CityTypeEnum CityType = 5;
+    string CityName = 6;
+    StreetTypeEnum StreetType = 7;
+    string StreetName = 8;
+    string Village = 9;
+    string Building = 10;
+    string Flat = 11;
+}
+
+message Date
+{
+    uint32 Year = 1;
+    uint32 Month = 2;
+    uint32 Day = 3;
+}
+
+message Passport 
+{
+    string FirstName =1;
+    string LastName =2;
+    string SecondName =3;    
+
+    string Emitent =4;
+    string EmitentCode =5;
+    string Number =6;
+    string Seria =7;   
+
+    Address Address =8; 
+    Date PassportIssueDate =9;    
+}
+
+message Client 
+{
+    uint32 Id = 1; //внутренний идентификатор пользователя
+    
+    uint32 DomUserId =2; //идентификатор в системе авторизации
+    string Email =3;
+    string FirstName =4;
+    string LastName =5;
+    string SecondName =6;    
+    int64 PhoneNumber =7;
+    
+    uint32 PostIndex =8;        
+    Address PostAddress =9;
+
+    Passport Passport =10;
+    string SecretWord =11;    
+    string Comment =12;
+}
+
+message ClientsCollectionMessage 
+{
+	repeated Client Data = 1;
+	PagingInfo PagingInfo = 2;
+	CursorInfo CursorInfo = 3;
+}
+
+//машина
+message Vehicle 
+{
+        // Идентификатор машины
+        int32 Id = 1;
+
+        // Цвет
+        string Color = 2;
+
+        // Год выпуска
+        int32 IssueYear = 3;
+        
+		// Марка
+        string Make = 4;
+        
+		// Модель        
+        string Model = 5;
+
+        // Регистрационный госномер        
+        string Number = 6;
+
+        // VIN двигателя
+        string VIN = 7;
+}
+
+//коллекция машин
+message VehiclesCollectionMessage
+{
+	repeated Vehicle Data = 1;
+	PagingInfo PagingInfo = 2;
+	CursorInfo CursorInfo = 3;
+}

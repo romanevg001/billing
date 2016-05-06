@@ -1,0 +1,264 @@
+{
+    "package": "Messaging",
+    "options": {
+        "optimize_for": "SPEED"
+    },
+    "messages": [
+        {
+            "name": "Address",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Id",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "Country",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "Subject",
+                    "id": 3
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "Region",
+                    "id": 4
+                },
+                {
+                    "rule": "optional",
+                    "type": "CityTypeEnum",
+                    "name": "CityType",
+                    "id": 5
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "CityName",
+                    "id": 6
+                },
+                {
+                    "rule": "optional",
+                    "type": "StreetTypeEnum",
+                    "name": "StreetType",
+                    "id": 7
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "StreetName",
+                    "id": 8
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "Village",
+                    "id": 9
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "Building",
+                    "id": 10
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "Flat",
+                    "id": 11
+                }
+            ]
+        },
+        {
+            "name": "Date",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Year",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Month",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Day",
+                    "id": 3
+                }
+            ]
+        },
+        {
+            "name": "Passport",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "FirstName",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "LastName",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "SecondName",
+                    "id": 3
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "Emitent",
+                    "id": 4
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "EmitentCode",
+                    "id": 5
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "Number",
+                    "id": 6
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "Seria",
+                    "id": 7
+                },
+                {
+                    "rule": "optional",
+                    "type": "Address",
+                    "name": "Address",
+                    "id": 8
+                },
+                {
+                    "rule": "optional",
+                    "type": "Date",
+                    "name": "PassportIssueDate",
+                    "id": 9
+                }
+            ]
+        },
+        {
+            "name": "Client",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Id",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "DomUserId",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "Email",
+                    "id": 3
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "FirstName",
+                    "id": 4
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "LastName",
+                    "id": 5
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "SecondName",
+                    "id": 6
+                },
+
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "PostIndex",
+                    "id": 8
+                },
+                {
+                    "rule": "optional",
+                    "type": "Address",
+                    "name": "PostAddress",
+                    "id": 9
+                },
+                {
+                    "rule": "optional",
+                    "type": "Passport",
+                    "name": "Passport",
+                    "id": 10
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "SecretWord",
+                    "id": 11
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "Comment",
+                    "id": 12
+                }
+            ]
+        },
+        {
+            "name": "ClientsCollectionMessage",
+            "fields": [
+                {
+                    "rule": "repeated",
+                    "type": "Client",
+                    "name": "Data",
+                    "id": 1
+                }
+            ]
+        }
+    ],
+    "enums": [
+        {
+            "name": "CityTypeEnum",
+            "values": [
+                {
+                    "name": "City",
+                    "id": 0
+                }
+            ]
+        },
+        {
+            "name": "StreetTypeEnum",
+            "values": [
+                {
+                    "name": "Street",
+                    "id": 0
+                }
+            ]
+        }
+    ]
+}

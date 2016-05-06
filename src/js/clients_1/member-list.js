@@ -2,8 +2,8 @@
 
 angular.module('sdl.clientsModule')
 .controller('clientsModule.memberListController', ['$scope', 'clientsModule.members','sdl.management.dialogService',
-    'sdl.management.bladeUtils', 'sdl.management.uiGridHelper',
-    function ($scope, members, dialogService, bladeUtils, uiGridHelper) {
+    'sdl.management.bladeUtils', 'sdl.management.uiGridHelper', 'sdl.management.bladeNavigationService',
+    function ($scope, members, dialogService, bladeUtils, uiGridHelper, bladeNavigationService) {
         //, contacts, organizations,
         $scope.uiGridConstants = uiGridHelper.uiGridConstants;
 

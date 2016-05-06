@@ -1,0 +1,36 @@
+﻿<div class="blade-static __expanded">
+    <va-breadcrumb ng-model="blade.breadcrumbs" blade-id="blade.id"></va-breadcrumb>
+    <div class="form-group">
+        <div class="form-input __search">
+            <input placeholder="{{ 'platform.placeholders.search-keyword' | translate }}" ng-model="blade.searchText">
+            <button class="btn __other" style="position: relative;right: 45px;">
+                <i class="btn-ico fa fa-remove" title="Очистить" 
+                   ng-click="blade.searchText=''"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="blade-content">
+    <div class="blade-inner">
+        <div class="inner-block clearfix">
+
+
+            <ul class="list __items">
+                <li class="list-item" ng-repeat="data in blade.allClients 
+                    | filter:blade.searchText | orderBy: 'name'"
+                    ng-click='selectNode(data)'>
+                    <i class='list-ico fa fa-user'></i>
+                    <span class="list-t">{{data.name}}</span>
+                </li>
+            </ul>
+            <button ng-show="!blade.allClients && blade.allClients && blade.allClients.length>0 && blade.allClients.length < TotalCount"
+                    class="load-more button-secondary" ng-click="loadMore()">
+                Загрузить еще
+            </button>
+            <div class="ng-cloak" ng-show="loading && trips.length > 0"
+                 style="text-align: center; font-size: 20px">
+                <img src="images/loading.svg" ng-show="loading" style="vertical-align: middle">
+            </div>
+        </div>
+    </div>
+</div>

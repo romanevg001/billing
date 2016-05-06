@@ -29,6 +29,7 @@
                 emails: []
             };
 
+
             //if (blade.isOrganization) {
             //    newEntity.parentId = blade.parentBlade.currentEntity.id;
             ////    fillDynamicProperties(newEntity, 'VirtoCommerce.Domain.Customer.Model.Organization');

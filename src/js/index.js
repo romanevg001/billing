@@ -6,8 +6,8 @@ import "./../../node_modules/angular-sanitize/angular-sanitize"
 import "./../../node_modules/angular-touch/angular-touch"
 import "./../../node_modules/angular-bootstrap/ui-bootstrap"
 import "./../../node_modules/angular-bootstrap/ui-bootstrap-tpls"
-
-
+//import "./../../node_modules/protobufjs/dist/protobuf"
+//import "./../../node_modules/bytebuffer/dist/bytebuffer"
 
 (function(){
     var app = angular.module('sdl.management', [
@@ -26,7 +26,7 @@ import "./../../node_modules/angular-bootstrap/ui-bootstrap-tpls"
         'ui.mask',
         'ngResource',
         'angular-jwt',
-        'sdl.clientsModule',
+        //'sdl.clientsModule',
         'ngTouch',
         'ui.grid', 'ui.grid.autoResize', 'ui.grid.resizeColumns', 'ui.grid.moveColumns', 'ui.grid.saveState',
         'ui.grid.selection', 'ui.grid.pagination', 'ui.grid.pinning', 'ui.grid.grouping','ui.grid.infiniteScroll'
@@ -38,7 +38,7 @@ import "./../../node_modules/angular-bootstrap/ui-bootstrap-tpls"
         }
     ]);
 
-
+    app.constant('billingTemplatesBase','');
 
     app.provider('$domain', function  (){
 
@@ -93,6 +93,7 @@ import "./../../node_modules/angular-bootstrap/ui-bootstrap-tpls"
             }];
 
             $httpProvider.interceptors.push('jwtInterceptor');
+
 
             //Localization
             // https://angular-translate.github.io/docs/#/guide

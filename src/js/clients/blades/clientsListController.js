@@ -1,9 +1,22 @@
 ﻿angular.module('sdl.management')
 .controller('sdl.management.clientsListController',
     ['$injector', '$scope', 'sdl.management.clients', 'sdl.management.bladeNavigationService', 'billingTemplatesBase',
-function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesBase) {
+        'sdl.management.bladeUtils', 'sdl.management.uiGridHelper',
+function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesBase, bladeUtils, uiGridHelper) {
     var settingsTree;
     var blade = $scope.blade;
+
+    $scope.searchType = null;
+    $scope.searchTypes = [
+        {searchId: 'phone', name: 'clients.blades.member-list.labels.phone'},
+        {searchId: 'name', name: 'clients.blades.member-list.labels.name'},
+        {searchId: 'lastName', name: 'clients.blades.member-list.labels.lastName'},
+        {searchId: 'nPassport', name: 'clients.blades.member-list.labels.nPassport'},
+        {searchId: 'nContract', name: 'clients.blades.member-list.labels.nContract'},
+        {searchId: 'email', name: 'clients.blades.member-list.labels.email'},
+        {searchId: 'nCar', name: 'clients.blades.member-list.labels.nCar'}
+    ];
+    $scope.selected = { value: $scope.searchTypes[0] };
 
     blade.refresh = function (disableOpenAnimation) {
         blade.isLoading = true;
@@ -12,7 +25,7 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
             blade.allClients = results;
             blade.isLoading = false;
-
+console.log(blade.allClients)
             // open previous settings detail blade if possible
             if ($scope.selectedNodeId) {
                 $scope.selectNode({ groupName: $scope.selectedNodeId },  disableOpenAnimation);
@@ -93,6 +106,7 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
                     id: 'listItemChild',
                     title: 'clients.blades.member-add.title',
                     subtitle: 'clients.blades.member-add.subtitle',
+                    //controller: 'sdl.management.clientCreateController',
                     controller: 'sdl.management.clientsDetailController',
                     template: billingTemplatesBase + 'templates/clients/blades/clients-detail.tpl.html'
                 };
@@ -118,6 +132,35 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
             permission: blade.updatePermission
         }
     ];
+
+    //--------------grid------------------
+    $scope.uiGridConstants = uiGridHelper.uiGridConstants;
+    $scope._registerApi = (gridApi)=>{
+        return (gridApi)=>{
+            gridApi.infiniteScroll.on.needLoadMoreData($scope, $scope.getDataDown);
+            $scope.gridApi = gridApi;
+        }
+    };
+
+    $scope.getDataDown = function(){
+        blade.refresh(function(data) {
+            blade.isLoading = false;
+            $scope.gridApi.infiniteScroll.saveScrollPercentage();
+            $scope.listEntries = $scope.listEntries.concat(data.members);
+            $scope.gridApi.infiniteScroll.dataLoaded();
+
+            $scope.pageSettings.totalItems =  $scope.listEntries.length;
+        })
+    };
+
+    // ui-grid
+    $scope.setGridOptions = function (gridOptions) {
+        uiGridHelper.initialize($scope, gridOptions, function (gridApi) {
+            uiGridHelper.bindRefreshOnSortChanged($scope);
+        });
+        bladeUtils.initializePagination($scope);
+    };
+    ///////\grid
 
     $scope.$watch('blade.searchText', function (newVal) {
         if (newVal) {

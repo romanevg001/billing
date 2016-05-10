@@ -1,9 +1,7 @@
 ﻿angular.module('sdl.management')
     .controller('sdl.management.clientCreateController',
     [
-        '$scope', 'sdl.management.dialogService',
-        'sdl.management.bladeNavigationService',
-        'sdl.management.clients',
+        '$scope', 'sdl.management.dialogService', 'sdl.management.bladeNavigationService',  'sdl.management.clients',
         function($scope, dialogService, bladeNavigationService, clients) {
             var blade = $scope.blade;
             blade.updatePermission = 'module:client:create';
@@ -52,6 +50,23 @@
             var formScope;
 
             $scope.setForm = function(form) { formScope = form; };
+
+            blade.refresh = function () {
+                if (blade.moduleId) {
+                    blade.isLoading = true;
+
+                    settings.getSettings({ id: blade.moduleId }, initializeBlade,
+                        function (error) {
+                            bladeNavigationService.setError('Error ' + error.status, blade);
+                        });
+                } else {
+                    initializeBlade(angular.copy(blade.data));
+                }
+            }
+
+            function isDirty() {
+                return !angular.equals(blade.currentEntity, blade.origEntity) && blade.hasUpdatePermission();
+            }
 
             function canSave() {
                 return formScope && formScope.$valid;

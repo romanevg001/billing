@@ -43,8 +43,6 @@
         }
     }
 
-
-
     //get subjects
     subjects.list({},function(data){
         $scope.subjects = data.subjects;

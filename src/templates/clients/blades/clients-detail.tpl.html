@@ -1,19 +1,4 @@
-﻿<!--<div class="blade-content">-->
-    <!--<div class="blade-inner">-->
-        <!--<div class="inner-block">-->
-            <!--<form name="objectsForm" class="form">-->
-                <!--<fieldset ng-repeat="groupName in blade.groupNames" ng-init="setForm(objectsForm)">-->
-                    <!--<legend>{{groupName==='undefined'?'General':groupName}}</legend>-->
-                    <!--<div class="form-group" ng-repeat="data in blade.currentEntities[groupName]" title="{{data.description}}">-->
-                        <!--<label class="form-label">{{data.title}} <a href="" ng-click="editArray(data);" ng-if="data.isArray" class="form-edit"><i class="form-ico fa fa-pencil"></i></a></label>-->
-                        <!--<va-generic-value-input ng-model="data" ng-if="!data.isArray" get-dictionary-values="getDictionaryValues" />-->
-                    <!--</div>-->
-                <!--</fieldset>-->
-            <!--</form>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
-<div class="blade-content">
+﻿<div class="blade-content">
     <div class="blade-inner">
         <div class="inner-block clearfix">
             <form class="form" name="detailForm">
@@ -22,7 +7,7 @@
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.phone' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.phone" required
+                                <input ng-model="blade.currentEntity.PhoneNumber" required
                                        type="tel" ui-mask="+7 (999) 999-9999"
                                        ui-mask-placeholder ui-mask-placeholder-char="_"/>
 
@@ -33,7 +18,7 @@
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.email' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.email" required ng-maxlength="64"
+                                <input ng-model="blade.currentEntity.Email" required ng-maxlength="64"
                                        type="email" placeholder="{{ 'clients.blades.member-detail.placeholders.email' | translate }}" />
                             </div>
                         </div>
@@ -42,10 +27,10 @@
                 <div class="columns clearfix">
                     <div class="column">
                         <div class="form-group">
-                            <!--ng-init="setForm(detailForm)"-->
+
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.name' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.name" focus-on="" required placeholder="{{ 'clients.blades.member-detail.placeholders.name' | translate }}" />
+                                <input ng-model="blade.currentEntity.FirstName" focus-on="" required placeholder="{{ 'clients.blades.member-detail.placeholders.name' | translate }}" />
                             </div>
                         </div>
                     </div>
@@ -53,7 +38,7 @@
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.lastName' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.lastName" focus-on="" required placeholder="{{ 'clients.blades.member-detail.placeholders.lastName' | translate }}" />
+                                <input ng-model="blade.currentEntity.LastName" focus-on="" required placeholder="{{ 'clients.blades.member-detail.placeholders.lastName' | translate }}" />
                             </div>
                         </div>
                     </div>
@@ -62,9 +47,10 @@
                 <div class="form-group">
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.middleName' | translate }}</label>
                     <div class="form-input">
-                        <input ng-model="blade.currentEntity.middleName" focus-on="" required placeholder="{{ 'clients.blades.member-detail.placeholders.middleName' | translate }}" />
+                        <input ng-model="blade.currentEntity.SecondName" focus-on="" required placeholder="{{ 'clients.blades.member-detail.placeholders.middleName' | translate }}" />
                     </div>
                 </div>
+
                 <div class="form-group clearfix">
                     <div class="columns clearfix">
                         <div class="column">
@@ -80,7 +66,7 @@
                 <div class="form-group clearfix">
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.subject' | translate }}</label>
                     <div class="form-input">
-                        <ui-select ng-model="blade.currentEntity.address.subject" theme="select2" on-select="choseSubject($item)">
+                        <ui-select ng-model="blade.currentEntity.Passport.Address.Subject" required theme="select2" on-select="choseSubject($item)">
                             <ui-select-match>
                                 <span>{{$select.selected.name | translate}}</span>
                             </ui-select-match>
@@ -90,11 +76,10 @@
                         </ui-select>
                     </div>
                 </div>
-
-                <div class="form-group" ng-if="blade.currentEntity.address.region || regions">
+                <div class="form-group" ng-if="blade.currentEntity.Passport.Address.Region || regions">
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.region' | translate }}</label>
                     <div class="form-input">
-                        <ui-select ng-model="blade.currentEntity.address.region" theme="select2" on-select="choseRegion($item)">
+                        <ui-select ng-model="blade.currentEntity.Passport.Address.Region" required theme="select2" on-select="choseRegion($item)">
                             <ui-select-match>
                                 <span>{{$select.selected.name | translate}}</span>
                             </ui-select-match>
@@ -104,13 +89,12 @@
                         </ui-select>
                     </div>
                 </div>
-
                 <div class="columns clearfix">
                     <div class="column">
-                        <div class="form-group" ng-if="blade.currentEntity.address.typeofPoints || typeofPoints">
+                        <div class="form-group" ng-if="blade.currentEntity.Passport.Address.CityType || typeofPoints">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.typeofPoint' | translate }}</label>
                             <div class="form-input">
-                                <ui-select ng-model="blade.currentEntity.typeofPoint" theme="select2" on-select="choseSearchTypes($item)">
+                                <ui-select ng-model="blade.currentEntity.Passport.Address.CityType" required theme="select2" on-select="choseSearchTypes($item)">
                                     <ui-select-match>
                                         <span>{{$select.selected.name | translate}}</span>
                                     </ui-select-match>
@@ -122,10 +106,10 @@
                         </div>
                     </div>
                     <div class="column">
-                        <div class="form-group" ng-if="blade.currentEntity.address.pointsName || pointsName">
+                        <div class="form-group" ng-if="blade.currentEntity.Passport.Address.CityName || pointsName">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.pointName' | translate }}</label>
                             <div class="form-input">
-                                <ui-select ng-model="blade.currentEntity.pointName" theme="select2" on-select="choseSearchTypes($item)">
+                                <ui-select ng-model="blade.currentEntity.Passport.Address.CityName" required theme="select2" on-select="choseSearchTypes($item)">
                                     <ui-select-match>
                                         <span>{{$select.selected.name | translate}}</span>
                                     </ui-select-match>
@@ -137,20 +121,18 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="form-group " ng-if="blade.currentEntity.pointName">
+                <div class="form-group " ng-if="blade.currentEntity.Passport.Address.CityName">
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.street' | translate }}</label>
                     <div class="form-input">
-                        <input ng-model="blade.currentEntity.address.street" ng-maxlength="50" />
+                        <input ng-model="blade.currentEntity.Passport.Address.StreetName" ng-maxlength="50" />
                     </div>
                 </div>
-
-                <div class="columns clearfix" ng-if="blade.currentEntity.pointName">
+                <div class="columns clearfix" ng-if="blade.currentEntity.Passport.Address.CityName">
                     <div class="column">
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.home' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.address.home" ng-maxlength="50" />
+                                <input ng-model="blade.currentEntity.Passport.Address.Building" ng-maxlength="50" />
                             </div>
                         </div>
                     </div>
@@ -159,7 +141,7 @@
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.flat' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.address.flat" ng-maxlength="20" />
+                                <input ng-model="blade.currentEntity.Passport.Address.Flat" ng-maxlength="20" />
                             </div>
                         </div>
                     </div>
@@ -168,19 +150,17 @@
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.postcode' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.address.postcode" required type="tel" ui-mask="999999" ui-mask-placeholder ui-mask-placeholder-char="_" />
+                                <input ng-model="blade.currentEntity.Passport.Address.Index" required type="tel" ui-mask="999999" ui-mask-placeholder ui-mask-placeholder-char="_" />
                             </div>
                         </div>
                     </div>
                 </div>
-
-
                 <div class="columns clearfix">
                     <div class="column">
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.passport_series' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.passport.series" required ng-maxlength="50" />
+                                <input ng-model="blade.currentEntity.Passport.Seria" required ng-maxlength="50" />
                             </div>
                         </div>
                     </div>
@@ -189,7 +169,7 @@
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.passport_number' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.passport.number" required ng-maxlength="50" />
+                                <input ng-model="blade.currentEntity.Passport.Number" required ng-maxlength="50" />
                             </div>
                         </div>
                     </div>
@@ -197,7 +177,7 @@
                 <div class="form-group">
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.name_organization' | translate }}</label>
                     <div class="form-input">
-                        <input ng-model="blade.currentEntity.passport.nameOrganization" required ng-maxlength="128" />
+                        <input ng-model="blade.currentEntity.Passport.Emitent" required ng-maxlength="128" />
                     </div>
                 </div>
                 <div class="columns clearfix">
@@ -205,7 +185,7 @@
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.date_produce' | translate }}</label>
                             <div class="form-input __calendar">
-                                <input type="text" class="form-control" required ng-model="blade.currentEntity.dateProduce" datepicker-popup="{{format}}" name="bd" is-open="datepickers.bd" max-date="today" datepicker-options="dateOptions" close-text="Close" placeholder="{{ 'clients.blades.member-detail.placeholders.date-produce' | translate }}" />
+                                <input type="text" class="form-control"  required ng-model="blade.currentEntity.Passport.IssueDate" datepicker-popup="{{format}}" name="bd" is-open="datepickers.bd" max-date="today" datepicker-options="dateOptions" close-text="Close" placeholder="{{ 'clients.blades.member-detail.placeholders.date-produce' | translate }}" />
                                 <button class="btn" type="button" ng-click="open($event,'bd')">
                                     <i class="btn-ico fa fa-calendar"></i>
                                 </button>
@@ -216,7 +196,7 @@
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.code_organization' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.passport.codeOrganization" required ng-maxlength="50" />
+                                <input ng-model="blade.currentEntity.Passport.EmitentCode" required ng-maxlength="50" />
                             </div>
                         </div>
                     </div>
@@ -224,30 +204,135 @@
 
 
 
-
-
                 <div class="form-group">
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.address_residence' | translate }}</label>
                     <div class="form-control __checkbox">
                         <label class="form-label">
-                            <input type="checkbox" ng-model="blade.currentEntity.addressResidence">
+                            <input type="checkbox" ng-model="blade.currentEntity.PostAddressCheck">
                             <span class="check"></span>
                             <span class="name">{{ 'clients.blades.member-detail.labels.address_residence_thesame' | translate }}</span>
                         </label>
                     </div>
                 </div>
+                <div ng-if="!blade.currentEntity.PostAddressCheck">
+                    <div class="form-group clearfix">
+                        <div class="columns clearfix">
+                            <div class="column">
+                                <label class="form-label">{{ 'clients.blades.member-detail.labels.country' | translate }}</label>
+                            </div>
+                            <div class="column">
+                                <div class="form-input" >
+                                    {{ 'clients.blades.member-detail.labels.countryName' | translate }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="form-label">{{ 'clients.blades.member-detail.labels.subject' | translate }}</label>
+                        <div class="form-input">
+                            <ui-select ng-model="blade.currentEntity.PostAddress.Subject" theme="select2" on-select="choseSubject($item)">
+                                <ui-select-match>
+                                    <span>{{$select.selected.name | translate}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in subjects">
+                                    <span>{{item.name | translate}}</span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="blade.currentEntity.PostAddress.Region || regions">
+                        <label class="form-label">{{ 'clients.blades.member-detail.labels.region' | translate }}</label>
+                        <div class="form-input">
+                            <ui-select ng-model="blade.currentEntity.PostAddress.Region" theme="select2" on-select="choseRegion($item)">
+                                <ui-select-match>
+                                    <span>{{$select.selected.name | translate}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in regions">
+                                    <span>{{item.name | translate}}</span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <!--<div class="columns clearfix">-->
+                        <!--<div class="column">-->
+                            <!--<div class="form-group" ng-if="blade.currentEntity.PostAddress.CityType || typeofPoints">-->
+                                <!--<label class="form-label">{{ 'clients.blades.member-detail.labels.typeofPoint' | translate }}</label>-->
+                                <!--<div class="form-input">-->
+                                    <!--<ui-select ng-model="blade.currentEntity.PostAddress.CityType" theme="select2" on-select="choseSearchTypes($item)">-->
+                                        <!--<ui-select-match>-->
+                                            <!--<span>{{$select.selected.name | translate}}</span>-->
+                                        <!--</ui-select-match>-->
+                                        <!--<ui-select-choices repeat="item in typeofPoints">-->
+                                            <!--<span>{{item.name | translate}}</span>-->
+                                        <!--</ui-select-choices>-->
+                                    <!--</ui-select>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="column">-->
+                            <div class="form-group" ng-if="blade.currentEntity.PostAddress.CityName || pointsName">
+                                <label class="form-label">{{ 'clients.blades.member-detail.labels.pointName' | translate }}</label>
+                                <div class="form-input">
+                                    <ui-select ng-model="blade.currentEntity.PostAddress.CityName" theme="select2" on-select="choseSearchTypes($item)">
+                                        <ui-select-match>
+                                            <span>{{$select.selected.name | translate}}</span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="item in pointsName">
+                                            <span>{{item.name | translate}}</span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="form-group " ng-if="blade.currentEntity.PostAddress.CityName">
+                        <label class="form-label">{{ 'clients.blades.member-detail.labels.street' | translate }}</label>
+                        <div class="form-input">
+                            <input ng-model="blade.currentEntity.PostAddress.StreetName" ng-maxlength="50" />
+                        </div>
+                    </div>
+                    <div class="columns clearfix" ng-if="blade.currentEntity.PostAddress.CityName">
+                        <div class="column">
+                            <div class="form-group">
+                                <label class="form-label">{{ 'clients.blades.member-detail.labels.home' | translate }}</label>
+                                <div class="form-input">
+                                    <input ng-model="blade.currentEntity.PostAddress.Building" ng-maxlength="50" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column">
+                            <div class="form-group">
+                                <label class="form-label">{{ 'clients.blades.member-detail.labels.flat' | translate }}</label>
+                                <div class="form-input">
+                                    <input ng-model="blade.currentEntity.PostAddress.Flat" ng-maxlength="20" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column">
+                            <div class="form-group">
+                                <label class="form-label">{{ 'clients.blades.member-detail.labels.postcode' | translate }}</label>
+                                <div class="form-input">
+                                    <input ng-model="blade.currentEntity.PostAddress.Index" required type="tel" ui-mask="999999" ui-mask-placeholder ui-mask-placeholder-char="_" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
 
                 <div class="form-group ">
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.code_word' | translate }}</label>
                     <div class="form-input">
-                        <input ng-model="blade.currentEntity.codeWord" required  ng-maxlength="64" />
+                        <input ng-model="blade.currentEntity.SecretWord" required  ng-maxlength="64" />
                     </div>
                 </div>
 
                 <div class="form-group ">
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.comment' | translate }}</label>
                     <div class="form-input">
-                        <textarea ng-model="blade.currentEntity.comment" class="form-control" ></textarea>
+                        <textarea ng-model="blade.currentEntity.Comment" class="form-control" ></textarea>
                     </div>
                 </div>
 

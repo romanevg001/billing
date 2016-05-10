@@ -22,7 +22,8 @@
   }]
 )
 .run(
-  ['$rootScope', 'mainMenuService', 'sdl.management.widgetService', '$state', function ($rootScope, mainMenuService, widgetService, $state) {
+  ['$rootScope', 'mainMenuService', 'sdl.management.widgetService', '$state',
+      function ($rootScope, mainMenuService, widgetService, $state) {
       //Register module in main menu
       var menuItem = {
           path: 'configuration/settings',
@@ -35,7 +36,7 @@
       mainMenuService.addMenuItem(menuItem);
   }])
 
-.factory('sdl.management.settings.helper', [function () {
+.factory('sdl.management.settings', [function () {
     var retVal = {};
     retVal.fixValues = function (settings) {
         // parse values as they all are strings

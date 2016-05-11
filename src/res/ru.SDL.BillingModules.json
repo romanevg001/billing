@@ -35,6 +35,7 @@
         }
       },
       "member-detail":{
+        "title": "Детали",
         "subtitle": "",
         "labels": {
           "phone": "Телефон",

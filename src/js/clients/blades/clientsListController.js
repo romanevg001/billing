@@ -18,14 +18,13 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
     ];
     $scope.selected = { value: $scope.searchTypes[0] };
 
-    blade.refresh = function (disableOpenAnimation) {
+    blade.refresh = function (param={},disableOpenAnimation) {
         blade.isLoading = true;
-
-        clients.getList().then(function (results) {
-
+//console.log(param)
+        clients.getList(param).then(function (results) {
+     //       console.log(results)
             blade.allClients = results;
             blade.isLoading = false;
-//console.log(blade.allClients)
             // open previous settings detail blade if possible
             if ($scope.selectedNodeId) {
                 $scope.selectNode({ groupName: $scope.selectedNodeId },  disableOpenAnimation);
@@ -45,16 +44,16 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
                 setBreadcrumbs(node);
             } else {
-                var selectedClients = _.where(blade.allClients,
-                    { groupName: node.groupName });
+                var selectedClients = _.where(blade.allClients, { Id: node.Id });
+
+                console.log(selectedClients[0])
                 var newBlade = {
                     id: 'clientsSection',
-                    data: selectedClients,
-                    title: 'Детали',
+                    data: selectedClients[0],
+                    title: 'clients.blades.member-detail.title',
                     disableOpenAnimation: disableOpenAnimation,
                     controller: 'sdl.management.clientsDetailController',
-                    template: billingTemplatesBase +
-                        'templates/clients/blades/clients-detail.tpl.html'
+                    template: billingTemplatesBase + 'templates/clients/blades/clients-detail.tpl.html'
                 };
 
                 bladeNavigationService.showBlade(newBlade, blade);
@@ -143,12 +142,12 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
     };
 
     $scope.getDataDown = function(){
-        blade.refresh(function(data) {
+        blade.refresh({Page:2},function(data) {
+            console.log('page2 = ',data)
             blade.isLoading = false;
             $scope.gridApi.infiniteScroll.saveScrollPercentage();
-            $scope.listEntries = $scope.listEntries.concat(data.members);
+            blade.allClients =  blade.allClients.concat(data);
             $scope.gridApi.infiniteScroll.dataLoaded();
-
             $scope.pageSettings.totalItems =  $scope.listEntries.length;
         })
     };

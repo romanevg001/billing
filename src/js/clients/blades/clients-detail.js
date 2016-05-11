@@ -1,7 +1,7 @@
 ﻿angular.module('sdl.management')
 .controller('sdl.management.clientsDetailController',
     ['$scope', 'sdl.management.dialogService', 'sdl.management.bladeNavigationService', 'sdl.management.settings',
-        'sdl.management.clients',
+        'sdl.management.clientsave',
         'sdl.management.subjects', 'sdl.management.regions', 'sdl.management.pointsName',
     function ($scope, dialogService, bladeNavigationService, settings, clients, subjectsService, regionsService, pointsNameService) {
 
@@ -33,8 +33,9 @@
             });
         }
 
-
+console.log(blade.data)
     blade.refresh = function () {
+        console.log(blade.moduleId)
         if (blade.moduleId) {
             blade.isLoading = true;
 
@@ -51,35 +52,39 @@
     function initializeBlade(results) {
         settings.fixValues(results);
 
-        _.each(results, function (setting) {
-            // set group names to show.
-            if (setting.groupName) {
-                var paths = setting.groupName.split('|');
-                setting.groupName = paths.pop();
-            }
-
-            // transform to va-generic-value-input suitable structure
-            setting.isDictionary = _.any(setting.allowedValues);
-            setting.values = setting.isDictionary ? [{ value: { id: setting.value, name: setting.value } }] : [{ id: setting.value, value: setting.value }];
-            if (setting.allowedValues) {
-                setting.allowedValues = _.map(setting.allowedValues, function (x) {
-                    return { id: x, name: x };
-                });
-            }
-        });
-
-
-        results = _.groupBy(results, 'groupName');
-        blade.groupNames = _.keys(results);
-        blade.currentEntity = angular.copy(results);
-        blade.origEntity = results;
+        //_.each(results, function (setting) {
+        //    // set group names to show.
+        //    //if (setting.groupName) {
+        //    //    var paths = setting.groupName.split('|');
+        //    //    setting.groupName = paths.pop();
+        //    //}
+        //
+        //    // transform to va-generic-value-input suitable structure
+        //    setting.isDictionary = _.any(setting.allowedValues);
+        //    setting.values = setting.isDictionary ? [{ value: { id: setting.value, name: setting.value } }] : [{ id: setting.value, value: setting.value }];
+        //    if (setting.allowedValues) {
+        //        setting.allowedValues = _.map(setting.allowedValues, function (x) {
+        //            return { id: x, name: x };
+        //        });
+        //    }
+        //});
+        //results = _.groupBy(results, 'groupName');
+        //blade.groupNames = _.keys(results);
 
         blade.isLoading = false;
 
 
-        blade.currentEntity.PostAddressCheck = true;
+        if(results == undefined) {
+            blade.currentEntity = {};
+            blade.origEntity = {};
+            blade.currentEntity.PostAddressCheck = true;
+        }else{
+            blade.currentEntity = angular.copy(results);
+            blade.origEntity = results;
 
-        //console.log(blade.currentEntity.PostAddress)
+        }
+
+
     }
 
     $scope.editArray = function (node) {
@@ -106,18 +111,18 @@
     function serialize (entities){
 
         let currentEntities = serialize_select (entities);
-        currentEntities.Id = 0;
-	currentEntities.PhoneNumber = '7' + currentEntities.PhoneNumber;
+        //currentEntities.Id = 0;
+	    currentEntities.PhoneNumber = '7' + currentEntities.PhoneNumber;
         //currentEntities.Passport = {}.Address = {};
-        console.log(currentEntities)
-        currentEntities.Passport.Address['StreetType'] = "Street";
-        currentEntities.Passport.Address['CityType'] = 'City';
-        currentEntities.Passport.Address['Country'] = 'Россия';
-        currentEntities.Passport.Address.Id = 0;
+        //console.log(currentEntities)
+        //currentEntities.Passport.Address['StreetType'] = "Street";
+        //currentEntities.Passport.Address['CityType'] = 'City';
+        //currentEntities.Passport.Address['Country'] = 'RF';
+        //currentEntities.Passport.Address.Id = 0;
 
         if(currentEntities.PostAddressCheck){
             currentEntities.PostAddress = currentEntities.Passport.Address;
-            delete currentEntities.PostAddressCheck;
+       //     delete currentEntities.PostAddressCheck;
         }
 
         if(currentEntities.Passport.IssueDate){
@@ -146,64 +151,166 @@
     function saveChanges() {
         blade.isLoading = true;
 
-     //   let currentEntities = serialize(angular.copy(blade.currentEntity));
-        let currentEntities = {
-        "Id": 0,
-            "FirstName": "Оля",
-            "SecondName": "Неоля",
-            "LastName": "Бахрушина",
-            "Passport": {
-            "Emitent": "ОВД Ростова",
-                "EmitentCode": "09342",
-                "Number": "346543",
-                "Seria": "3456",
-                "Address": {
-                    "Id": 0,
-                    "Country": "Россия",
-                    "Subject": "Моя область",
-                    "Region": "Регион",
-                    "CityType": "City",
-                    "CityName": "Москва",
-                    "StreetType": "Street",
-                    "StreetName": "Садовая",
-                    "Village": "string",
-                    "Building": "34",
-                    "Flat": "2"
+        let currentEntities = serialize(angular.copy(blade.currentEntity));
 
-            },
-            "PassportIssueDate": {
-                "Year": 2014,
-                    "Month": 4,
-                    "Day": 1
-            }
-        },
-        "PostAddress": {
-                "Id": 0,
-                "Country": "Россия",
-                "Subject": "Моя область",
-                "Region": "Регион",
-                "CityType": "City",
-                "CityName": "Москва",
-                "StreetType": "Street",
-                "StreetName": "Садовая",
-                "Village": "string",
-                "Building": "34",
-                "Flat": "2"
-
-        },
-        "Comment": "коммент",
-            "Email": "sfdsdf@sdf.fg",
-            "PhoneNumber": 79885767774,
-            "SecretWord": "secret"
-    }
+console.log(currentEntities)
+        //let currentEntities ={
+        //    "FirstName": "Оля",
+        //    "SecondName": "Неоля",
+        //    "LastName": "Бахрушина",
+        //    "Passport": {
+        //        "Emitent": "ОВД Ростова",
+        //        "EmitentCode": "09342",
+        //        "Number": "346543",
+        //        "Seria": "3456",
+        //        "Address": {
+        //            "Country": "RF",
+        //            "CityName": "Ростов-на-Дону"
+        //
+        //        },
+        //        "IssueDate": {
+        //            "Year": 2014,
+        //                "Month": 4,
+        //                "Day": 1
+        //        }
+        //    },
+        //    "PostAddress": {
+        //        "Country": "RF"
+        //    },
+        //
+        //    "Email": "sfdsdf@sdf.fg",
+        //    "phoneNumber": 79885753774,
+        //    "SecretWord": "secret"
+        //}
 
 
+        Comment
+            :
+            "dfgfdgdfgdfg"
+        Email
+            :
+            "sfdf@dfds.yu"
+        FirstName
+            :
+            "dfg"
+        LastName
+            :
+            "dfg"
+        Passport
+            :
+            Object
+        Address
+            :
+            Object
+        Building
+            :
+            "23"
+        CityName
+            :
+            "Белая Калитва"
+        Flat
+            :
+            "23"
+        Index
+            :
+            "645645"
+        Region
+            :
+            "Городской округ Адыгейск"
+        StreetName
+            :
+            "Улица"
+        Subject
+            :
+            "Республика Дагестан"
+        __proto__
+            :
+            Object
+        Emitent
+            :
+            "dfgdfgfdg"
+        EmitentCode
+            :
+            "456456"
+        IssueDate
+            :
+            Object
+        Day
+            :
+            5
+        Month
+            :
+            4
+        Year
+            :
+            2016
+        __proto__
+            :
+            Object
+        Number
+            :
+            "67567"
+        Seria
+            :
+            "567567"
+        __proto__
+            :
+            Object
+        PhoneNumber
+            :
+            "75555555555"
+        PostAddress
+            :
+            Object
+        Building
+            :
+            "23"
+        CityName
+            :
+            "Белая Калитва"
+        Flat
+            :
+            "23"
+        Index
+            :
+            "645645"
+        Region
+            :
+            "Городской округ Адыгейск"
+        StreetName
+            :
+            "Улица"
+        Subject
+            :
+            "Республика Дагестан"
+        __proto__
+            :
+            Object
+        PostAddressCheck
+            :
+            true
+        SecondName
+            :
+            "dfg"
+        SecretWord
+            :
+            "fdgdg"
+        console.log('currentEntities',currentEntities)
+
+        clients.list(currentEntities, function(data){
+            blade.isLoading = false;
 
 
-        clients.one()
-            .customPUT(currentEntities).then(function (results) {
-            console.log(results)
-        });
+                        blade.origEntity = blade.currentEntity;
+                        blade.parentBlade.refresh(true);
+
+            console.log('blade.moduleId ',blade.moduleId)
+        })
+
+        //clients.one()
+        //    .customPUT(currentEntities).then(function (results) {
+        //    console.log(results)
+        //});
         //var objects = _.flatten(_.map(blade.currentEntity, _.values));
         //
       //  console.log('blade.currentEntity',blade.currentEntity)

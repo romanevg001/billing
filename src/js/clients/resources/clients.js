@@ -2,6 +2,11 @@
 .factory('sdl.management.clients', ['Restangular', function (Restangular) {
     return Restangular.service('clients');
 }])
+    .factory('sdl.management.clientsave', ['$resource', function ($resource) {
+        return $resource('http://testbillingapi.azurewebsites.net/api/clients', {}, {
+            list: { method: 'PUT' }
+        });
+    }])
 .factory('sdl.management.subjects', ['$resource', function ($resource) {
     return $resource('res/api.subjects.json', {}, {
         list: { method: 'GET' }

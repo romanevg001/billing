@@ -34,20 +34,20 @@
 
               RestangularProvider.addRequestInterceptor(function (data, operation, what, url, response, deferred) {
                   if (what === 'clients' && operation === 'put') {
-                      
-                      var encodedClients =  new messaging.Client(data);
 
-
-
-                      let buff = encodedClients.toArrayBuffer();
-                      let encodedData = encodedClients.encode();
-                      console.log('encodedData',encodedData);
-                      console.log('encodedData',encodedData.buffer   );
-                      console.log('buff',buff  );
+                      //var encodedClients =  new messaging.Client(data);
+                      //
+                      //
+                      //
+                      //let buff = encodedClients.toArrayBuffer();
+                      //let encodedData = encodedClients.encode();
+                      //console.log('encodedData',encodedData);
+                      //console.log('encodedData',encodedData.buffer   );
+                      //console.log('buff',buff  );
 
 
                       //console.log('byteBuffer',byteBuffer);
-                      return encodedData;
+                      return data;
                   }
               });
 

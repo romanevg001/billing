@@ -110,6 +110,7 @@
 
         let currentEntities = serialize_select (entities);
         currentEntities.Id = 0;
+	currentEntities.PhoneNumber = '7' + currentEntities.PhoneNumber;
         //currentEntities.Passport = {}.Address = {};
         console.log(currentEntities)
         currentEntities.Passport.Address['StreetType'] = "Street";

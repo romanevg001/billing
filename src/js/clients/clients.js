@@ -5,6 +5,7 @@
       function ($stateProvider, billingTemplatesBase, $sceDelegateProvider, RestangularProvider) {
           {
               RestangularProvider.setBaseUrl('http://testbillingapi.azurewebsites.net/api/');
+//              RestangularProvider.setBaseUrl('http://localhost:7536/api/');
               RestangularProvider.setDefaultHeaders({
                   Accept: "application/x-protobuf"
                   //,Authorization: 'bearer ' + domain0UI._access_token
@@ -37,27 +38,29 @@
                       
                       var encodedClients =  new messaging.Client(data);
 
-
-
-                      let buff = encodedClients.toArrayBuffer();
-                      let encodedData = encodedClients.encode();
-                      console.log('encodedData',encodedData);
-                      console.log('encodedData',encodedData.buffer   );
-                      console.log('buff',buff  );
-
-
-                      //console.log('byteBuffer',byteBuffer);
-                      return encodedData;
+                      let buff = encodedClients.toArrayBuffer();			
+			return buff;
                   }
-              });
+              }); 
 
               // ..or use the full request interceptor, setRequestInterceptor's more powerful brother!
               RestangularProvider.setFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) {
+
+                        if (route === 'clients' && operation === 'put') {
+                              headers['Content-Type'] = 'application/x-protobuf';
+                   return {
+                      element: element,
+                      params: params,
+                      headers: headers,
+                      httpConfig:  { responseType: 'arraybuffer', transformRequest: angular.identity }
+                  };
+
+			}
                   return {
                       element: element,
                       params: params,
                       headers: headers,
-                      httpConfig: { responseType: 'arraybuffer' }
+                      httpConfig:  { responseType: 'arraybuffer' }
                   };
               });
           }

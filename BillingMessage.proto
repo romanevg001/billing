@@ -113,7 +113,7 @@ message Client
     string SecondName =6;    
     int64 PhoneNumber =7;
     
-    uint32 PostIndex =8;        
+    uint32 PostCode =8;        
     Address PostAddress =9;
 
     Passport Passport =10;
@@ -126,4 +126,80 @@ message ClientsCollectionMessage
 	repeated Client Data = 1;
 	PagingInfo PagingInfo = 2;
 	CursorInfo CursorInfo = 3;
+}
+
+//машина
+message Vehicle 
+{
+        // Идентификатор машины
+        int32 Id = 1;
+
+        // Цвет
+        string Color = 2;
+
+        // Год выпуска
+        int32 IssueYear = 3;
+        
+		// Марка
+        string Make = 4;
+        
+		// Модель        
+        string Model = 5;
+
+        // Регистрационный госномер        
+        string Number = 6;
+
+        // VIN двигателя
+        string VIN = 7;
+}
+
+//коллекция машин
+message VehiclesCollectionMessage
+{
+	repeated Vehicle Data = 1;
+	PagingInfo PagingInfo = 2;
+	CursorInfo CursorInfo = 3;
+}
+
+enum AbonTypeEnum 
+{
+	// Помесячная оплата
+	Monthly = 0;
+
+	// Поквартальная оплата
+	Quarterly = 1;
+
+	// Раз в год
+	Yearly = 2;
+}
+
+//тип абонентской платы
+message AbonType
+{
+	AbonTypeEnum Id = 1;
+	string Name = 2;
+	string Description = 3;
+}
+
+//коллекция типов абонентской платы
+message AbonTypesCollectionMessage
+{
+	repeated AbonType Data = 1;
+}
+
+//тариф
+message Product
+{
+	int32 Id = 1;
+	string Name = 2;
+	int32 FirstUseDays = 3;
+	int32 NotPaidDays = 4;
+	int32 Price = 5;
+	string Description = 6;
+}
+
+//коллекция тарифов
+message ProductTypesCollectionMessage
+{
+	repeated Product Products = 1;
 }

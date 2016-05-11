@@ -148,7 +148,56 @@
     function saveChanges() {
         blade.isLoading = true;
 
-        let currentEntities = serialize(angular.copy(blade.currentEntity));
+     //   let currentEntities = serialize(angular.copy(blade.currentEntity));
+        let currentEntities = {
+        "Id": 0,
+            "FirstName": "Оля",
+            "SecondName": "Неоля",
+            "LastName": "Бахрушина",
+            "Passport": {
+            "Emitent": "ОВД Ростова",
+                "EmitentCode": "09342",
+                "Number": "346543",
+                "Seria": "3456",
+                "Address": {
+                "Id": 0,
+                    "Country": "Россия",
+                    "Subject": "Моя область",
+                    "Region": "Регион",
+                    "CityType": "City",
+                    "CityName": "Москва",
+                    "StreetType": "Street",
+                    "StreetName": "Садовая",
+                    "Village": "string",
+                    "Building": "34",
+                    "Flat": "2",
+                    "Index": 456524
+            },
+            "IssueDate": {
+                "Year": 2014,
+                    "Month": 4,
+                    "Day": 1
+            }
+        },
+        "PostAddress": {
+            "Id": 0,
+                "Country": "Россия",
+                "Subject": "Моя область",
+                "Region": "Регион",
+                "CityType": "City",
+                "CityName": "Москва",
+                "StreetType": "Street",
+                "StreetName": "Садовая",
+                "Village": "string",
+                "Building": "34",
+                "Flat": "2",
+                "Index": 456524
+        },
+        "Comment": "коммент",
+            "Email": "sfdsdf@sdf.fg",
+            "PhoneNumber": 9885767774,
+            "SecretWord": "secret"
+    }
 
 
         console.log(currentEntities)

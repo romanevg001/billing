@@ -16,23 +16,40 @@
               let builder  = dcodeIO.ProtoBuf.loadProtoFile("model/BillingMessage.proto");
               let messaging = builder.build("Messaging");
               //let mes = new Messaging.PagingInfo();
-              //console.log(mes)
+              console.log(messaging)
               //console.log(ProtoBuf)
               //var proto = dcodeIO.ProtoBuf.loadJsonFile("model/messaging.json");
               //var messaging = proto.build("Messaging");
               var clientsCollectionMessage = messaging.ClientsCollectionMessage;
 
               RestangularProvider.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
-                      console.log('data',data)
+
                       if (what === 'clients' && operation === 'getList') {
                           var decodedClients = clientsCollectionMessage.decode(data);
                           return decodedClients.Data;
                       }
-
                       var extractedData = data.data;
-                      console.log(extractedData)
                       return extractedData;
                   });
+
+              RestangularProvider.addRequestInterceptor(function (data, operation, what, url, response, deferred) {
+                  if (what === 'clients' && operation === 'put') {
+                      
+                      var encodedClients =  new messaging.Client(data);
+
+
+
+                      let buff = encodedClients.toArrayBuffer();
+                      let encodedData = encodedClients.encode();
+                      console.log('encodedData',encodedData);
+                      console.log('encodedData',encodedData.buffer   );
+                      console.log('buff',buff  );
+
+
+                      //console.log('byteBuffer',byteBuffer);
+                      return encodedData;
+                  }
+              });
 
               // ..or use the full request interceptor, setRequestInterceptor's more powerful brother!
               RestangularProvider.setFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) {

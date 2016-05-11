@@ -25,7 +25,7 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
             blade.allClients = results;
             blade.isLoading = false;
-console.log(blade.allClients)
+//console.log(blade.allClients)
             // open previous settings detail blade if possible
             if ($scope.selectedNodeId) {
                 $scope.selectNode({ groupName: $scope.selectedNodeId },  disableOpenAnimation);

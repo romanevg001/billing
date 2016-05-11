@@ -79,9 +79,6 @@
 
         blade.currentEntity.PostAddressCheck = true;
 
-
-
-
         //console.log(blade.currentEntity.PostAddress)
     }
 
@@ -161,7 +158,7 @@
                 "Number": "346543",
                 "Seria": "3456",
                 "Address": {
-                "Id": 0,
+                    "Id": 0,
                     "Country": "Россия",
                     "Subject": "Моя область",
                     "Region": "Регион",
@@ -171,17 +168,17 @@
                     "StreetName": "Садовая",
                     "Village": "string",
                     "Building": "34",
-                    "Flat": "2",
-                    "Index": 456524
+                    "Flat": "2"
+
             },
-            "IssueDate": {
+            "PassportIssueDate": {
                 "Year": 2014,
                     "Month": 4,
                     "Day": 1
             }
         },
         "PostAddress": {
-            "Id": 0,
+                "Id": 0,
                 "Country": "Россия",
                 "Subject": "Моя область",
                 "Region": "Регион",
@@ -191,17 +188,17 @@
                 "StreetName": "Садовая",
                 "Village": "string",
                 "Building": "34",
-                "Flat": "2",
-                "Index": 456524
+                "Flat": "2"
+
         },
         "Comment": "коммент",
             "Email": "sfdsdf@sdf.fg",
-            "PhoneNumber": 9885767774,
+            "PhoneNumber": 79885767774,
             "SecretWord": "secret"
     }
 
 
-        console.log(currentEntities)
+
 
         clients.one()
             .customPUT(currentEntities).then(function (results) {
@@ -243,7 +240,7 @@
             name: "platform.commands.save",
             icon: 'fa fa-save',
             executeMethod: saveChanges,
-            canExecuteMethod: canSave            
+            canExecuteMethod: function(){return true}//canSave
         },
         {
             name: "platform.commands.reset",

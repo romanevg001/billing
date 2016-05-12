@@ -99,7 +99,7 @@ message Passport
     string Seria =7;   
 
     Address Address =8; 
-    Date PassportIssueDate =9;    
+    Date IssueDate =9;    
 }
 
 message Client 

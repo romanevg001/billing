@@ -8,7 +8,7 @@ import "./navigation/widget";
 
 
 import "./dialogs/confirmDialog";
-
+import "./common/datepickerUtils"
 //import "./clients/clientsModule"
 //import "./clients/resources/members"
 //import "./clients/member-add"

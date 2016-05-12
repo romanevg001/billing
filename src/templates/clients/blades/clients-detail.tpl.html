@@ -18,7 +18,7 @@
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.email' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.Email" required ng-maxlength="64"
+                                <input ng-model="blade.currentEntity.Email" required ng-maxlength="64" ng-pattern="/^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(ru|aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i"
                                        type="email" placeholder="{{ 'clients.blades.member-detail.placeholders.email' | translate }}" />
                             </div>
                         </div>
@@ -27,10 +27,9 @@
                 <div class="columns clearfix">
                     <div class="column">
                         <div class="form-group">
-
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.name' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.FirstName" focus-on="" required placeholder="{{ 'clients.blades.member-detail.placeholders.name' | translate }}" />
+                                <input ng-model="blade.currentEntity.FirstName" focus-on="" required ng-maxlength="64" placeholder="{{ 'clients.blades.member-detail.placeholders.name' | translate }}" />
                             </div>
                         </div>
                     </div>
@@ -38,7 +37,7 @@
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.lastName' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.LastName" focus-on="" required placeholder="{{ 'clients.blades.member-detail.placeholders.lastName' | translate }}" />
+                                <input ng-model="blade.currentEntity.LastName" focus-on="" required ng-maxlength="64" placeholder="{{ 'clients.blades.member-detail.placeholders.lastName' | translate }}" />
                             </div>
                         </div>
                     </div>
@@ -47,7 +46,7 @@
                 <div class="form-group">
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.middleName' | translate }}</label>
                     <div class="form-input">
-                        <input ng-model="blade.currentEntity.SecondName" focus-on="" required placeholder="{{ 'clients.blades.member-detail.placeholders.middleName' | translate }}" />
+                        <input ng-model="blade.currentEntity.SecondName" focus-on=""   ng-maxlength="64" placeholder="{{ 'clients.blades.member-detail.placeholders.middleName' | translate }}" />
                     </div>
                 </div>
 
@@ -79,7 +78,8 @@
                 <div class="form-group" ng-if="blade.currentEntity.Passport.Address.Region || regions">
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.region' | translate }}</label>
                     <div class="form-input">
-                        <ui-select ng-model="blade.currentEntity.Passport.Address.Region" required theme="select2" on-select="choseRegion($item)">
+                        <ui-select ng-model="blade.currentEntity.Passport.Address.Region"  theme="select2" >
+                            <!--on-select="choseRegion($item)"-->
                             <ui-select-match>
                                 <span>{{$select.selected.name | translate}}</span>
                             </ui-select-match>
@@ -94,7 +94,7 @@
                         <div class="form-group" ng-if="blade.currentEntity.Passport.Address.CityType || typeofPoints">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.typeofPoint' | translate }}</label>
                             <div class="form-input">
-                                <ui-select ng-model="blade.currentEntity.Passport.Address.CityType" required theme="select2" on-select="choseSearchTypes($item)">
+                                <ui-select ng-model="blade.currentEntity.Passport.Address.CityType" theme="select2" on-select="choseSearchTypes($item)">
                                     <ui-select-match>
                                         <span>{{$select.selected.name | translate}}</span>
                                     </ui-select-match>
@@ -109,7 +109,7 @@
                         <div class="form-group" ng-if="blade.currentEntity.Passport.Address.CityName || pointsName">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.pointName' | translate }}</label>
                             <div class="form-input">
-                                <ui-select ng-model="blade.currentEntity.Passport.Address.CityName" required theme="select2" on-select="choseSearchTypes($item)">
+                                <ui-select ng-model="blade.currentEntity.Passport.Address.CityName" required   theme="select2" on-select="choseSearchTypes($item)">
                                     <ui-select-match>
                                         <span>{{$select.selected.name | translate}}</span>
                                     </ui-select-match>
@@ -185,7 +185,7 @@
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.date_produce' | translate }}</label>
                             <div class="form-input __calendar">
-                                <input type="text" class="form-control"  required ng-model="blade.currentEntity.Passport.IssueDate" datepicker-popup="{{format}}" name="bd" is-open="datepickers.bd" max-date="today" datepicker-options="dateOptions" close-text="Close" placeholder="{{ 'clients.blades.member-detail.placeholders.date-produce' | translate }}" />
+                                <input type="text" class="form-control"  required ng-model="blade.currentEntity.Passport.IssueDate" datepicker-popup="{{format}}" name="bd" is-open="datepickers.bd" max-date="today" datepicker-options="dateOptions" datepicker-popup close-text="Close" placeholder="{{ 'clients.blades.member-detail.placeholders.date-produce' | translate }}" />
                                 <button class="btn" type="button" ng-click="open($event,'bd')">
                                     <i class="btn-ico fa fa-calendar"></i>
                                 </button>
@@ -208,13 +208,13 @@
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.address_residence' | translate }}</label>
                     <div class="form-control __checkbox">
                         <label class="form-label">
-                            <input type="checkbox" ng-model="blade.currentEntity.PostAddressCheck">
+                            <input type="checkbox" ng-model="PostAddressCheck">
                             <span class="check"></span>
                             <span class="name">{{ 'clients.blades.member-detail.labels.address_residence_thesame' | translate }}</span>
                         </label>
                     </div>
                 </div>
-                <div ng-if="!blade.currentEntity.PostAddressCheck">
+                <div ng-if="!PostAddressCheck">
                     <div class="form-group clearfix">
                         <div class="columns clearfix">
                             <div class="column">

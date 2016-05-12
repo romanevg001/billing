@@ -78,7 +78,7 @@ message Address
     string Village = 9;
     string Building = 10;
     string Flat = 11;
-
+    uint32 PostCode = 12;
 
 }
 
@@ -101,7 +101,7 @@ message Passport
     string Seria =7;   
 
     Address Address =8; 
-    Date PassportIssueDate =9;    
+    Date IssueDate =9;
 }
 
 message Client 
@@ -115,7 +115,7 @@ message Client
     string SecondName =6;    
     int64 PhoneNumber =7;
     
-    uint32 PostIndex =8;
+    //uint32 PostIndex =8;
 
 
     Address PostAddress =9;

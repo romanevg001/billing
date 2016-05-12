@@ -5,6 +5,7 @@
       function ($stateProvider, billingTemplatesBase, $sceDelegateProvider, RestangularProvider) {
           {
               RestangularProvider.setBaseUrl('http://testbillingapi.azurewebsites.net/api/');
+//              RestangularProvider.setBaseUrl('http://localhost:7536/api/');
               RestangularProvider.setDefaultHeaders({
                   Accept: "application/x-protobuf"
                   //,Authorization: 'bearer ' + domain0UI._access_token
@@ -16,7 +17,7 @@
               let builder  = dcodeIO.ProtoBuf.loadProtoFile("model/BillingMessage.proto");
               let messaging = builder.build("Messaging");
               //let mes = new Messaging.PagingInfo();
-              console.log(messaging)
+           //   console.log(messaging)
               //console.log(ProtoBuf)
               //var proto = dcodeIO.ProtoBuf.loadJsonFile("model/messaging.json");
               //var messaging = proto.build("Messaging");
@@ -34,30 +35,32 @@
 
               RestangularProvider.addRequestInterceptor(function (data, operation, what, url, response, deferred) {
                   if (what === 'clients' && operation === 'put') {
+                      
+                      var encodedClients =  new messaging.Client(data);
 
-                      //var encodedClients =  new messaging.Client(data);
-                      //
-                      //
-                      //
-                      //let buff = encodedClients.toArrayBuffer();
-                      //let encodedData = encodedClients.encode();
-                      //console.log('encodedData',encodedData);
-                      //console.log('encodedData',encodedData.buffer   );
-                      //console.log('buff',buff  );
-
-
-                      //console.log('byteBuffer',byteBuffer);
-                      return data;
+                      let buff = encodedClients.toArrayBuffer();			
+			return buff;
                   }
-              });
+              }); 
 
               // ..or use the full request interceptor, setRequestInterceptor's more powerful brother!
               RestangularProvider.setFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) {
+
+                        if (route === 'clients' && operation === 'put') {
+                              headers['Content-Type'] = 'application/x-protobuf';
+                   return {
+                      element: element,
+                      params: params,
+                      headers: headers,
+                      httpConfig:  { responseType: 'arraybuffer', transformRequest: angular.identity }
+                  };
+
+			}
                   return {
                       element: element,
                       params: params,
                       headers: headers,
-                      httpConfig: { responseType: 'arraybuffer' }
+                      httpConfig:  { responseType: 'arraybuffer' }
                   };
               });
           }

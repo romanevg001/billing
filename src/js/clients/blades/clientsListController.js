@@ -18,12 +18,25 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
     ];
     $scope.selected = { value: $scope.searchTypes[0] };
 
+    function deserialize(data){
+        _.each(data, function (dt) {
+            if(dt.PhoneNumber){
+                dt.PhoneNumberString = dt.PhoneNumber.toString().slice(1);
+            }
+
+
+
+
+        });
+        return data;
+    }
+
     blade.refresh = function (param={},disableOpenAnimation) {
         blade.isLoading = true;
-//console.log(param)
+
         clients.getList(param).then(function (results) {
      //       console.log(results)
-            blade.allClients = results;
+            blade.allClients = deserialize(results);
             blade.isLoading = false;
             // open previous settings detail blade if possible
             if ($scope.selectedNodeId) {
@@ -36,17 +49,16 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
     };
 
     $scope.selectNode = function (node, disableOpenAnimation) {
-        bladeNavigationService.closeChildrenBlades(blade, function () {
+        bladeNavigationService.closeChildrenBlades(blade, function(){
             $scope.selectedNodeId = node.groupName;
             if (node.children) {
                 blade.searchText = null;
                 $scope.blade.currentEntities = node.children;
-
                 setBreadcrumbs(node);
             } else {
                 var selectedClients = _.where(blade.allClients, { Id: node.Id });
 
-                console.log(selectedClients[0])
+            //    console.log(selectedClients[0])
                 var newBlade = {
                     id: 'clientsSection',
                     data: selectedClients[0],
@@ -134,8 +146,8 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
     //--------------grid------------------
     $scope.uiGridConstants = uiGridHelper.uiGridConstants;
-    $scope._registerApi = (gridApi)=>{
-        return (gridApi)=>{
+    $scope._registerApi = (gridApi) => {
+        return (gridApi) => {
             gridApi.infiniteScroll.on.needLoadMoreData($scope, $scope.getDataDown);
             $scope.gridApi = gridApi;
         }
@@ -143,7 +155,7 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
     $scope.getDataDown = function(){
         blade.refresh({Page:2},function(data) {
-            console.log('page2 = ',data)
+            //console.log('page2 = ',data)
             blade.isLoading = false;
             $scope.gridApi.infiniteScroll.saveScrollPercentage();
             blade.allClients =  blade.allClients.concat(data);

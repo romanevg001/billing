@@ -6,37 +6,48 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
     var settingsTree;
     var blade = $scope.blade;
 
-    $scope.searchType = null;
+    $scope.opts = {
+        currentPage: 1,
+        countClients: 10
+    };
+
+    var paramRequest = {
+        take: $scope.opts.countClients * $scope.opts.currentPage
+    };
+
+
+
     $scope.searchTypes = [
-        {searchId: 'phone', name: 'clients.blades.member-list.labels.phone'},
-        {searchId: 'name', name: 'clients.blades.member-list.labels.name'},
-        {searchId: 'lastName', name: 'clients.blades.member-list.labels.lastName'},
-        {searchId: 'nPassport', name: 'clients.blades.member-list.labels.nPassport'},
-        {searchId: 'nContract', name: 'clients.blades.member-list.labels.nContract'},
-        {searchId: 'email', name: 'clients.blades.member-list.labels.email'},
-        {searchId: 'nCar', name: 'clients.blades.member-list.labels.nCar'}
+        {searchId: "Phone", name: "clients.blades.member-list.labels.phone"},
+        {searchId: "FirstName", name: "clients.blades.member-list.labels.name"},
+        {searchId: "LastName", name: "clients.blades.member-list.labels.lastName"},
+        {searchId: "PassportNumber", name: "clients.blades.member-list.labels.nPassport"},
+        {searchId: "ContractNumber", name: "clients.blades.member-list.labels.nContract"},
+        {searchId: "EMail", name: "clients.blades.member-list.labels.email"},
+        {searchId: "VehicleNumber", name: "clients.blades.member-list.labels.nCar"},
+        {searchId: "", name: "clients.blades.member-list.labels.all"}
     ];
-    $scope.selected = { value: $scope.searchTypes[0] };
+ //   blade.searchTypes = $scope.searchTypes[0];
+
 
     function deserialize(data){
         _.each(data, function (dt) {
             if(dt.PhoneNumber){
                 dt.PhoneNumberString = dt.PhoneNumber.toString().slice(1);
             }
-
-
-
-
         });
         return data;
     }
 
-    blade.refresh = function (param={},disableOpenAnimation) {
+    blade.refresh = function (disableOpenAnimation) {
+
         blade.isLoading = true;
 
-        clients.getList(param).then(function (results) {
-     //       console.log(results)
+        clients.getList(paramRequest).then(function (results) {
+
             blade.allClients = deserialize(results);
+
+                console.log(blade.allClients)
             blade.isLoading = false;
             // open previous settings detail blade if possible
             if ($scope.selectedNodeId) {
@@ -146,23 +157,23 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
     //--------------grid------------------
     $scope.uiGridConstants = uiGridHelper.uiGridConstants;
-    $scope._registerApi = (gridApi) => {
-        return (gridApi) => {
-            gridApi.infiniteScroll.on.needLoadMoreData($scope, $scope.getDataDown);
-            $scope.gridApi = gridApi;
-        }
-    };
-
-    $scope.getDataDown = function(){
-        blade.refresh({Page:2},function(data) {
-            //console.log('page2 = ',data)
-            blade.isLoading = false;
-            $scope.gridApi.infiniteScroll.saveScrollPercentage();
-            blade.allClients =  blade.allClients.concat(data);
-            $scope.gridApi.infiniteScroll.dataLoaded();
-            $scope.pageSettings.totalItems =  $scope.listEntries.length;
-        })
-    };
+    //$scope._registerApi = (gridApi) => {
+    //    return (gridApi) => {
+    //        gridApi.infiniteScroll.on.needLoadMoreData($scope, $scope.getDataDown);
+    //        $scope.gridApi = gridApi;
+    //    }
+    //};
+    //
+    //$scope.getDataDown = function(){
+    //    console.log('boom');
+    //    blade.refresh(function(data) {
+    //        blade.isLoading = false;
+    //        $scope.gridApi.infiniteScroll.saveScrollPercentage();
+    //        blade.allClients =  blade.allClients.concat(data);
+    //        $scope.gridApi.infiniteScroll.dataLoaded();
+    //        $scope.pageSettings.totalItems =  $scope.listEntries.length;
+    //    })
+    //};
 
     // ui-grid
     $scope.setGridOptions = function (gridOptions) {
@@ -172,13 +183,67 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
         bladeUtils.initializePagination($scope);
     };
     ///////\grid
+    $scope.loadMore = function(){
+        $scope.opts.currentPage += 1;
+        blade.refresh(function(data) {
+            blade.isLoading = false;
+            $scope.gridApi.infiniteScroll.saveScrollPercentage();
+            blade.allClients =  blade.allClients.concat(data);
+            $scope.gridApi.infiniteScroll.dataLoaded();
+            $scope.pageSettings.totalItems =  $scope.listEntries.length;
+        })
+    };
 
     $scope.$watch('blade.searchText', function (newVal) {
         if (newVal) {
-            $scope.blade.currentEntities = settingsTree;
-            setBreadcrumbs({ groupName: null });
+            if(blade.currentEntity.searchTypes){
+                paramRequest[blade.currentEntity.searchTypes.searchId] = newVal;
+            }else{
+                paramRequest.keyword = newVal;
+            }
+
+            blade.refresh(function(data) {
+                blade.isLoading = false;
+                blade.allClients =  data;
+            });
+            //$scope.blade.currentEntities = settingsTree;
+            //setBreadcrumbs({ groupName: null });
         }
     });
+
+    $scope.selectSearchType = function(item){
+
+        paramRequest[item.searchId] = blade.searchText;
+
+        blade.refresh(function(data) {
+            blade.isLoading = false;
+            blade.allClients =  data;
+        });
+    };
+
+    $scope.sort= function sort (column) {
+
+        if(!$scope.sortDirect) $scope.sortDirect={};
+
+        if(sort[column] == 'desc'){
+            paramRequest.sort = '-'+column;
+            $scope.sortDirect[column] = 'desc';
+
+            sort[column] = 'asc';
+        }else{
+            paramRequest.sort = column;
+            $scope.sortDirect[column] = 'asc';
+
+            sort[column] = 'desc';
+        }
+
+
+
+        blade.refresh(function(data) {
+            blade.isLoading = false;
+            blade.allClients =  data;
+        })
+    };
 
     // actions on load
     blade.refresh();

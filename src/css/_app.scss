@@ -48,6 +48,61 @@ ui-codemirror > *:first-child {
     -ms-scrollbar-track-color: #c9d6df;
 }
 
+.searchFields {
+    position: absolute;
+    z-index: 6;
+    width: 95%;
+}
+.grid {
+    margin: 0 -20px 0;
+    font-size: 14px;
+    text-shadow: 1px 1px #fff;
+    overflow-y: auto;
+
+    .columns {
+        min-height: 40px;
+        border-bottom: #dee9f0 1px solid;
+        padding: 0;
+    }
+    .column {
+        min-height: 40px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        box-sizing: border-box;
+        white-space: nowrap;
+        padding-left: 5px;
+        line-height: 2.5em;
+    }
+
+    .grid-header {
+        .column {
+            border-color: #dee9f0;
+            background: rgba(0,0,0,.024);
+        }
+        .sort {
+            cursor: pointer;
+        }
+        .asc .fa:before {
+            content: "\f0de";
+        }
+        .desc .fa:before {
+            content: "\f0dd";
+        }
+    }
+    .grid-content {
+        &:nth-child(odd) .column {
+            background-color: #fdfdfd;
+        }
+    }
+
+
+}
+.addMore {
+    font-size: 12px;
+    padding: 20px;
+    text-align: center;
+    display: block;
+}
 /* Flags */
 .flag {
     background: url(../images/flags.png) no-repeat;
@@ -4834,7 +4889,7 @@ button.btn {
     }
 
     .blade-static .column + .column .form-group {
-        margin: 0 0 0 10px;
+  //      margin: 0 0 0 10px;
     }
 
     .blade-static .form-group .link {
@@ -4844,7 +4899,7 @@ button.btn {
     }
 
     .blade-static .form-input.__search {
-        width: 80%;
+       // width: 80%;
     }
 
     .blade-static .form-count {

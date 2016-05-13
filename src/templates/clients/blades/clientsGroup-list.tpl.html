@@ -1,65 +1,93 @@
 ﻿<div class="blade-static __expanded">
     <va-breadcrumb ng-model="blade.breadcrumbs" blade-id="blade.id"></va-breadcrumb>
-    <div class="form-group">
-        <div class="form-input __search">
-            <input placeholder="{{ 'platform.placeholders.search-keyword' | translate }}" ng-model="blade.searchText">
-            <button class="btn __other" style="position: relative;right: 45px;">
-                <i class="btn-ico fa fa-remove" title="Очистить" 
-                   ng-click="blade.searchText=''"></i>
-            </button>
+    <div class="blade-inner">
+        <div class="columns searchFields">
+            <div class="column">
+                <div class="form-group">
+                    <div class="form-input __search">
+                        <input placeholder="{{ 'platform.placeholders.search-keyword' | translate }}" ng-model="blade.searchText">
+                        <button class="btn __other" style="position: relative;right: 45px;">
+                            <i class="btn-ico fa fa-remove" title="Очистить"
+                               ng-click="blade.searchText='';"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="form-group">
+                    <div class="form-input">
+                        <ui-select ng-model="blade.currentEntity.searchTypes" on-select="selectSearchType($item)" theme="select2">
+                            <ui-select-match>
+                                <span>{{$select.selected.name | translate}}</span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in searchTypes">
+                                <span>{{item.name | translate}}</span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <div class="blade-content __medium-wide">
     <div class="blade-inner">
-        <div class="inner-block clearfix">
+        <div class="inner-block ">
 
 
-            <!--<ul class="list __items">-->
-                <!--<li class="list-item" ng-repeat="data in blade.allClients-->
-                    <!--| filter:blade.searchText | orderBy: 'name'"-->
-                    <!--ng-click='selectNode(data)'>-->
-                    <!--<i class='list-ico fa fa-user'></i>-->
-                    <!--<span class="list-t">{{data.name}}</span>-->
-                    <!--<span class="list-t">{{data}}</span>-->
-                <!--</li>-->
-            <!--</ul>-->
+            <div class="grid  __items">
 
+                <div class="columns grid-header">
+                    <div class="column sort" ng-class="sortDirect['PhoneNumber']" ng-click="sort('PhoneNumber')">{{'clients.blades.member-list.labels.phone' | translate}} <i class="fa"></i></div>
+                    <div class="column">{{'clients.blades.member-list.labels.name' | translate}}</div>
+                    <div class="column sort" ng-class="sortDirect['LastName']" ng-click="sort('LastName')">{{'clients.blades.member-list.labels.lastName' | translate}} <i class="fa"></i></div>
+                </div>
+                <div class="columns grid-content" ng-repeat="data in blade.allClients | filter:blade.searchText | orderBy: 'name'"
+                    ng-click='selectNode(data)'>
 
-            <div class="table-wrapper" ng-init="setGridOptions({
-                useExternalSorting: true,
-                data: 'blade.allClients',
-                infiniteScrollRowsFromEnd: 1,
-                infiniteScrollUp: true,
-                infiniteScrollDown: true,
-                rowTemplate: 'member-list.row.html',
-                rowHeight: 61,
-                columnDefs: [
-                    { name: 'PhoneNumberString', displayName: 'clients.blades.member-list.labels.phone'},
-                    { name: 'FirstName', displayName: 'clients.blades.member-list.labels.name', enableSorting: false},
-                    { name: 'LastName', displayName: 'clients.blades.member-list.labels.lastName'}
-                ],
-                 onRegisterApi: _registerApi(gridApi)
-            })">
-                <div ui-grid="gridOptions" class="grid" ui-grid-auto-resize ui-grid-save-state ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-height ui-grid-infinite-scroll></div>
-                <ul class="menu __context" role="menu" id="cml_menu">
-                    <li class="menu-item" ng-click='blade.showDetailBlade(contextMenuEntity, contextMenuEntity.name)'>
-                        <i class="menu-ico fa fa-edit"></i> {{'platform.commands.manage' | translate}}
-                    </li>
-                    <li class="menu-item" ng-click='delete(contextMenuEntity)' va-permission="customer:delete">
-                        <i class="menu-ico fa fa-trash-o"></i> {{'platform.commands.delete' | translate}}
-                    </li>
-                </ul>
+                    <div class="column ">{{data.PhoneNumberString}}</div>
+                    <div class="column ">{{data.FirstName}}</div>
+                    <div class="column">{{data.LastName}}</div>
+
+                </div>
             </div>
 
-            <!--<button ng-show="!blade.allClients && blade.allClients && blade.allClients.length>0 && blade.allClients.length < TotalCount"-->
-                    <!--class="load-more button-secondary" ng-click="loadMore()">-->
-                <!--Загрузить еще-->
-            <!--</button>-->
-            <!--<div class="ng-cloak" ng-show="loading && trips.length > 0"-->
-                 <!--style="text-align: center; font-size: 20px">-->
-                <!--<img src="images/loading.svg" ng-show="loading" style="vertical-align: middle">-->
+            <!--<div class="table-wrapper" ng-init="setGridOptions({-->
+                <!--useExternalSorting: true,-->
+                <!--data: 'blade.allClients',-->
+                <!--infiniteScrollRowsFromEnd: 1,-->
+                <!--infiniteScrollUp: true,-->
+                <!--infiniteScrollDown: true,-->
+                <!--rowTemplate: 'member-list.row.html',-->
+                <!--rowHeight: 61,-->
+                <!--columnDefs: [-->
+                    <!--{ name: 'Id', displayName: '#'},-->
+                    <!--{ name: 'PhoneNumberString', displayName: 'clients.blades.member-list.labels.phone'},-->
+                    <!--{ name: 'FirstName', displayName: 'clients.blades.member-list.labels.name', enableSorting: false},-->
+                    <!--{ name: 'LastName', displayName: 'clients.blades.member-list.labels.lastName'}-->
+                <!--],-->
+                 <!--onRegisterApi: _registerApi(gridApi)-->
+            <!--})">-->
+                <!--<div ui-grid="gridOptions"  class="grid" ui-grid-auto-resize ui-grid-save-state ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-height ui-grid-infinite-scroll></div>-->
+                <!--<ul class="menu __context" role="menu" id="cml_menu">-->
+                    <!--<li class="menu-item" ng-click='blade.showDetailBlade(contextMenuEntity, contextMenuEntity.name)'>-->
+                        <!--<i class="menu-ico fa fa-edit"></i> {{'platform.commands.manage' | translate}}-->
+                    <!--</li>-->
+                    <!--<li class="menu-item" ng-click='delete(contextMenuEntity)' va-permission="customer:delete">-->
+                        <!--<i class="menu-ico fa fa-trash-o"></i> {{'platform.commands.delete' | translate}}-->
+                    <!--</li>-->
+                <!--</ul>-->
             <!--</div>-->
+            <!--&& blade.allClients.length < TotalCount-->
+
+            <a class="addMore" ng-show="blade.allClients && blade.allClients.length>0 " ng-hide="blade.allClients.length < paramRequest.countClients*paramRequest.currentPage"
+                    class="load-more button-secondary" ng-click="loadMore()">
+                Загрузить еще...
+            </a>
+            <div class="ng-cloak" ng-show="loading && trips.length > 0"
+                 style="text-align: center; font-size: 20px">
+                <img src="images/loading.svg" ng-show="loading" style="vertical-align: middle">
+            </div>
         </div>
     </div>
 </div>

@@ -203,3 +203,24 @@ message ProductTypesCollectionMessage
 {
 	repeated Product Products = 1;
 }
+
+message CreateContract
+{
+    // Машина для этого договора
+    int32 VehicleId = 1;
+
+    // Тип абонентской платы
+    int32 ProductId = 2;
+
+    // Дата начала договора
+    Date BeginDate = 3;
+
+    // Смещение UTC для этого договора        
+    int32 UtcOffsetHours = 4;
+
+    // Разрешение на получение информационных сообщений
+    bool AllowInfoMessages = 5;
+
+    // Автопродление контракта
+    bool AutoContinuation = 6;
+}

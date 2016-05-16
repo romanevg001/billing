@@ -12,6 +12,16 @@
         list: { method: 'POST' }
     });
 }])
+.factory('sdl.management.cars', ['$resource', function ($resource) {
+    return $resource('http://testbillingapi.azurewebsites.net/api/clients/:Id/vehicles', {Id:'@Id'}, {
+        list: { method: 'GET' }
+    });
+}])
+.factory('sdl.management.caredit', ['$resource', function ($resource) {
+    return $resource('http://testbillingapi.azurewebsites.net/api/clients/:Id/vehicles/:vehiclesId', {Id:'@Id', vehiclesId:'@vehiclesId'}, {
+        list: { method: 'POST' }
+    });
+}])
 .factory('sdl.management.subjects', ['$resource', function ($resource) {
     return $resource('res/api.subjects.json', {}, {
         list: { method: 'GET' }

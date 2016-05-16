@@ -83,19 +83,47 @@ ui-codemirror > *:first-child {
             cursor: pointer;
         }
         .asc .fa:before {
-            content: "\f0de";
+            content: "\f0d7";
         }
+
         .desc .fa:before {
-            content: "\f0dd";
+            content: "\f0d8";
         }
     }
     .grid-content {
+        cursor: pointer;
+        position: relative;
+
+        &:hover {
+            &:before {
+                animation: linear .5s infinite pointerToMove;
+            }
+        }
+        &:before {
+            @extend .fa;
+            content: "\f054";
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            margin-top: -.5em;
+            color: $light-blue;
+
+        }
         &:nth-child(odd) .column {
             background-color: #fdfdfd;
         }
     }
 
+}
 
+@keyframes pointerToMove {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(7px);
+    }
 }
 .addMore {
     font-size: 12px;
@@ -2356,7 +2384,7 @@ button.btn {
         right: 0;
         top: 0;
         filter: alpha(opacity=80);
-        -webkit-animation: linear 2s infinite progress;
+
         animation: linear 2s infinite progress;
     }
 
@@ -3779,16 +3807,14 @@ button.btn {
     padding: 0;
 }
 
-.column:nth-last-child(2),
-.column:nth-last-child(2) ~ .column {
-    float: left;
-    width: 50%;
-}
 
-.column:nth-last-child(3),
-.column:nth-last-child(3) ~ .column {
-    float: left;
-    width: 33.3333%;
+
+@for $i from 1 through $columnCount {
+    .column:nth-last-child(#{$i}),
+    .column:nth-last-child(#{$i}) ~ .column {
+        float: left;
+        width: percentage(1/$i);
+    }
 }
 
 .column .list.__info {
@@ -6410,23 +6436,7 @@ button.btn {
         }
     }
 
-    @-webkit-keyframes notify {
-        0% {
-            background-color: none;
-        }
 
-        30% {
-            background-color: #43b0e6;
-        }
-
-        90% {
-            background-color: #43b0e6;
-        }
-
-        100% {
-            background-color: none;
-        }
-    }
 
     @keyframes notify {
         0% {
@@ -6446,19 +6456,7 @@ button.btn {
         }
     }
 
-    @-webkit-keyframes bell {
-        0%, 100% {
-            -webkit-transform: rotate(0);
-        }
 
-        10%, 30%, 50%, 70%, 90% {
-            -webkit-transform: rotate(-7deg);
-        }
-
-        0%, 20%, 40%, 60%, 80%, 100% {
-            -webkit-transform: rotate(7deg);
-        }
-    }
 
     @keyframes bell {
         0%, 100% {

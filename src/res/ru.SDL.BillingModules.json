@@ -20,8 +20,7 @@
           "nPassport":"Номер паспорта",
           "nContract":"Номер контракта",
           "email":"Email",
-          "nCar":"Номер машины",
-          "all": "Все"
+          "nCar":"Номер машины"
 
         }
       },
@@ -70,6 +69,39 @@
           "lastName": "Введите Фамилию",
           "middleName": "Введите Отчество",
           "date-produce": "Выберите дату..."
+        }
+      },
+      "car-list":{
+        "title": "Автомобили",
+        "labels": {
+          "color": "Цвет",
+          "IssueYear":"Год Выпуска",
+          "make": "Марка",
+          "model": "Модель",
+          "number": "Номер",
+          "VIN": "VIN код"
+
+        }
+      },
+      "car-add":{
+        "title": "Новый авто",
+        "subtitle":""
+      },
+      "car-detail":{
+        "title": "Детали",
+        "subtitle": "",
+        "labels": {
+            "color": "Цвет",
+            "IssueYear":"Год Выпуска",
+            "make": "Марка",
+            "model": "Модель",
+            "number": "Номер",
+            "VIN": "VIN код"
+        },
+        "placeholders": {
+          "color": "Выберите цвет",
+          "number": "Регистрационный номер",
+          "VIN": "VIN код"
         }
       }
     }

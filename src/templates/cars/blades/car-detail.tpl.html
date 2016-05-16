@@ -1,0 +1,106 @@
+﻿<!--{-->
+<!--"Id": 0,-->
+<!--"Color": "string",-->
+<!--"IssueYear": 0,-->
+<!--"Make": "string",-->
+<!--"Model": "string",-->
+<!--"Number": "string",-->
+<!--"VIN": "string"-->
+<!--}-->
+<div class="blade-content">
+    <div class="blade-inner">
+        <div class="inner-block clearfix">
+            <form class="form" name="detailForm">
+
+                <div class="form-group" ng-init="setForm(detailForm)">
+                    <label class="form-label">{{ 'clients.blades.car-detail.labels.color' | translate }}</label>
+                    <div class="form-input">
+                        <ui-select ng-model="blade.currentEntity.color" required theme="select2">
+                            <ui-select-match>
+                                <span><i class="fa fa-circle" style="color: {{$select.selected.color}}"></i> &nbsp; {{$select.selected.code}} &nbsp; {{$select.selected.name | translate}} &#151; {{$select.selected.nameGIBDD | translate}}</span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in colors">
+                                <span><i class="fa fa-circle" style="color: {{item.color}}"></i> &nbsp; {{item.code}} &nbsp; {{item.name | translate}} &#151; {{item.nameGIBDD | translate}}</span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="columns clearfix">
+                    <div class="column">
+                        <div class="form-group">
+                            <label class="form-label">{{ 'clients.blades.car-detail.labels.IssueYear' | translate }}</label>
+                            <div class="form-input">
+                                <ui-select ng-model="blade.currentEntity.IssueYear" required theme="select2">
+                                    <ui-select-match>
+                                        <span>{{$select.selected.name | translate}}</span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in IssueYears">
+                                        <span>{{item.name | translate}}</span>
+                                    </ui-select-choices>
+                                </ui-select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                      &nbsp;
+                    </div>
+                </div>
+
+                <div class="columns clearfix">
+                    <div class="column">
+                        <div class="form-group">
+                            <label class="form-label">{{ 'clients.blades.car-detail.labels.make' | translate }}</label>
+                            <div class="form-input">
+                                <ui-select ng-model="blade.currentEntity.make" required theme="select2">
+                                    <ui-select-match>
+                                        <span>{{$select.selected.name | translate}}</span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in makes">
+                                        <span>{{item.name | translate}}</span>
+                                    </ui-select-choices>
+                                </ui-select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="form-group">
+                            <label class="form-label">{{ 'clients.blades.car-detail.labels.model' | translate }}</label>
+                            <div class="form-input">
+                                <ui-select ng-model="blade.currentEntity.model" required theme="select2">
+                                    <ui-select-match>
+                                        <span>{{$select.selected.name | translate}}</span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in models">
+                                        <span>{{item.name | translate}}</span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns clearfix">
+                    <div class="column">
+                        <div class="form-group">
+                            <label class="form-label">{{ 'clients.blades.car-detail.labels.number' | translate }}</label>
+                            <div class="form-input">
+                                <input ng-model="blade.currentEntity.number" focus-on="" required ng-maxlength="64" placeholder="{{ 'clients.blades.car-detail.placeholders.number' | translate }}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="form-group">
+                            <label class="form-label">{{ 'clients.blades.car-detail.labels.VIN' | translate }}</label>
+                            <div class="form-input">
+                                <input ng-model="blade.currentEntity.VIN" focus-on="" required ng-maxlength="64" placeholder="{{ 'clients.blades.car-detail.placeholders.VIN' | translate }}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>

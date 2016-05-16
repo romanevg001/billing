@@ -23,6 +23,10 @@ import "./clients/blades/clients-add"
 import "./clients/blades/clients-edit"
 import "./clients/blades/clientsListController"
 
+import "./cars/resources/cars"
+import "./cars/blades/carsListCtrl"
+import "./cars/blades/car-detail"
+
 
 import "./security/auth";
 import "./security/loginToolbar";

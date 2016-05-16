@@ -1,11 +1,13 @@
 ﻿angular.module('sdl.management')
-.controller('sdl.management.clientsListController',
+.controller('sdl.management.carsListCtrl',
     ['$injector', '$scope', 'sdl.management.clients', 'sdl.management.bladeNavigationService', 'billingTemplatesBase',
-        'sdl.management.bladeUtils', 'sdl.management.uiGridHelper',
-function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesBase, bladeUtils, uiGridHelper) {
+        'sdl.management.bladeUtils', 'sdl.management.uiGridHelper', 'sdl.management.cars',
+function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesBase,
+          bladeUtils, uiGridHelper, cars) {
     var settingsTree;
     var blade = $scope.blade;
 
+    blade.isLoading = false;
     $scope.opts = {
         currentPage: 1,
         countClients: 10
@@ -13,47 +15,19 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
     var paramRequest = {};
 
-    $scope.searchTypes = [
-        {searchId: "Phone", name: "clients.blades.member-list.labels.phone"},
-        {searchId: "FirstName", name: "clients.blades.member-list.labels.name"},
-        {searchId: "LastName", name: "clients.blades.member-list.labels.lastName"},
-        {searchId: "PassportNumber", name: "clients.blades.member-list.labels.nPassport"},
-        {searchId: "ContractNumber", name: "clients.blades.member-list.labels.nContract"},
-        {searchId: "EMail", name: "clients.blades.member-list.labels.email"},
-        {searchId: "VehicleNumber", name: "clients.blades.member-list.labels.nCar"}
-    ];
-    blade.currentEntity = {}.searchTypes = {};
 
-
-
-    function deserialize(data){
-        _.each(data, function (dt) {
-            if(dt.PhoneNumber){
-                dt.PhoneNumberString = dt.PhoneNumber.toString().slice(1);
-            }
-        });
-        return data;
-    }
 
     blade.refresh = function (disableOpenAnimation) {
 
         blade.isLoading = true;
+        cars.list({"Id":blade.data.clientId},function(result){
 
-        paramRequest.take= $scope.opts.countClients * $scope.opts.currentPage;
+            blade.allCars = result.Data;
 
-        clients.getList(paramRequest).then(function (results) {
 
-            blade.allClients = deserialize(results);
             blade.isLoading = false;
+        })
 
-            // open previous settings detail blade if possible
-            if ($scope.selectedNodeId) {
-                $scope.selectNode({ groupName: $scope.selectedNodeId },  disableOpenAnimation);
-            }
-        },
-        function(error) {
-             bladeNavigationService.setError('Error ' + error.status, blade);
-        });
     };
 
     $scope.selectNode = function (node, disableOpenAnimation) {
@@ -120,30 +94,17 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
         {
             name: "platform.commands.add", icon: 'fa fa-plus',
             executeMethod: function () {
-                //generateNewApiAccount();
+
                 var newBlade = {
-                    id: 'listItemChild',
-                    title: 'clients.blades.member-add.title',
-                    subtitle: 'clients.blades.member-add.subtitle',
-                    //controller: 'sdl.management.clientCreateController',
-                    controller: 'sdl.management.clientsDetailController',
-                    template: billingTemplatesBase + 'templates/clients/blades/clients-detail.tpl.html'
+                    id: 'listItemCars',
+                    data:{"clientId":blade.data.clientId},
+                    title: 'clients.blades.car-add.title',
+                    controller: 'sdl.management.carDetailCtrl',
+                    template: billingTemplatesBase + 'templates/cars/blades/car-detail.tpl.html'
                 };
-                //bladeNavigationService.showBlade(newBlade, blade);
-                //var newBlade = {
-                //    id: 'clientsSection',
-                //    data: selectedClients,
-                //    title: 'Детали',
-                //    disableOpenAnimation: disableOpenAnimation,
-                //    controller: 'sdl.management.clientsDetailController',
-                //    template: billingTemplatesBase +
-                //    'templates/clients/blades/clients-detail.tpl.html'
-                //};
+
                 bladeNavigationService.showBlade(newBlade, blade);
-                //bladeNavigationService.closeBlade($scope.blade, function () {
-                //    console.log(blade)
-                //    bladeNavigationService.showDetailBlade({}, 'clients.blades.new-member.title');
-                //});
+
             },
             canExecuteMethod: function () {
                 return true;
@@ -154,23 +115,6 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
     //--------------grid------------------
     $scope.uiGridConstants = uiGridHelper.uiGridConstants;
-    //$scope._registerApi = (gridApi) => {
-    //    return (gridApi) => {
-    //        gridApi.infiniteScroll.on.needLoadMoreData($scope, $scope.getDataDown);
-    //        $scope.gridApi = gridApi;
-    //    }
-    //};
-    //
-    //$scope.getDataDown = function(){
-    //    console.log('boom');
-    //    blade.refresh(function(data) {
-    //        blade.isLoading = false;
-    //        $scope.gridApi.infiniteScroll.saveScrollPercentage();
-    //        blade.allClients =  blade.allClients.concat(data);
-    //        $scope.gridApi.infiniteScroll.dataLoaded();
-    //        $scope.pageSettings.totalItems =  $scope.listEntries.length;
-    //    })
-    //};
 
     // ui-grid
     $scope.setGridOptions = function (gridOptions) {

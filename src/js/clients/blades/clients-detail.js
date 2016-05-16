@@ -1,9 +1,10 @@
 ﻿angular.module('sdl.management')
 .controller('sdl.management.clientsDetailController',
     ['$scope', 'sdl.management.dialogService', 'sdl.management.bladeNavigationService', 'sdl.management.settings',
-        'sdl.management.clientsave', 'sdl.management.clientedit',
-        'sdl.management.subjects', 'sdl.management.regions', 'sdl.management.pointsName',
-    function ($scope, dialogService, bladeNavigationService, settings, clients, clientedit, subjectsService, regionsService, pointsNameService) {
+        'sdl.management.clientsave', 'sdl.management.clientedit', 'sdl.management.cars',
+        'sdl.management.subjects', 'sdl.management.regions', 'sdl.management.pointsName', 'billingTemplatesBase',
+    function ($scope, dialogService, bladeNavigationService, settings, clients, clientedit, clientcar, subjectsService,
+              regionsService, pointsNameService, billingTemplatesBase) {
 
         var blade = $scope.blade;
         blade.updatePermission = 'module:client:update';
@@ -28,16 +29,7 @@
                         {"name":"Рабочий поселок"}, {"name":"Село"}, {"name":"Дачный поселок"}, {"name":"Нет"}
                     ];
             }
-        ////get regions
-        //$scope.choseRegion = function(item){
-        //    //$scope.typeofPoints = [
-        //    //    {"name":"Город"}, {"name":"Деревня"}, {"name":"Поселок городского типа"}, {"name":"Поселок"},
-        //    //    {"name":"Сельское поселение"},
-        //    //    {"name":"Рабочий поселок"}, {"name":"Село"}, {"name":"Дачный поселок"}, {"name":"Нет"}
-        //    //];
-        //
-        //
-        //}
+
 
         function deserialize(data){
             if(data.PhoneNumber){
@@ -266,7 +258,6 @@
             name: "platform.commands.reset",
             icon: 'fa fa-eraser',
             executeMethod: function () {
-                //angular.copy(blade.origEntity, blade.currentEntity);
                 blade.currentEntity = angular.copy(blade.origEntity);
             },
             canExecuteMethod: isDirty
@@ -280,7 +271,29 @@
             },
             canExecuteMethod: isDirty,
             permission: blade.updatePermission
+        },
+        {
+            name: "platform.commands.car",
+            icon: 'fa fa-car',
+            executeMethod: () =>{
+                clientcar.list({id:blade.currentEntity.Id},function(data){
+                    console.log(data)
+
+                },function(){
+                    var cars = {
+                        id: 'listItemChild',
+                        data: {clientId:blade.currentEntity.Id},
+                        title: 'clients.blades.car-list.title',
+                        controller: 'sdl.management.carsListCtrl',
+                        template: billingTemplatesBase + 'templates/cars/blades/car-list.tpl.html'
+                    };
+                    bladeNavigationService.showBlade(cars, blade);
+                });
+            },
+            canExecuteMethod: function(){return true},
+            permission: blade.updatePermission
         }
+
     ];
     
     blade.onClose = function (closeCallback) {

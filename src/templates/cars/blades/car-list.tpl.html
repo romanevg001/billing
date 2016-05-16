@@ -1,54 +1,59 @@
 ﻿<div class="blade-static __expanded">
     <va-breadcrumb ng-model="blade.breadcrumbs" blade-id="blade.id"></va-breadcrumb>
-    <div class="blade-inner">
-        <div class="columns searchFields">
-            <div class="column">
-                <div class="form-group">
-                    <div class="form-input __search">
-                        <input placeholder="{{ 'platform.placeholders.search-keyword' | translate }}" ng-model="blade.searchText">
-                        <button class="btn __other" style="position: relative;right: 45px;">
-                            <i class="btn-ico fa fa-remove" title="Очистить"
-                               ng-click="blade.searchText='';"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="column">
-                <div class="form-group">
-                    <div class="form-input">
-                        <ui-select ng-model="blade.currentEntity.searchTypes" on-select="selectSearchType($item)" theme="select2">
-                            <ui-select-match  placeholder="{{'clients.blades.member-list.keywordType' | translate}}">
-                                <span>{{$select.selected.name | translate}}</span>
-                            </ui-select-match>
-                            <ui-select-choices repeat="item in searchTypes">
-                                <span>{{item.name | translate}}</span>
-                            </ui-select-choices>
-                        </ui-select>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--<div class="blade-inner">-->
+        <!--<div class="columns searchFields">-->
+            <!--<div class="column">-->
+                <!--<div class="form-group">-->
+                    <!--<div class="form-input __search">-->
+                        <!--<input placeholder="{{ 'platform.placeholders.search-keyword' | translate }}" ng-model="blade.searchText">-->
+                        <!--<button class="btn __other" style="position: relative;right: 45px;">-->
+                            <!--<i class="btn-ico fa fa-remove" title="Очистить"-->
+                               <!--ng-click="blade.searchText='';"></i>-->
+                        <!--</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="column">-->
+                <!--<div class="form-group">-->
+                    <!--<div class="form-input">-->
+                        <!--<ui-select ng-model="blade.currentEntity.searchTypes" on-select="selectSearchType($item)" theme="select2">-->
+                            <!--<ui-select-match  placeholder="{{'clients.blades.member-list.keywordType' | translate}}">-->
+                                <!--<span>{{$select.selected.name | translate}}</span>-->
+                            <!--</ui-select-match>-->
+                            <!--<ui-select-choices repeat="item in searchTypes">-->
+                                <!--<span>{{item.name | translate}}</span>-->
+                            <!--</ui-select-choices>-->
+                        <!--</ui-select>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 </div>
 <div class="blade-content __medium-wide">
     <div class="blade-inner">
         <div class="inner-block ">
 
-            <!--| filter:blade.searchText | orderBy: 'name'-->
+
             <div class="grid  __items">
 
                 <div class="columns grid-header">
-                    <div class="column sort" ng-class="sortDirect['PhoneNumber']" ng-click="sort('PhoneNumber')">{{'clients.blades.member-list.labels.phone' | translate}} <i class="fa"></i></div>
-                    <div class="column">{{'clients.blades.member-list.labels.name' | translate}}</div>
-                    <div class="column sort" ng-class="sortDirect['LastName']" ng-click="sort('LastName')">{{'clients.blades.member-list.labels.lastName' | translate}} <i class="fa"></i></div>
+                    <div class="column">{{'clients.blades.car-list.labels.color' | translate}}</div>
+                    <div class="column">{{'clients.blades.car-list.labels.IssueYear' | translate}}</div>
+                    <div class="column">{{'clients.blades.car-list.labels.make' | translate}}</div>
+                    <div class="column">{{'clients.blades.car-list.labels.model' | translate}}</div>
+                    <div class="column">{{'clients.blades.car-list.labels.number' | translate}}</div>
+                    <div class="column">{{'clients.blades.car-list.labels.VIN' | translate}}</div>
                 </div>
-                <div class="columns grid-content" ng-repeat="data in blade.allClients"
+                <div class="columns grid-content" ng-repeat="data in blade.allCars"
                     ng-click='selectNode(data)'>
 
-                    <div class="column ">{{data.PhoneNumberString}}</div>
-                    <div class="column ">{{data.FirstName}}</div>
-                    <div class="column">{{data.LastName}}</div>
-
+                    <div class="column ">{{data.Color}}</div>
+                    <div class="column ">{{data.IssueYear}}</div>
+                    <div class="column ">{{data.Make}}</div>
+                    <div class="column">{{data.Model}}</div>
+                    <div class="column">{{data.Number}}</div>
+                    <div class="column">{{data.VIN}}</div>
                 </div>
             </div>
 

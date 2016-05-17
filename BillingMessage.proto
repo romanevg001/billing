@@ -224,3 +224,13 @@ message CreateContract
     // Автопродление контракта
     bool AutoContinuation = 6;
 }
+
+message SignContactMessage
+{
+	Date SignDate = 1;
+}
+
+message CancelContractMessage
+{
+	Date CancelDate = 1;
+}

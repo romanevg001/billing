@@ -1,5 +1,5 @@
-﻿<div class="blade-static __expanded">
-    <va-breadcrumb ng-model="blade.breadcrumbs" blade-id="blade.id"></va-breadcrumb>
+﻿<!--<div class="blade-static">-->
+    <!--<va-breadcrumb ng-model="blade.breadcrumbs" blade-id="blade.id"></va-breadcrumb>-->
     <!--<div class="blade-inner">-->
         <!--<div class="columns searchFields">-->
             <!--<div class="column">-->
@@ -29,7 +29,7 @@
             <!--</div>-->
         <!--</div>-->
     <!--</div>-->
-</div>
+<!--</div>-->
 <div class="blade-content __medium-wide">
     <div class="blade-inner">
         <div class="inner-block ">
@@ -38,20 +38,14 @@
             <div class="grid  __items">
 
                 <div class="columns grid-header">
-                    <div class="column">{{'clients.blades.car-list.labels.color' | translate}}</div>
-                    <div class="column">{{'clients.blades.car-list.labels.IssueYear' | translate}}</div>
-                    <div class="column">{{'clients.blades.car-list.labels.make' | translate}}</div>
-                    <div class="column">{{'clients.blades.car-list.labels.model' | translate}}</div>
+                    <div class="column">{{'clients.blades.car-list.labels.name' | translate}}</div>
                     <div class="column">{{'clients.blades.car-list.labels.number' | translate}}</div>
                     <div class="column">{{'clients.blades.car-list.labels.VIN' | translate}}</div>
                 </div>
                 <div class="columns grid-content" ng-repeat="data in blade.allCars"
                     ng-click='selectNode(data)'>
 
-                    <div class="column ">{{data.Color}}</div>
-                    <div class="column ">{{data.IssueYear}}</div>
-                    <div class="column ">{{data.Make}}</div>
-                    <div class="column">{{data.Model}}</div>
+                    <div class="column ">{{data.Make}} {{data.Model}}</div>
                     <div class="column">{{data.Number}}</div>
                     <div class="column">{{data.VIN}}</div>
                 </div>
@@ -84,7 +78,7 @@
                 <!--</ul>-->
             <!--</div>-->
 
-            <a class="addMore"  ng-hide="blade.allClients.length < opts.countClients*opts.currentPage"
+            <a class="addMore"  ng-hide="blade.allCars.length < opts.countCars*opts.currentPage"
                     class="load-more button-secondary" ng-click="loadMore()">
                 Загрузить еще...
             </a>

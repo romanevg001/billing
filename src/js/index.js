@@ -86,8 +86,8 @@ import "./../../node_modules/angular-bootstrap/ui-bootstrap-tpls"
 
 
     app.config([
-        '$stateProvider', '$translateProvider', '$httpProvider','jwtInterceptorProvider', '$urlRouterProvider','$domainProvider',
-        function ($stateProvider, $translateProvider, $httpProvider, jwtInterceptorProvider, $urlRouterProvider, $domainProvider) {
+        '$stateProvider', '$translateProvider', '$httpProvider','jwtInterceptorProvider', '$urlRouterProvider','$domainProvider', 'uiSelectConfig',
+        function ($stateProvider, $translateProvider, $httpProvider, jwtInterceptorProvider, $urlRouterProvider, $domainProvider, uiSelectConfig) {
 
             jwtInterceptorProvider.tokenGetter = [function () {
                 return $domainProvider.getDomain().access_token.get();
@@ -124,6 +124,12 @@ import "./../../node_modules/angular-bootstrap/ui-bootstrap-tpls"
 
             //Add interceptor
             $httpProvider.interceptors.push('sdl.management.httpErrorInterceptor');
+
+            //ui-select set selectize as default theme
+            uiSelectConfig.theme = 'select2';
+            uiSelectConfig.searchEnabled = false;
+
+
             $urlRouterProvider.otherwise('/workspace');
         }
     ]);

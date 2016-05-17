@@ -58,6 +58,7 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
     $scope.selectNode = function (node, disableOpenAnimation) {
         bladeNavigationService.closeChildrenBlades(blade, function(){
+            console.log('clientList',node);
             $scope.selectedNodeId = node.groupName;
             if (node.children) {
                 blade.searchText = null;

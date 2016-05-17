@@ -1,10 +1,10 @@
 ﻿angular.module('sdl.management')
 .controller('sdl.management.carDetailCtrl',
-    ['$scope', 'sdl.management.dialogService', 'sdl.management.bladeNavigationService', 'sdl.management.settings',
-        'sdl.management.carsave',  'sdl.management.cars', 'sdl.management.colors', 'sdl.management.makes', 'sdl.management.models',
+    ['$scope', '$interval', 'sdl.management.dialogService', 'sdl.management.bladeNavigationService', 'sdl.management.settings',
+        'sdl.management.carsave',  'sdl.management.caredit', 'sdl.management.cars', 'sdl.management.colors', 'sdl.management.makes', 'sdl.management.models',
         'billingTemplatesBase',
-    function ($scope, dialogService, bladeNavigationService, settings,
-              carsave,  clientcar, colorsService, makesService, modelsService,
+    function ($scope, $interval, dialogService, bladeNavigationService, settings,
+              carsave,  caredit, clientcar, colorsService, makesService, modelsService,
               billingTemplatesBase) {
 
         var blade = $scope.blade;
@@ -33,36 +33,52 @@ console.log('blade car', blade);
         });
     //get model car
         modelsService.list({}, function (data) {
-
             $scope.models = data.model;
         });
 
 
-        function deserialize(data){
-            if(data.PhoneNumber){
-                data.PhoneNumber = data.PhoneNumber.toString().slice(1);
-            }
-            if(data.Passport){
+        let deserialize = (data) =>{
 
-                data.Passport.IssueDate = new Date(data.Passport.IssueDate.Month+'.'+data.Passport.IssueDate.Day+ "."+data.Passport.IssueDate.Year);
-
-                function fieldsAddressToJson(fields){
-                    let field = ["CityName","Region","Subject"];
-
-                    for (let i in field){
-                        fields[field[i]] = fields[field[i]] ? {"name": fields[field[i]]} : '';
+            let checkLoadBase = (baseList, callback) => {
+                let keyInterval = $interval(function(){  // check load the base
+                    //console.log('baseList = ',$scope)
+                    if ($scope[baseList] != undefined) {
+                        callback();
+                        //$scope.$apply(function () {  });
+                        $interval.cancel(keyInterval);
                     }
-                }
-                if(data.Passport.Address){
-                    fieldsAddressToJson(data.Passport.Address)
-
-                }
-                if(data.PostAddress){
-                    fieldsAddressToJson(data.PostAddress)
-                }
-
+                },500);
+                console.log(keyInterval)
             }
-            console.log('deserialize',data)
+
+            let fieldsToJson = (fVal, baseList) => {
+                return _.find(baseList, function(o) { return (o.name == fVal) ? angular.copy(o) : null; });
+                //= _.find($scope.colors, function(o) { return (o.name == data.Color) ? o : null; });
+            };
+
+            if(data.Color){
+                checkLoadBase('colors',()=>{
+                    data.Color = fieldsToJson(data.Color,$scope.colors);
+                })
+            }
+            if(data.IssueYear){
+                checkLoadBase('IssueYears',()=>{
+                    data.IssueYear = fieldsToJson(data.IssueYear,$scope.IssueYears);
+                })
+            }
+            if(data.Make){
+                checkLoadBase('makes',()=>{
+                    data.Make = fieldsToJson(data.Make,$scope.makes);
+                })
+            }
+            if(data.Model){
+                checkLoadBase('models',()=>{
+                    data.Model = fieldsToJson(data.Model,$scope.models);
+                })
+            }
+
+
+
             return data;
         }
 
@@ -79,8 +95,9 @@ console.log('blade car', blade);
 
 
             //}
+             initializeBlade(angular.copy(blade.data));
         }
-        initializeBlade(angular.copy(blade.data));
+
 
         function initializeBlade(results) {
            // settings.fixValues(results);
@@ -91,15 +108,21 @@ console.log('blade car', blade);
                 blade.currentEntity = {};
                 blade.origEntity = {};
             }else{ // edit
-                deserialize(results);
-                blade.currentEntity = angular.copy(results);
-                blade.origEntity = results;
+
+
+                blade.currentEntity = deserialize(angular.copy(results));
+                blade.origEntity = deserialize(results);
+
+                console.log('blade.currentEntity IN',blade.currentEntity);
             }
+            console.log('blade.currentEntity',blade.currentEntity);
         }
+
+        console.log('blade N',blade);
 
 
         var formScope = {};
-        $scope.setForm = function (form) { formScope = form; };
+        $scope.setForm = function (form) { formScope = form;};
 
         function isDirty() {
             return !angular.equals(blade.currentEntity, blade.origEntity) && blade.hasUpdatePermission();
@@ -108,7 +131,6 @@ console.log('blade car', blade);
         function canSave() {
             return isDirty() && formScope && formScope.$valid;
         }
-
 
         function serialize (entities){
 
@@ -131,93 +153,130 @@ console.log('blade car', blade);
     }
 
         function saveChanges() {
-        blade.isLoading = true;
 
-        let currentEntities = serialize(angular.copy(blade.currentEntity));
+            blade.isLoading = true;
+            console.log('blade.currentEntity',blade.currentEntity);
+            let currentEntities = serialize(angular.copy(blade.currentEntity));
+            console.log('currentEntities=',currentEntities);
+            if(currentEntities.Id){ // edit exited
+                caredit.list(currentEntities, function(data){
+                    blade.isLoading = false;
+                    blade.error = '';
+                    blade.origEntity = blade.currentEntity;
+                    blade.parentBlade.refresh(true);
+                    closeBlade();
+                },function(err){
+                    blade.isLoading = false;
+                    console.log(err.data)
+                    blade.error = (err.data)?err.data[Object.keys( err.data )[0]][0]:'';
+                });
+            }else{// add new
 
-        if(currentEntities.Id){ // edit exited
-            carsave.list(currentEntities, function(data){
-                blade.isLoading = false;
-                blade.error = '';
-                blade.origEntity = blade.currentEntity;
-                blade.parentBlade.refresh(true);
-                closeBlade();
-            },function(err){
-                blade.isLoading = false;
-                console.log(err.data)
-                blade.error = (err.data)?err.data[Object.keys( err.data )[0]][0]:'';
+                carsave.list(currentEntities, function(data){
+                    blade.isLoading = false;
+                    blade.error = '';
+                    blade.origEntity = blade.currentEntity;
+                    blade.parentBlade.refresh(true);
+                    closeBlade();
+                },function(err){
+                    blade.isLoading = false;
+                    blade.error = (err.data)?err.data[Object.keys( err.data )[0]][0]:'';
+                });
+            }
+
+        };
+
+        let closeBlade = function(){
+            bladeNavigationService.closeBlade(blade, '', function () {
+                let blade = $('.blade:last', $('.cnt'));
+                blade.addClass('__animate').animate({ 'margin-left': '-' + blade.width() + 'px' }, 145, function () {
+                    blade.remove();
+                });
             });
-        }else{// add new
-            console.log('add new')
-            console.log('add new',currentEntities)
-            carsave.list(currentEntities, function(data){
-                blade.isLoading = false;
-                blade.error = '';
-                blade.origEntity = blade.currentEntity;
-                blade.parentBlade.refresh(true);
-                closeBlade();
-            },function(err){
-                blade.isLoading = false;
-                blade.error = (err.data)?err.data[Object.keys( err.data )[0]][0]:'';
-            });
-        }
+        };
 
-    };
-
-    let closeBlade = function(){
-        bladeNavigationService.closeBlade(blade, '', function () {
-            let blade = $('.blade:last', $('.cnt'));
-            blade.addClass('__animate').animate({ 'margin-left': '-' + blade.width() + 'px' }, 145, function () {
-                blade.remove();
-            });
-        });
-    };
-
-    blade.headIcon = 'fa-wrench';
-    blade.toolbarCommands = [
-        {
-            name: "platform.commands.save",
-            icon: 'fa fa-save',
-            executeMethod: saveChanges,
-            canExecuteMethod: canSave //function(){return true}
-        },
-        {
-            name: "platform.commands.reset",
-            icon: 'fa fa-eraser',
-            executeMethod: function () {
-                blade.currentEntity = angular.copy(blade.origEntity);
+        blade.headIcon = 'fa-wrench';
+        blade.toolbarCommands = [
+            {
+                name: "platform.commands.save",
+                icon: 'fa fa-save',
+                executeMethod: saveChanges,
+                canExecuteMethod: canSave //function(){return true}
             },
-            canExecuteMethod: isDirty
-        },
-        {
-            name: "platform.commands.undo",
-            icon: 'fa fa-undo',
-            executeMethod: () =>{
-                angular.copy(blade.origEntity, blade.currentEntity);
-                closeBlade();
+            {
+                name: "platform.commands.reset",
+                icon: 'fa fa-eraser',
+                executeMethod: function () {
+                    blade.currentEntity = angular.copy(blade.origEntity);
+                },
+                canExecuteMethod: isDirty
             },
-            canExecuteMethod: isDirty,
-            permission: blade.updatePermission
-        },
-        {
-            name: "platform.commands.remove",
-            icon: 'fa fa-trash-o',
-            executeMethod: () =>{
-
+            {
+                name: "platform.commands.undo",
+                icon: 'fa fa-undo',
+                executeMethod: () =>{
+                    angular.copy(blade.origEntity, blade.currentEntity);
+                    closeBlade();
+                },
+                canExecuteMethod: isDirty,
+                permission: blade.updatePermission
             },
-            canExecuteMethod: function(){ return (blade.origEntity)? true : false;},
-            permission: blade.updatePermission
-        }
+            {
+                name: "platform.commands.remove",
+                icon: 'fa fa-trash-o',
+                executeMethod: () =>{
 
-    ];
+                },
+                canExecuteMethod: function(){ return (blade.origEntity)? true : false;},
+                permission: blade.updatePermission
+            }
+
+        ];
     
-    blade.onClose = function (closeCallback) {
-        bladeNavigationService.showConfirmationIfNeeded(isDirty(), canSave(), blade, saveChanges, closeCallback, "platform.dialogs.settings-delete.title", "platform.dialogs.settings-delete.message");
-    };
+        blade.onClose = function (closeCallback) {
+            bladeNavigationService.showConfirmationIfNeeded(isDirty(), canSave(), blade, saveChanges, closeCallback, "platform.dialogs.settings-delete.title", "platform.dialogs.settings-delete.message");
+        };
 
+
+        $scope.refreshResults = function($select){
+            console.log('add new one ->',$select)
+
+            var search = $select.search,
+                list = angular.copy($select.items),
+                FLAG = -1;
+
+            //remove last user input
+            list = list.filter(function(item) {
+                return item.id !== FLAG;
+            });
+
+            if (!search) {
+                //use the predefined list
+                $select.items = list;
+            }
+            else {
+                //manually add user input and set selection
+                var userInputItem = {
+                    id: FLAG,
+                    name: search
+                };
+                $select.items = [userInputItem].concat(list);
+                $select.selected = userInputItem;
+            }
+        }
+
+        $scope.clear = function ($event, $select){
+            $event.stopPropagation();
+            //to allow empty field, in order to force a selection remove the following line
+            $select.selected = undefined;
+            //reset search query
+            $select.search = undefined;
+            //focus and open dropdown
+            $select.activate();
+        }
     //$scope.getDictionaryValues = function (setting, callback) {
     //    callback(setting.allowedValues);
     //}
-
+        blade.refresh();
 
 }]);

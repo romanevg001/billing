@@ -75,7 +75,8 @@
         "title": "Автомобили",
         "labels": {
           "color": "Цвет",
-          "IssueYear":"Год Выпуска",
+          "IssueYear":"Год выпуска",
+          "name": "Авто",
           "make": "Марка",
           "model": "Модель",
           "number": "Номер",
@@ -88,11 +89,12 @@
         "subtitle":""
       },
       "car-detail":{
-        "title": "Детали",
+        "title": "Детали авто",
         "subtitle": "",
         "labels": {
             "color": "Цвет",
             "IssueYear":"Год Выпуска",
+
             "make": "Марка",
             "model": "Модель",
             "number": "Номер",

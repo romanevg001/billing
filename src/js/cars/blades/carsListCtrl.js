@@ -10,17 +10,19 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
     blade.isLoading = false;
     $scope.opts = {
         currentPage: 1,
-        countClients: 10
+        countCars: 10
     };
 
     var paramRequest = {};
 
-
-
     blade.refresh = function (disableOpenAnimation) {
 
         blade.isLoading = true;
-        cars.list({"Id":blade.data.clientId},function(result){
+
+        paramRequest.take = $scope.opts.countCars * $scope.opts.currentPage;
+        paramRequest.Id = blade.data.clientId;
+
+        cars.list(paramRequest,function(result){
 
             blade.allCars = result.Data;
 
@@ -32,26 +34,31 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
     $scope.selectNode = function (node, disableOpenAnimation) {
         bladeNavigationService.closeChildrenBlades(blade, function(){
-            $scope.selectedNodeId = node.groupName;
-            if (node.children) {
-                blade.searchText = null;
-                $scope.blade.currentEntities = node.children;
-                setBreadcrumbs(node);
-            } else {
-                var selectedClients = _.where(blade.allClients, { Id: node.Id });
 
-            //    console.log(selectedClients[0])
+            //$scope.selectedNodeId = node.groupName;
+            //
+            //console.log(node);
+            //
+            //if (node.children) {
+            //    //blade.searchText = null;
+            //    $scope.blade.currentEntities = node.children;
+            //    setBreadcrumbs(node);
+            //
+            //} else {
+                var selectedCars = _.where(blade.allCars, { Id: node.Id })[0];
+                    selectedCars.clientId = blade.data.clientId;
+            console.log('selectedCars===>',selectedCars)
                 var newBlade = {
-                    id: 'clientsSection',
-                    data: selectedClients[0],
-                    title: 'clients.blades.member-detail.title',
+                    id: 'carsSection',
+                    data: selectedCars,
+                    title: 'clients.blades.car-detail.title',
                     disableOpenAnimation: disableOpenAnimation,
-                    controller: 'sdl.management.clientsDetailController',
-                    template: billingTemplatesBase + 'templates/clients/blades/clients-detail.tpl.html'
+                    controller: 'sdl.management.carDetailCtrl',
+                    template: billingTemplatesBase + 'templates/cars/blades/car-detail.tpl.html'
                 };
 
                 bladeNavigationService.showBlade(newBlade, blade);
-            }
+            //}
         });
     };
 
@@ -129,67 +136,67 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
         blade.refresh(function(data) {
             blade.isLoading = false;
-            $scope.gridApi.infiniteScroll.saveScrollPercentage();
-            blade.allClients =  blade.allClients.concat(data);
-            $scope.gridApi.infiniteScroll.dataLoaded();
-            $scope.pageSettings.totalItems =  $scope.listEntries.length;
+            //$scope.gridApi.infiniteScroll.saveScrollPercentage();
+            blade.allCars =  blade.allCars.concat(data);
+            //$scope.gridApi.infiniteScroll.dataLoaded();
+            //$scope.pageSettings.totalItems =  $scope.listEntries.length;
         })
     };
 
-    $scope.$watch('blade.searchText', function (newVal) {
-        if (newVal) {
-            if(blade.currentEntity.searchTypes){
-                paramRequest[blade.currentEntity.searchTypes.searchId] = newVal;
-            }else{
-                paramRequest.keyword = newVal;
-            }
+    //$scope.$watch('blade.searchText', function (newVal) {
+    //    if (newVal) {
+    //        if(blade.currentEntity.searchTypes){
+    //            paramRequest[blade.currentEntity.searchTypes.searchId] = newVal;
+    //        }else{
+    //            paramRequest.keyword = newVal;
+    //        }
+    //
+    //        blade.refresh(function(data) {
+    //            blade.isLoading = false;
+    //            blade.allClients =  data;
+    //        });
+    //        //$scope.blade.currentEntities = settingsTree;
+    //        //setBreadcrumbs({ groupName: null });
+    //    }
+    //});
 
-            blade.refresh(function(data) {
-                blade.isLoading = false;
-                blade.allClients =  data;
-            });
-            //$scope.blade.currentEntities = settingsTree;
-            //setBreadcrumbs({ groupName: null });
-        }
-    });
+    //$scope.selectSearchType = function(item){
+    //    paramRequest = {};
+    //    if(blade.searchText) {
+    //        paramRequest[item.searchId] = blade.searchText;
+    //
+    //        blade.refresh(function (data) {
+    //            blade.isLoading = false;
+    //            blade.allClients = data;
+    //        });
+    //    }else{
+    //        return false;
+    //    }
+    //};
 
-    $scope.selectSearchType = function(item){
-        paramRequest = {};
-        if(blade.searchText) {
-            paramRequest[item.searchId] = blade.searchText;
-
-            blade.refresh(function (data) {
-                blade.isLoading = false;
-                blade.allClients = data;
-            });
-        }else{
-            return false;
-        }
-    };
-
-    $scope.sort= function sort (column) {
-
-        if(!$scope.sortDirect) $scope.sortDirect={};
-
-        if(sort[column] == 'desc'){
-            paramRequest.sort = '-'+column;
-            $scope.sortDirect[column] = 'desc';
-
-            sort[column] = 'asc';
-        }else{
-            paramRequest.sort = column;
-            $scope.sortDirect[column] = 'asc';
-
-            sort[column] = 'desc';
-        }
-
-
-
-        blade.refresh(function(data) {
-            blade.isLoading = false;
-            blade.allClients =  data;
-        })
-    };
+    //$scope.sort= function sort (column) {
+    //
+    //    if(!$scope.sortDirect) $scope.sortDirect={};
+    //
+    //    if(sort[column] == 'desc'){
+    //        paramRequest.sort = '-'+column;
+    //        $scope.sortDirect[column] = 'desc';
+    //
+    //        sort[column] = 'asc';
+    //    }else{
+    //        paramRequest.sort = column;
+    //        $scope.sortDirect[column] = 'asc';
+    //
+    //        sort[column] = 'desc';
+    //    }
+    //
+    //
+    //
+    //    blade.refresh(function(data) {
+    //        blade.isLoading = false;
+    //        blade.allClients =  data;
+    //    })
+    //};
 
     // actions on load
     blade.refresh();

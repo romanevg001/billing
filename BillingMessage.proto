@@ -234,3 +234,47 @@ message CancelContractMessage
 {
 	Date CancelDate = 1;
 }
+
+message Contract 
+{
+    /// Машина для этого договора
+    Vehicle Vehicle = 1;
+
+    /// Клиент для этого договора
+    Client Client = 2;
+
+    /// Дата начала договора
+    Date BeginDate = 3;
+
+    /// Дата подписания контракта
+    Date SignedDate = 4;
+
+    /// Дата прекращения контракта
+    Date CancelDate = 5;
+
+    /// Смещение UTC для этого договора
+    int32 UtcOffsetHours = 6;
+
+    /// Разрешение на получение информационных сообщений
+    bool AllowInfoMessages = 7;
+
+    /// Автопродление контракта
+    bool AutoContinuation = 8;
+
+	//Номер контракта
+	string ConractNumber = 9;
+
+	//продукт для этого контракта
+	Product Product = 10;		
+
+	//Оплачен до
+	Date PaidTo = 11;
+
+	//можно бесплатно использовать до
+	Date CanUseTo = 12;
+}
+
+message ContractsCollectionMessage
+{
+	repeated Contract Data = 1;
+}

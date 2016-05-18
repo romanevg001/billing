@@ -27,6 +27,12 @@ import "./cars/resources/cars"
 import "./cars/blades/carsListCtrl"
 import "./cars/blades/car-detail"
 
+import "./contracts/resources/contracts"
+import "./contracts/blades/contractsListCtrl"
+import "./contracts/blades/contract-detail"
+
+
+
 
 import "./security/auth";
 import "./security/loginToolbar";

@@ -39,7 +39,7 @@
                       var encodedClients =  new messaging.Client(data);
 
                       let buff = encodedClients.toArrayBuffer();			
-			return buff;
+			            return buff;
                   }
               }); 
 
@@ -73,6 +73,7 @@
               templateUrl: billingTemplatesBase + 'templates/clients/clients.tpl.html',
               controller: ['$scope', 'sdl.management.bladeNavigationService',
                   function ($scope, bladeNavigationService) {
+
                       var blade = {
                           id: 'clients',
                           title: 'modules.blades.clients.title',
@@ -84,7 +85,30 @@
                       };
                   bladeNavigationService.showBlade(blade);
               }]
+          })
+          .state('workspace.modulesClient', {
+              url: '/clients/:id',
+              templateUrl: billingTemplatesBase + 'templates/clients/blades/clients-detail.tpl.html',
+              controller: ['$scope', 'sdl.management.bladeNavigationService', '$stateParams', '$localStorage',
+                  function ($scope, bladeNavigationService,  $stateParams, $localStorage) {
+
+
+
+                      console.log(bladeNavigationService)
+                      let blade = $localStorage["clients_blade"];
+                      var selectedClient = _.where(blade.allClients, { Id: $stateParams.id })[0];
+                      var newBlade = {
+                          id: 'clientsSection',
+                          data: selectedClient,
+                          title: 'clients.blades.member-detail.title',
+                          controller: 'sdl.management.clientsDetailController',
+                          template: billingTemplatesBase + 'templates/clients/blades/clients-detail.tpl.html'
+                      };
+
+                      bladeNavigationService.showBlade(newBlade,blade);
+                  }]
           });
+      ;
   }]
 )
 .run(

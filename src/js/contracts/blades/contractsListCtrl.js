@@ -1,16 +1,16 @@
 ﻿angular.module('sdl.management')
-.controller('sdl.management.carsListCtrl',
+.controller('sdl.management.contractsListCtrl',
     ['$injector', '$scope', 'sdl.management.clients', 'sdl.management.bladeNavigationService', 'billingTemplatesBase',
-        'sdl.management.bladeUtils', 'sdl.management.uiGridHelper', 'sdl.management.cars',
+        'sdl.management.bladeUtils', 'sdl.management.uiGridHelper', 'sdl.management.contracts',
 function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesBase,
-          bladeUtils, uiGridHelper, cars) {
+          bladeUtils, uiGridHelper, contracts) {
     var settingsTree;
     var blade = $scope.blade;
 
     blade.isLoading = false;
     $scope.opts = {
         currentPage: 1,
-        countCars: 10
+        countContracts: 10
     };
 
     var paramRequest = {};
@@ -19,11 +19,11 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
         blade.isLoading = true;
 
-        paramRequest.take = $scope.opts.countCars * $scope.opts.currentPage;
+        paramRequest.take = $scope.opts.countContracts * $scope.opts.currentPage;
         paramRequest.Id = blade.data.clientId;
 
-        cars.list(paramRequest,function(result){
-            blade.allCars = result.Data;
+        contracts.list(paramRequest,function(result){
+            blade.allContracts = result.Data;
             blade.isLoading = false;
         })
 
@@ -32,19 +32,20 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
     $scope.selectNode = function (node, disableOpenAnimation) {
         bladeNavigationService.closeChildrenBlades(blade, function(){
 
-            var selectedCars = _.where(blade.allCars, { Id: node.Id })[0];
-                selectedCars.clientId = blade.data.clientId;
 
-            var newBlade = {
-                id: 'carsSection',
-                data: selectedCars,
-                title: 'clients.blades.car-detail.title',
-                disableOpenAnimation: disableOpenAnimation,
-                controller: 'sdl.management.carDetailCtrl',
-                template: billingTemplatesBase + 'templates/cars/blades/car-detail.tpl.html'
-            };
+                var selectedContracts = _.where(blade.allContracts, { Id: node.Id })[0];
+                    selectedContracts.clientId = blade.data.clientId;
+            
+                var newBlade = {
+                    id: 'contractsSection',
+                    data: selectedContracts,
+                    title: 'clients.blades.contract-detail.title',
+                    disableOpenAnimation: disableOpenAnimation,
+                    controller: 'sdl.management.contractDetailCtrl',
+                    template: billingTemplatesBase + 'templates/contracts/blades/contract-detail.tpl.html'
+                };
 
-            bladeNavigationService.showBlade(newBlade, blade);
+                bladeNavigationService.showBlade(newBlade, blade);
 
         });
     };
@@ -82,7 +83,7 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
         }
     }];
 
-    blade.headIcon = 'fa-car';
+    blade.headIcon = 'fa-file-o';
 
     blade.toolbarCommands = [
         {
@@ -90,11 +91,11 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
             executeMethod: function () {
 
                 var newBlade = {
-                    id: 'listItemCars',
+                    id: 'listItemContracts',
                     data:{"clientId":blade.data.clientId},
-                    title: 'clients.blades.car-add.title',
-                    controller: 'sdl.management.carDetailCtrl',
-                    template: billingTemplatesBase + 'templates/cars/blades/car-detail.tpl.html'
+                    title: 'clients.blades.contract-add.title',
+                    controller: 'sdl.management.contractDetailCtrl',
+                    template: billingTemplatesBase + 'templates/contracts/blades/contract-detail.tpl.html'
                 };
 
                 bladeNavigationService.showBlade(newBlade, blade);
@@ -117,15 +118,16 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
     //    });
     //    bladeUtils.initializePagination($scope);
     //};
+
     ///////\grid
     $scope.loadMore = function(){
         $scope.opts.currentPage += 1;
-
         blade.refresh(function(data) {
             blade.isLoading = false;
-            blade.allCars =  blade.allCars.concat(data);
+            blade.allContracts =  blade.allContracts.concat(data);
         })
     };
+
 
     // actions on load
     blade.refresh();

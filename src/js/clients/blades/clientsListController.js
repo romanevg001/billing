@@ -1,8 +1,8 @@
 ﻿angular.module('sdl.management')
 .controller('sdl.management.clientsListController',
     ['$injector', '$scope', 'sdl.management.clients', 'sdl.management.bladeNavigationService', 'billingTemplatesBase',
-        'sdl.management.bladeUtils', 'sdl.management.uiGridHelper',
-function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesBase, bladeUtils, uiGridHelper) {
+        'sdl.management.bladeUtils', 'sdl.management.uiGridHelper', '$localStorage',
+function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesBase, bladeUtils, uiGridHelper, $localStorage) {
     var settingsTree;
     var blade = $scope.blade;
 
@@ -58,19 +58,17 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
     $scope.selectNode = function (node, disableOpenAnimation) {
         bladeNavigationService.closeChildrenBlades(blade, function(){
-            console.log('clientList',node);
-            $scope.selectedNodeId = node.groupName;
-            if (node.children) {
-                blade.searchText = null;
-                $scope.blade.currentEntities = node.children;
-                setBreadcrumbs(node);
-            } else {
-                var selectedClients = _.where(blade.allClients, { Id: node.Id });
 
-            //    console.log(selectedClients[0])
+                let clientId = node.Id;
+                var selectedClient = _.where(blade.allClients, { Id: clientId })[0];
+console.log('blade=',blade);
+
+                $localStorage["clients_" + clientId]  = selectedClient;
+
+
                 var newBlade = {
                     id: 'clientsSection',
-                    data: selectedClients[0],
+                    data: selectedClient,
                     title: 'clients.blades.member-detail.title',
                     disableOpenAnimation: disableOpenAnimation,
                     controller: 'sdl.management.clientsDetailController',
@@ -78,7 +76,7 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
                 };
 
                 bladeNavigationService.showBlade(newBlade, blade);
-            }
+
         });
     };
 
@@ -154,32 +152,15 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
     ];
 
     //--------------grid------------------
-    $scope.uiGridConstants = uiGridHelper.uiGridConstants;
-    //$scope._registerApi = (gridApi) => {
-    //    return (gridApi) => {
-    //        gridApi.infiniteScroll.on.needLoadMoreData($scope, $scope.getDataDown);
-    //        $scope.gridApi = gridApi;
-    //    }
-    //};
+    //$scope.uiGridConstants = uiGridHelper.uiGridConstants;
     //
-    //$scope.getDataDown = function(){
-    //    console.log('boom');
-    //    blade.refresh(function(data) {
-    //        blade.isLoading = false;
-    //        $scope.gridApi.infiniteScroll.saveScrollPercentage();
-    //        blade.allClients =  blade.allClients.concat(data);
-    //        $scope.gridApi.infiniteScroll.dataLoaded();
-    //        $scope.pageSettings.totalItems =  $scope.listEntries.length;
-    //    })
+    //// ui-grid
+    //$scope.setGridOptions = function (gridOptions) {
+    //    uiGridHelper.initialize($scope, gridOptions, function (gridApi) {
+    //        uiGridHelper.bindRefreshOnSortChanged($scope);
+    //    });
+    //    bladeUtils.initializePagination($scope);
     //};
-
-    // ui-grid
-    $scope.setGridOptions = function (gridOptions) {
-        uiGridHelper.initialize($scope, gridOptions, function (gridApi) {
-            uiGridHelper.bindRefreshOnSortChanged($scope);
-        });
-        bladeUtils.initializePagination($scope);
-    };
     ///////\grid
     $scope.loadMore = function(){
         $scope.opts.currentPage += 1;

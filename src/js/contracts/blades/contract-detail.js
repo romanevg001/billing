@@ -1,40 +1,54 @@
 ﻿angular.module('sdl.management')
-.controller('sdl.management.carDetailCtrl',
+.controller('sdl.management.contractDetailCtrl',
     ['$scope', '$interval', 'sdl.management.dialogService', 'sdl.management.bladeNavigationService', 'sdl.management.settings',
-        'sdl.management.carsave',  'sdl.management.caredit', 'sdl.management.cardelete', 'sdl.management.cars', 'sdl.management.colors', 'sdl.management.makes', 'sdl.management.models',
-        'billingTemplatesBase',
+        'sdl.management.contractsave',  'sdl.management.contractedit', 'sdl.management.contractdelete', 'sdl.management.contracts',
+        'sdl.management.timezone', 'sdl.management.AbonType', 'sdl.management.Products',
+        'sdl.management.cars', 'billingTemplatesBase',
     function ($scope, $interval, dialogService, bladeNavigationService, settings,
-              carsave,  caredit, cardelete, clientcar, colorsService, makesService, modelsService,
-              billingTemplatesBase) {
+              contractsave,  contractedit, contractdelete, clientcontract, timezoneService, AbonTypeService, ProductsService,
+              carsService, billingTemplatesBase) {
 
         var blade = $scope.blade;
         blade.updatePermission = 'module:client:update';
 
         blade.isLoading = false;
-console.log('blade car', blade);
 
-    // get color car
-        colorsService.list({}, function (data) {
-            $scope.colors = data.colors;
+    // get timezone
+        timezoneService.list({}, function (data) {
+            $scope.UtcOffsetHours = data.timezone;
         });
-    // yaers
-        $scope.IssueYears = [];
-        {
-            let startYear = (new Date()).getFullYear();
-            let endYear = 1892;
-            for(let i=startYear; endYear < i; i--){
-                $scope.IssueYears.push({"name": i});
-            }
+
+    //// yaers
+    //    $scope.IssueYears = [];
+    //    {
+    //        let startYear = (new Date()).getFullYear();
+    //        let endYear = 1892;
+    //        for(let i=startYear; endYear < i; i--){
+    //            $scope.IssueYears.push({"name": i});
+    //        }
+    //    }
+    //
+
+
+        //get cars
+        carsService.list({"Id": blade.data.clientId}, function (res) {
+            $scope.cars = res.Data;
+        });
+     //get AbonType
+        AbonTypeService.list({}, function (res) {
+            $scope.AbonTypes = res.Data;
+        });
+    ////get products
+        $scope.getProductList = function(node){
+            $scope.products = [];
+            blade.currentEntity.Product = '';
+            ProductsService.list({"abontypeId": node.selected.Id}, function (res) {
+                $scope.products = res.Data;
+            });
         }
 
-     //get marka car
-        makesService.list({}, function (data) {
-            $scope.makes = data.marka;
-        });
-    //get model car
-        modelsService.list({}, function (data) {
-            $scope.models = data.model;
-        });
+
+
 
         let deserialize = (data) =>{
 
@@ -51,9 +65,7 @@ console.log('blade car', blade);
             }
 
             let fieldsToJson = (fVal, baseList) => {
-
                  let choseItemOfSelect = _.find(baseList, function(o) { return (o.name == fVal) ? angular.copy(o) : null; });
-
                 return (choseItemOfSelect === null) ? fVal : choseItemOfSelect
                 //= _.find($scope.colors, function(o) { return (o.name == data.Color) ? o : null; });
             };
@@ -63,21 +75,21 @@ console.log('blade car', blade);
                     data.Color = fieldsToJson(data.Color,$scope.colors);
                 })
             }
-            if(data.IssueYear){
-                checkLoadBase('IssueYears',()=>{
-                    data.IssueYear = fieldsToJson(data.IssueYear,$scope.IssueYears);
-                })
-            }
-            if(data.Make){
-                checkLoadBase('makes',()=>{
-                    data.Make = fieldsToJson(data.Make,$scope.makes);
-                })
-            }
-            if(data.Model){
-                checkLoadBase('models',()=>{
-                    data.Model = fieldsToJson(data.Model,$scope.models);
-                })
-            }
+            //if(data.IssueYear){
+            //    checkLoadBase('IssueYears',()=>{
+            //        data.IssueYear = fieldsToJson(data.IssueYear,$scope.IssueYears);
+            //    })
+            //}
+            //if(data.Make){
+            //    checkLoadBase('makes',()=>{
+            //        data.Make = fieldsToJson(data.Make,$scope.makes);
+            //    })
+            //}
+            //if(data.Model){
+            //    checkLoadBase('models',()=>{
+            //        data.Model = fieldsToJson(data.Model,$scope.models);
+            //    })
+            //}
 
 
 
@@ -85,18 +97,6 @@ console.log('blade car', blade);
         }
 
         blade.refresh = function () {
-            //console.log('blade.moduleId=',blade.moduleId)
-            //if (blade.moduleId) {
-            //    blade.isLoading = true;
-            //
-            //    settings.getSettings({ id: blade.moduleId }, initializeBlade,
-            //    function (error) {
-            //        bladeNavigationService.setError('Error ' + error.status, blade);
-            //    });
-            //} else {
-
-
-            //}
              initializeBlade(angular.copy(blade.data));
         }
 
@@ -109,14 +109,9 @@ console.log('blade car', blade);
                 blade.currentEntity = {};
                 blade.origEntity = {};
             }else{ // edit
-
-
                 blade.currentEntity = deserialize(angular.copy(results));
                 blade.origEntity = deserialize(results);
-
-                console.log('blade.currentEntity IN',blade.currentEntity);
             }
-            console.log('blade.currentEntity',blade.currentEntity);
         }
 
 
@@ -132,33 +127,30 @@ console.log('blade car', blade);
         }
 
         function serialize (entities){
-
             let currentEntities = serialize_select (entities);
-
             return currentEntities;
         }
-        function serialize_select (entities){
-        for (let pr in entities) {
-            if(typeof entities[pr] === 'object'){
 
-                if(entities[pr] && (entities[pr].name != undefined)){
-                    entities[pr] = entities[pr].name;
-                }else{
-                    entities[pr] = serialize_select (entities[pr])
+        function serialize_select (entities){
+            for (let pr in entities) {
+                if(typeof entities[pr] === 'object'){
+
+                    if(entities[pr] && (entities[pr].name != undefined)){
+                        entities[pr] = entities[pr].name;
+                    }else{
+                        entities[pr] = serialize_select (entities[pr])
+                    }
                 }
             }
+            return entities;
         }
-        return entities;
-    }
 
         function saveChanges() {
-
             blade.isLoading = true;
-            console.log('blade.currentEntity',blade.currentEntity);
             let currentEntities = serialize(angular.copy(blade.currentEntity));
-            console.log('currentEntities=',currentEntities);
+
             if(currentEntities.Id){ // edit exited
-                caredit.list(currentEntities, function(data){
+                contractedit.list(currentEntities, function(data){
                     blade.isLoading = false;
                     blade.error = '';
                     blade.origEntity = blade.currentEntity;
@@ -166,12 +158,11 @@ console.log('blade car', blade);
                     closeBlade();
                 },function(err){
                     blade.isLoading = false;
-                    console.log(err.data)
                     blade.error = (err.data)?err.data[Object.keys( err.data )[0]][0]:'';
                 });
             }else{// add new
 
-                carsave.list(currentEntities, function(data){
+                contractsave.list(currentEntities, function(data){
                     blade.isLoading = false;
                     blade.error = '';
                     blade.origEntity = blade.currentEntity;
@@ -194,10 +185,10 @@ console.log('blade car', blade);
             });
         };
 
-        function delCar() {
+        function delcontract() {
             blade.isLoading = true;
 
-            cardelete.list(blade.currentEntity, function(data){
+            contractdelete.list(blade.currentEntity, function(data){
                 blade.isLoading = false;
                 blade.error = '';
                 blade.origEntity = blade.currentEntity;
@@ -233,24 +224,56 @@ console.log('blade car', blade);
                 permission: blade.updatePermission
             },
             {
+                name: "platform.commands.print",
+                icon: 'fa fa-print',
+                executeMethod: ()=>{},
+                canExecuteMethod: function(){ return true;},
+                permission: blade.updatePermission
+            },
+            {
+                name: "platform.commands.sign",
+                icon: 'fa fa-print',
+                executeMethod: ()=>{},
+                canExecuteMethod: function(){ return true;},
+                permission: blade.updatePermission
+            },
+            {
                 name: "platform.commands.remove",
                 icon: 'fa fa-trash-o',
-                executeMethod: delCar,
+                executeMethod: delcontract,
                 canExecuteMethod: function(){ return (blade.origEntity)? true : false;},
                 permission: blade.updatePermission
             }
 
         ];
 
-
-    
         blade.onClose = function (closeCallback) {
             bladeNavigationService.showConfirmationIfNeeded(isDirty(), canSave(), blade, saveChanges, closeCallback, "platform.dialogs.settings-delete.title", "platform.dialogs.settings-delete.message");
         };
 
+        {
+            // datepicker
+            $scope.datepickers = {
+                bd: false
+            }
+            $scope.today = new Date();
+
+            $scope.open = function ($event, which) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.datepickers[which] = true;
+            };
+
+            $scope.dateOptions = {
+                'year-format': "'yyyy'",
+                'starting-day': 1
+            };
+
+            $scope.format = 'dd.MM.yy';
+
+        }
 
         $scope.refreshResults = function($select){
-            console.log('add new one ->',$select)
 
             var search = $select.search,
                 list = angular.copy($select.items),
@@ -285,9 +308,7 @@ console.log('blade car', blade);
             //focus and open dropdown
             $select.activate();
         }
-    //$scope.getDictionaryValues = function (setting, callback) {
-    //    callback(setting.allowedValues);
-    //}
+
         blade.refresh();
 
 }]);

@@ -18,7 +18,7 @@
       "import": "Import",
       "install": "Install",
       "manage": "Manage",
-      "more": "More",
+      "more": "Еще",
       "no": "No",
       "new-folder": "New folder",
       "ok": "Ok",
@@ -38,6 +38,8 @@
       "settings": "Settings",
       "sign-out": "Sign out",
       "undo": "Отменить",
+      "print": "Распечатать",
+      "sign": "Подписать",
       "uninstall": "Uninstall",
       "unselect-all": "Unselect All",
       "update": "Update",
@@ -53,7 +55,8 @@
       "reject-user": "Reject user",
       "approve-user": "Approve user",
       "change-password": "Change password",
-      "car": "Машины"
+      "car": "Машины",
+      "contract": "Контракты"
     },
     "list": {
       "no-data": "No data",

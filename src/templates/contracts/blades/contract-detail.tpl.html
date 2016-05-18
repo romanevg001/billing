@@ -1,0 +1,118 @@
+﻿<div class="blade-content __medium-wide">
+    <div class="blade-inner">
+        <div class="inner-block clearfix">
+            <form class="form" name="detailContractForm">
+
+                <div class="columns clearfix" ng-init="setForm(detailContractForm)">
+                    <div class="column">
+                        <div class="form-group">
+                            <label class="form-label">{{ 'clients.blades.contract-detail.labels.BeginDate' | translate }}</label>
+                            <div class="form-input __calendar">
+                                <input type="text" class="form-control"  required ng-model="blade.currentEntity.BeginDate" datepicker-popup="{{format}}" name="bd" is-open="datepickers.bd" max-date="today" datepicker-options="dateOptions" datepicker-popup close-text="Close" placeholder="{{ 'clients.blades.contract-detail.placeholders.BeginDate' | translate }}" />
+                                <button class="btn" type="button" ng-click="open($event,'bd')">
+                                    <i class="btn-ico fa fa-calendar"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="form-group">
+                            <label class="form-label">{{ 'clients.blades.contract-detail.labels.Number' | translate }}</label>
+                            <div class="form-input">
+                                <input ng-model="blade.currentEntity.Number" required ng-maxlength="50" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">{{ 'clients.blades.contract-detail.labels.Vehicle' | translate }}</label>
+                    <div class="form-input">
+                        <ui-select ng-model="blade.currentEntity.Vehicle" required >
+                            <ui-select-match>
+                                <span>{{$select.selected.name | translate}}</span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in cars">
+                                <span>{{item.Make | translate}} {{item.Model | translate}}</span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="columns clearfix">
+                    <div class="column">
+                        <div class="form-group">
+                            <label class="form-label">{{ 'clients.blades.contract-detail.labels.UtcOffsetHours' | translate }}</label>
+                            <div class="form-input">
+                                <ui-select ng-model="blade.currentEntity.UtcOffsetHour" required >
+                                    <ui-select-match>
+                                        <span>{{$select.selected.name | translate}}</span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in UtcOffsetHours">
+                                        <span>{{item.name | translate}}</span>
+                                    </ui-select-choices>
+                                </ui-select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                      &nbsp;
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">{{ 'clients.blades.contract-detail.labels.AbonType' | translate }}</label>
+                    <div class="form-input">
+                        <ui-select ng-model="blade.currentEntity.AbonType" required on-select="getProductList($select)">
+                            <ui-select-match  placeholder="{{'platform.commands.select-or-add' | translate }}">
+                                <span>{{$select.selected.Name  | translate}}</span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in AbonTypes" >
+                                <span>{{item.Name | translate}} <i>{{item.Description | translate}}</i></span>
+                            </ui-select-choices>
+                        </ui-select>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div ng-if="blade.currentEntity.AbonType">
+                        <label class="form-label">{{ 'clients.blades.contract-detail.labels.Product' | translate }}</label>
+                        <div class="form-input">
+                            <ui-select ng-model="blade.currentEntity.Product"  required>
+                                <ui-select-match>
+                                    <span>{{$select.selected.Name | translate}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in products" >
+                                    <span>{{item.Name | translate}} {{item.Price | translate}}</span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="form-control __checkbox">
+                        <label class="form-label">
+                            <input type="checkbox" ng-model="AllowInfoMessages">
+                            <span class="check"></span>
+                            <span class="name">{{ 'clients.blades.contract-detail.labels.AllowInfoMessages' | translate }}</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <div class="form-control __checkbox">
+                        <label class="form-label">
+                            <input type="checkbox" ng-model="AutoContinuation">
+                            <span class="check"></span>
+                            <span class="name">{{ 'clients.blades.contract-detail.labels.AutoContinuation' | translate }}</span>
+                        </label>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

@@ -55,7 +55,7 @@
                 }
 
             }
-            console.log('deserialize',data)
+            //console.log('deserialize',data)
             return data;
         }
 
@@ -186,7 +186,6 @@
                 closeBlade();
             },function(err){
                 blade.isLoading = false;
-                console.log(err.data)
                 blade.error = (err.data)?err.data[Object.keys( err.data )[0]][0]:'';
             });
         }else{// add new
@@ -276,22 +275,35 @@
             name: "platform.commands.car",
             icon: 'fa fa-car',
             executeMethod: () =>{
-                clientcar.list({id:blade.currentEntity.Id},function(data){
-                    console.log(data)
-
-                },function(){
                     var cars = {
-                        id: 'listItemChild',
+                        id: 'listCarsChild',
                         data: {clientId:blade.currentEntity.Id},
                         title: 'clients.blades.car-list.title',
                         controller: 'sdl.management.carsListCtrl',
                         template: billingTemplatesBase + 'templates/cars/blades/car-list.tpl.html'
                     };
                     bladeNavigationService.showBlade(cars, blade);
-                });
+
             },
             canExecuteMethod: function(){return true},
             permission: blade.updatePermission
+        },
+        {
+            name: "platform.commands.contract",
+            icon: 'fa fa-file-o',
+            executeMethod: ()=>{
+                var contracts = {
+                    id: 'listContractsChild',
+                    data: {clientId:blade.currentEntity.Id},
+                    title: 'clients.blades.contract-list.title',
+                    controller: 'sdl.management.contractsListCtrl',
+                    template: billingTemplatesBase + 'templates/contracts/blades/contract-list.tpl.html'
+                };
+                bladeNavigationService.showBlade(contracts, blade);
+            },
+            canExecuteMethod: function(){return true},
+            permission: blade.updatePermission
+
         }
 
     ];

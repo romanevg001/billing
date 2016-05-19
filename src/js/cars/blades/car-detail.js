@@ -11,7 +11,7 @@
         blade.updatePermission = 'module:client:update';
 
         blade.isLoading = false;
-console.log('blade car', blade);
+
 
     // get color car
         colorsService.list({}, function (data) {

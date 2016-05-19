@@ -7,16 +7,16 @@
 
                 <div class="columns grid-header">
                     <div class="column">{{'clients.blades.contract-list.labels.BeginDate' | translate}}</div>
-                    <div class="column">{{'clients.blades.contract-list.labels.Number' | translate}}</div>
-                    <div class="column">{{'clients.blades.contract-list.labels.TypeOfBilling' | translate}}</div>
+                    <div class="column">{{'clients.blades.contract-list.labels.ContractNumber' | translate}}</div>
                     <div class="column">{{'clients.blades.contract-list.labels.Product' | translate}}</div>
+                    <div class="column">{{'clients.blades.contract-list.labels.Vehicle' | translate}}</div>
                 </div>
                 <div class="columns grid-content" ng-repeat="data in blade.allContracts"
                     ng-click='selectNode(data)'>
-                    <div class="column ">{{data.BeginDate}}</div>
-                    <div class="column ">{{data.Number}}</div>
-                    <div class="column">{{data.TypeOfBilling}}</div>
-                    <div class="column">{{data.Product}}</div>
+                    <div class="column">{{data.stringBeginDate}}</div>
+                    <div class="column">{{data.ContractNumber}}</div>
+                    <div class="column">{{data.Product.Name}}</div>
+                    <div class="column">{{data.Vehicle.Make}} {{data.Vehicle.Model}}</div>
                 </div>
             </div>
 

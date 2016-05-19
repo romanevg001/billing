@@ -3,10 +3,10 @@
     ['$scope', '$interval', 'sdl.management.dialogService', 'sdl.management.bladeNavigationService', 'sdl.management.settings',
         'sdl.management.contractsave',  'sdl.management.contractedit', 'sdl.management.contractdelete', 'sdl.management.contracts',
         'sdl.management.timezone', 'sdl.management.AbonType', 'sdl.management.Products',
-        'sdl.management.cars', 'billingTemplatesBase',
+        'sdl.management.cars', 'sdl.management.colors', 'billingTemplatesBase',
     function ($scope, $interval, dialogService, bladeNavigationService, settings,
               contractsave,  contractedit, contractdelete, clientcontract, timezoneService, AbonTypeService, ProductsService,
-              carsService, billingTemplatesBase) {
+              carsService, colorsService, billingTemplatesBase) {
 
         var blade = $scope.blade;
         blade.updatePermission = 'module:client:update';
@@ -18,21 +18,27 @@
             $scope.UtcOffsetHours = data.timezone;
         });
 
-    //// yaers
-    //    $scope.IssueYears = [];
-    //    {
-    //        let startYear = (new Date()).getFullYear();
-    //        let endYear = 1892;
-    //        for(let i=startYear; endYear < i; i--){
-    //            $scope.IssueYears.push({"name": i});
-    //        }
-    //    }
-    //
-
-
+        // get color car
+        $scope.colors = [];
+        colorsService.list({}, function (data) {
+            $scope.colors = data.colors;
+        });
         //get cars
         carsService.list({"Id": blade.data.clientId}, function (res) {
             $scope.cars = res.Data;
+
+            $scope.$watch($scope.colors, function(){
+                if($scope.colors.length < 1 ) return;
+
+                //console.log($scope.colors)
+                let des = (new deserialize());
+
+                _.each($scope.cars, function(item){
+                    item.Color = des.fldsToJson(item.Color,$scope.colors);
+                    //console.log('blade.currentEntity.Vehicle-item=>',blade.currentEntity.Vehicle);
+                })
+
+            });
         });
      //get AbonType
         AbonTypeService.list({}, function (res) {
@@ -50,30 +56,44 @@
 
 
 
-        let deserialize = (data) =>{
+        function deserialize(data) {
 
             let checkLoadBase = (baseList, callback) => {
                 let keyInterval = $interval(function(){  // check load the base
-                    //console.log('baseList = ',$scope)
                     if ($scope[baseList] != undefined) {
                         callback();
-                        //$scope.$apply(function () {  });
                         $interval.cancel(keyInterval);
                     }
                 },500);
-                console.log(keyInterval)
+
             }
 
-            let fieldsToJson = (fVal, baseList) => {
-                 let choseItemOfSelect = _.find(baseList, function(o) { return (o.name == fVal) ? angular.copy(o) : null; });
+            let fieldsToJson = (fVal, baseList, fieldName = "name") => {
+                 let choseItemOfSelect = _.find(baseList, function(o) { return (o[fieldName] == fVal) ? angular.copy(o) : null; });
                 return (choseItemOfSelect === null) ? fVal : choseItemOfSelect
                 //= _.find($scope.colors, function(o) { return (o.name == data.Color) ? o : null; });
             };
 
-            if(data.Color){
-                checkLoadBase('colors',()=>{
-                    data.Color = fieldsToJson(data.Color,$scope.colors);
-                })
+            this.fldsToJson = (typeof fieldsToJson === 'function') ? fieldsToJson : function(){};
+
+
+            if(data) {
+
+                if (data.BeginDate) {
+                    data.BeginDate = new Date(data.BeginDate.Month + '.' + data.BeginDate.Day + "." + data.BeginDate.Year);
+                }
+
+                if (data.UtcOffsetHours || data.UtcOffsetHours == 0) {
+                    checkLoadBase('UtcOffsetHours', ()=> {
+                        data.UtcOffsetHour = fieldsToJson(data.UtcOffsetHours, $scope.UtcOffsetHours, "number");
+                    })
+                }
+                if(data.Vehicle.Color){
+                    checkLoadBase('colors',()=>{
+                        data.Vehicle.Color = fieldsToJson(data.Vehicle.Color,$scope.colors);
+                    })
+                }
+
             }
             //if(data.IssueYear){
             //    checkLoadBase('IssueYears',()=>{
@@ -90,9 +110,6 @@
             //        data.Model = fieldsToJson(data.Model,$scope.models);
             //    })
             //}
-
-
-
             return data;
         }
 
@@ -109,8 +126,10 @@
                 blade.currentEntity = {};
                 blade.origEntity = {};
             }else{ // edit
-                blade.currentEntity = deserialize(angular.copy(results));
-                blade.origEntity = deserialize(results);
+                blade.currentEntity = new deserialize(angular.copy(results));
+                blade.origEntity = new deserialize(results);
+
+                console.log('blade.currentEntity',blade.currentEntity);
             }
         }
 
@@ -127,16 +146,41 @@
         }
 
         function serialize (entities){
-            let currentEntities = serialize_select (entities);
+            let currentEntities = serialize_select (entities,"Id");
+
+
+            if(currentEntities.BeginDate){
+                let date = currentEntities.BeginDate;
+
+                currentEntities.BeginDate = {
+                    "Year": date.getFullYear(),
+                    "Month": date.getMonth(),
+                    "Day": date.getDate()
+                }
+
+            }
+            if(currentEntities.Vehicle){
+                currentEntities.VehicleId = currentEntities.Vehicle;
+                delete currentEntities.Vehicle;
+            }
+            if(currentEntities.Product){
+                currentEntities.ProductId = currentEntities.Product;
+                delete currentEntities.Product;
+            }
+            if(currentEntities.UtcOffsetHour){
+                currentEntities.UtcOffsetHours = currentEntities.UtcOffsetHour.number;
+                delete currentEntities.UtcOffsetHour;
+            }
+
             return currentEntities;
         }
 
-        function serialize_select (entities){
+        function serialize_select (entities, propertyName = "name"){
             for (let pr in entities) {
                 if(typeof entities[pr] === 'object'){
 
-                    if(entities[pr] && (entities[pr].name != undefined)){
-                        entities[pr] = entities[pr].name;
+                    if(entities[pr] && (entities[pr][propertyName] != undefined)){
+                        entities[pr] = entities[pr][propertyName];
                     }else{
                         entities[pr] = serialize_select (entities[pr])
                     }
@@ -149,7 +193,7 @@
             blade.isLoading = true;
             let currentEntities = serialize(angular.copy(blade.currentEntity));
 
-            if(currentEntities.Id){ // edit exited
+            if(currentEntities.ContractNumber){ // edit exited
                 contractedit.list(currentEntities, function(data){
                     blade.isLoading = false;
                     blade.error = '';
@@ -236,14 +280,14 @@
                 executeMethod: ()=>{},
                 canExecuteMethod: function(){ return true;},
                 permission: blade.updatePermission
-            },
-            {
-                name: "platform.commands.remove",
-                icon: 'fa fa-trash-o',
-                executeMethod: delcontract,
-                canExecuteMethod: function(){ return (blade.origEntity)? true : false;},
-                permission: blade.updatePermission
             }
+            //{
+            //    name: "platform.commands.remove",
+            //    icon: 'fa fa-trash-o',
+            //    executeMethod: delcontract,
+            //    canExecuteMethod: function(){ return (blade.origEntity)? true : false;},
+            //    permission: blade.updatePermission
+            //}
 
         ];
 

@@ -110,12 +110,12 @@
         "labels": {
           "BeginDate":"Дата начала действия контракта",
           "Vehicle": "Авто",
-          "TypeOfBilling": "Тип абонентской платы",
-          "Product": "Продукт",
+          "AbonType": "Тип абонентской платы",
+          "Product": "Тариф",
           "UtcOffsetHours": "Часовой пояс",
           "AllowInfoMessages": "Получать информационные сообщения",
           "AutoContinuation": "Продлевать автоматически",
-          "Number": "Номер контракта"
+          "ContractNumber": "Номер"
         }
       },
       "contract-add":{
@@ -133,7 +133,7 @@
           "UtcOffsetHours": "Часовой пояс",
           "AllowInfoMessages": "Получать информационные сообщения",
           "AutoContinuation": "Продлевать контракт автоматически",
-          "Number": "Номер контракта"
+          "ContractNumber": "Номер контракта"
         },
         "placeholders": {
           "BeginDate":"Выберите дату"

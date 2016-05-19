@@ -150,7 +150,7 @@
             currentEntities.Passport.IssueDate = {
                 "Year": date.getFullYear(),
                 "Month": date.getMonth(),
-                "Day": date.getDay()
+                "Day": date.getDate()
             }
         }
         if(currentEntities.Passport && currentEntities.Passport.Address){

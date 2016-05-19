@@ -6,12 +6,12 @@
         });
     }])
     .factory('sdl.management.contractsave', ['$resource', function ($resource) {
-        return $resource('http://testbillingapi.azurewebsites.net/api/clients/:clientId/contracts', {clientId:'@clientId'}, {
+        return $resource('http://testbillingapi.azurewebsites.net/api/clients/:clientId/contracts/:ContractNumber', {clientId:'@clientId', ContractNumber: '@ContractNumber'}, {
             list: { method: 'PUT' }
         });
     }])
     .factory('sdl.management.contractedit', ['$resource', function ($resource) {
-        return $resource('http://testbillingapi.azurewebsites.net/api/clients/:clientId/contracts/:Id', {clientId:'@clientId',Id:'@Id'}, {
+        return $resource('http://testbillingapi.azurewebsites.net/api/clients/:clientId/contracts/:ContractNumber', {clientId:'@clientId',ContractNumber:'@ContractNumber'}, {
             list: { method: 'POST' }
         });
     }])

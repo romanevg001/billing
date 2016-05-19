@@ -17,9 +17,9 @@
                     </div>
                     <div class="column">
                         <div class="form-group">
-                            <label class="form-label">{{ 'clients.blades.contract-detail.labels.Number' | translate }}</label>
+                            <label class="form-label">{{ 'clients.blades.contract-detail.labels.ContractNumber' | translate }}</label>
                             <div class="form-input">
-                                <input ng-model="blade.currentEntity.Number" required ng-maxlength="50" />
+                                <input ng-model="blade.currentEntity.ContractNumber" required ng-maxlength="50" />
                             </div>
                         </div>
                     </div>
@@ -29,10 +29,10 @@
                     <div class="form-input">
                         <ui-select ng-model="blade.currentEntity.Vehicle" required >
                             <ui-select-match>
-                                <span>{{$select.selected.name | translate}}</span>
+                                <span><i class="fa fa-circle" style="color: {{$select.selected.Color.color}}"></i> &nbsp; {{$select.selected.Make | translate}} {{$select.selected.Model | translate}} </span>
                             </ui-select-match>
                             <ui-select-choices repeat="item in cars">
-                                <span>{{item.Make | translate}} {{item.Model | translate}}</span>
+                                <span><i class="fa fa-circle" style="color: {{item.Color.color}}"></i> &nbsp; {{item.Make | translate}} {{item.Model | translate}} </span>
                             </ui-select-choices>
                         </ui-select>
                     </div>
@@ -44,10 +44,10 @@
                             <div class="form-input">
                                 <ui-select ng-model="blade.currentEntity.UtcOffsetHour" required >
                                     <ui-select-match>
-                                        <span>{{$select.selected.name | translate}}</span>
+                                        <span>({{$select.selected.number | translate}}) {{$select.selected.name | translate}}</span>
                                     </ui-select-match>
                                     <ui-select-choices repeat="item in UtcOffsetHours">
-                                        <span>{{item.name | translate}}</span>
+                                        <span>({{item.number | translate}}) {{item.name | translate}}</span>
                                     </ui-select-choices>
                                 </ui-select>
 
@@ -95,7 +95,7 @@
                 <div class="form-group">
                     <div class="form-control __checkbox">
                         <label class="form-label">
-                            <input type="checkbox" ng-model="AllowInfoMessages">
+                            <input type="checkbox" ng-model="blade.currentEntity.AllowInfoMessages">
                             <span class="check"></span>
                             <span class="name">{{ 'clients.blades.contract-detail.labels.AllowInfoMessages' | translate }}</span>
                         </label>
@@ -105,7 +105,7 @@
 
                     <div class="form-control __checkbox">
                         <label class="form-label">
-                            <input type="checkbox" ng-model="AutoContinuation">
+                            <input type="checkbox" ng-model="blade.currentEntity.AutoContinuation">
                             <span class="check"></span>
                             <span class="name">{{ 'clients.blades.contract-detail.labels.AutoContinuation' | translate }}</span>
                         </label>

@@ -13,6 +13,18 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
         countContracts: 10
     };
 
+
+    function deserialize(data){
+        _.each(data, function (dt) {
+            console.log(dt)
+            if(dt.BeginDate){
+                  dt.stringBeginDate = ((dt.BeginDate.Day < 10) ? "0"+dt.BeginDate.Day : dt.BeginDate.Day)+ "."+((dt.BeginDate.Month < 10) ? "0"+dt.BeginDate.Month : dt.BeginDate.Month)+'.'+dt.BeginDate.Year;
+                console.log(dt.stringBeginDate)
+            }
+        });
+        return data;
+    }
+
     var paramRequest = {};
 
     blade.refresh = function (disableOpenAnimation) {
@@ -23,7 +35,7 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
         paramRequest.Id = blade.data.clientId;
 
         contracts.list(paramRequest,function(result){
-            blade.allContracts = result.Data;
+            blade.allContracts = deserialize(result.Data);
             blade.isLoading = false;
         })
 
@@ -32,21 +44,19 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
     $scope.selectNode = function (node, disableOpenAnimation) {
         bladeNavigationService.closeChildrenBlades(blade, function(){
 
+            var selectedContracts = node;//_.where(blade.allContracts, { Id: node.Id })[0];
+                selectedContracts.clientId = selectedContracts.Client.Id;
 
-                var selectedContracts = _.where(blade.allContracts, { Id: node.Id })[0];
-                    selectedContracts.clientId = blade.data.clientId;
-            
-                var newBlade = {
-                    id: 'contractsSection',
-                    data: selectedContracts,
-                    title: 'clients.blades.contract-detail.title',
-                    disableOpenAnimation: disableOpenAnimation,
-                    controller: 'sdl.management.contractDetailCtrl',
-                    template: billingTemplatesBase + 'templates/contracts/blades/contract-detail.tpl.html'
-                };
+            var newBlade = {
+                id: 'contractsSection',
+                data: selectedContracts,
+                title: 'clients.blades.contract-detail.title',
+                disableOpenAnimation: disableOpenAnimation,
+                controller: 'sdl.management.contractDetailCtrl',
+                template: billingTemplatesBase + 'templates/contracts/blades/contract-detail.tpl.html'
+            };
 
-                bladeNavigationService.showBlade(newBlade, blade);
-
+            bladeNavigationService.showBlade(newBlade, blade);
         });
     };
 

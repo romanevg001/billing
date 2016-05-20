@@ -14,7 +14,7 @@
         blade.updatePermission = 'module:client:update';
 
         blade.isLoading = false;
-console.log($scope.blade)
+
     // get timezone
         timezoneService.list({}, function (data) {
             $scope.UtcOffsetHours = data.timezone;

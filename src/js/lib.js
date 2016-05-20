@@ -8,6 +8,7 @@ import "./navigation/widget";
 
 
 import "./dialogs/confirmDialog";
+import "./lib/locale/angular-locale_ru-ru"
 import "./common/datepickerUtils"
 //import "./clients/clientsModule"
 //import "./clients/resources/members"

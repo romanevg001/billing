@@ -278,3 +278,12 @@ message ContractsCollectionMessage
 {
 	repeated Contract Data = 1;
 }
+
+message Payment
+{
+	//сумма в рублях
+	int32 Amount = 1;
+
+	//описание платежа
+	string Description = 2;
+}

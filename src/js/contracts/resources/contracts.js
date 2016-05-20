@@ -44,8 +44,6 @@
 
 
 
-
-
     .factory('sdl.management.timezone', ['$resource', function ($resource) {
         return $resource('res/api.timezone.json', {}, {
             list: { method: 'GET' }

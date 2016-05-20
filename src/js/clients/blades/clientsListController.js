@@ -61,7 +61,7 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
                 let clientId = node.Id;
                 var selectedClient = _.where(blade.allClients, { Id: clientId })[0];
-//console.log('blade=',blade);
+
 
                 $localStorage["clients_" + clientId]  = selectedClient;
 

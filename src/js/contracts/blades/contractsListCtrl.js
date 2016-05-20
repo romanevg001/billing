@@ -16,7 +16,6 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
     function deserialize(data){
         _.each(data, function (dt) {
-            console.log(dt)
             if(dt.BeginDate){
                   dt.stringBeginDate = ((dt.BeginDate.Day < 10) ? "0"+dt.BeginDate.Day : dt.BeginDate.Day)+ "."+((dt.BeginDate.Month < 10) ? "0"+dt.BeginDate.Month : dt.BeginDate.Month)+'.'+dt.BeginDate.Year;
             }

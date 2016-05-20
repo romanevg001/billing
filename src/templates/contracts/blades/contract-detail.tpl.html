@@ -18,8 +18,9 @@
                     <div class="column">
                         <div class="form-group">
                             <label class="form-label">{{ 'clients.blades.contract-detail.labels.ContractNumber' | translate }}</label>
-                            <div class="form-input">
-                                <input ng-model="blade.currentEntity.ContractNumber" required ng-maxlength="50" />
+                            <div class="form-input __infoIcon">
+                                <i class="fa infoIcon" ng-class="(stateContractNumber == 'good') ? 'fa-check' : (stateContractNumber == 'checking')? 'fa-refresh fa-spin' : (stateContractNumber == 'bad') ? 'fa-times' : '' " title=""></i>
+                                <input ng-model="blade.currentEntity.ContractNumber" required ng-maxlength="50" ng-keyup="checkContractNumber($event.keyCode)" />
                             </div>
                         </div>
                     </div>

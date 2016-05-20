@@ -3,27 +3,30 @@
     ['$scope', '$interval', 'sdl.management.dialogService', 'sdl.management.bladeNavigationService', 'sdl.management.settings',
         'sdl.management.contractsave',  'sdl.management.contractedit', 'sdl.management.contractdelete', 'sdl.management.contracts',
         'sdl.management.timezone', 'sdl.management.AbonType', 'sdl.management.Products',
-        'sdl.management.cars', 'sdl.management.colors', 'billingTemplatesBase',
+        'sdl.management.cars', 'sdl.management.colors', 'billingTemplatesBase', 'sdl.management.AvailableContractNumber',
+        'sdl.management.contractsign',
     function ($scope, $interval, dialogService, bladeNavigationService, settings,
               contractsave,  contractedit, contractdelete, clientcontract, timezoneService, AbonTypeService, ProductsService,
-              carsService, colorsService, billingTemplatesBase) {
+              carsService, colorsService, billingTemplatesBase, AvailableContractNumberService,
+              contractsignService) {
 
         var blade = $scope.blade;
         blade.updatePermission = 'module:client:update';
 
         blade.isLoading = false;
-
+console.log($scope.blade)
     // get timezone
         timezoneService.list({}, function (data) {
             $scope.UtcOffsetHours = data.timezone;
         });
 
-        // get color car
+    // get color car
         $scope.colors = [];
         colorsService.list({}, function (data) {
             $scope.colors = data.colors;
         });
-        //get cars
+
+    //get cars
         carsService.list({"Id": blade.data.clientId}, function (res) {
             $scope.cars = res.Data;
 
@@ -40,20 +43,46 @@
 
             });
         });
-     //get AbonType
+
+    //get AbonType
         AbonTypeService.list({}, function (res) {
             $scope.AbonTypes = res.Data;
         });
-    ////get products
+
+    //get products
         $scope.getProductList = function(node){
             $scope.products = [];
             blade.currentEntity.Product = '';
             ProductsService.list({"abontypeId": node.selected.Id}, function (res) {
                 $scope.products = res.Data;
             });
-        }
+        };
+
+        $scope.checkContractNumber = function(keyCode){
+
+            if(keyCode == 8 || keyCode == 13 || keyCode == 33 || keyCode == 34 || keyCode == 35 || keyCode == 36 ||
+               keyCode == 37 || keyCode == 38 || keyCode == 39 || keyCode == 40 || keyCode == 46 || keyCode == 20 ||
+               keyCode == 16 || keyCode == 17)
+            {
+                return false;
+            }
+
+            $scope.stateContractNumber = "checking";
 
 
+            AvailableContractNumberService.list({"contractNumber": blade.currentEntity.ContractNumber}, function(res){
+
+                //res.$promise.then(function(s){
+                //    console.log(s)
+                //    console.log(arguments)
+                //    $scope.stateContractNumber = "good";
+                //}, function(a){
+                //    console.log('a',a)
+                //    console.log(arguments)
+                //    $scope.stateContractNumber = "bad";
+                //})
+            });
+        };
 
 
         function deserialize(data) {
@@ -128,8 +157,6 @@
             }else{ // edit
                 blade.currentEntity = new deserialize(angular.copy(results));
                 blade.origEntity = new deserialize(results);
-
-                console.log('blade.currentEntity',blade.currentEntity);
             }
         }
 
@@ -229,9 +256,8 @@
             });
         };
 
-        function delcontract() {
+        function delContract() {
             blade.isLoading = true;
-
             contractdelete.list(blade.currentEntity, function(data){
                 blade.isLoading = false;
                 blade.error = '';
@@ -241,13 +267,24 @@
             });
         }
 
+        function signContract(){
+            blade.isLoading = true;
+            contractsignService.list(blade.currentEntity,function(res){
+                blade.isLoading = false;
+                blade.error = '';
+                blade.origEntity = blade.currentEntity;
+                blade.parentBlade.refresh(true);
+                closeBlade();
+            })
+        }
+
         blade.headIcon = 'fa-wrench';
         blade.toolbarCommands = [
             {
                 name: "platform.commands.save",
                 icon: 'fa fa-save',
                 executeMethod: saveChanges,
-                canExecuteMethod: canSave //function(){return true}
+                canExecuteMethod: canSave
             },
             {
                 name: "platform.commands.reset",
@@ -268,6 +305,13 @@
                 permission: blade.updatePermission
             },
             {
+                name: "platform.commands.sign",
+                icon: 'fa fa-pencil',
+                executeMethod: signContract,
+                canExecuteMethod: canSave,
+                permission: blade.updatePermission
+            },
+            {
                 name: "platform.commands.print",
                 icon: 'fa fa-print',
                 executeMethod: ()=>{},
@@ -275,19 +319,12 @@
                 permission: blade.updatePermission
             },
             {
-                name: "platform.commands.sign",
-                icon: 'fa fa-print',
-                executeMethod: ()=>{},
-                canExecuteMethod: function(){ return true;},
+                name: "platform.commands.remove",
+                icon: 'fa fa-trash-o',
+                executeMethod: delContract,
+                canExecuteMethod: function(){ return (blade.origEntity)? true : false;},
                 permission: blade.updatePermission
             }
-            //{
-            //    name: "platform.commands.remove",
-            //    icon: 'fa fa-trash-o',
-            //    executeMethod: delcontract,
-            //    canExecuteMethod: function(){ return (blade.origEntity)? true : false;},
-            //    permission: blade.updatePermission
-            //}
 
         ];
 
@@ -317,6 +354,7 @@
 
         }
 
+        // for select add new item
         $scope.refreshResults = function($select){
 
             var search = $select.search,
@@ -342,7 +380,7 @@
                 $select.selected = userInputItem;
             }
         }
-
+        // for select clear added item
         $scope.clear = function ($event, $select){
             $event.stopPropagation();
             //to allow empty field, in order to force a selection remove the following line

@@ -20,6 +20,11 @@
             list: { method: 'DELETE' }
         });
     }])
+    .factory('sdl.management.contractsign', ['$resource', function ($resource) {
+        return $resource('http://testbillingapi.azurewebsites.net/api/clients/:clientId/contracts/:ContractNumber/sign', {clientId:'@clientId',ContractNumber:'@ContractNumber'}, {
+            list: { method: 'POST' }
+        });
+    }])
 
     .factory('sdl.management.AbonType', ['$resource', function ($resource) {
         return $resource('http://testbillingapi.azurewebsites.net/api/AbonType', {}, {
@@ -31,6 +36,13 @@
             list: { method: 'GET' }
         });
     }])
+    .factory('sdl.management.AvailableContractNumber', ['$resource', function ($resource) {
+        return $resource('http://testbillingapi.azurewebsites.net/api/contracts/:contractNumber/isavailable', {contractNumber:'@contractNumber'}, {
+            list: { method: 'GET' }
+        });
+    }])
+
+
 
 
 

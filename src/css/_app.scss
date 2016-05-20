@@ -9,7 +9,26 @@
 .__gray {
     color: #999;
 }
-
+.__infoIcon {
+    position: relative;
+    .infoIcon {
+        position: absolute;
+        right: 0;
+        padding: 0 10px;
+        top: 50%;
+        margin-top: -1em;
+        font-size: 12px;
+        line-height: 24px;
+        color: $blue;
+        text-shadow: 1px 1px rgba(0,0,0,.1);
+        &.fa-check {
+            color: #00AA00;
+        }
+        &.fa-times {
+            color: #6f1400;
+        }
+    }
+}
 .block {
     margin: 0 0 20px;
 }

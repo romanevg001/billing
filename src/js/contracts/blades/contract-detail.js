@@ -12,9 +12,9 @@
 
         var blade = $scope.blade;
         blade.updatePermission = 'module:client:update';
-
+console.log(blade)
         blade.isLoading = false;
-console.log($scope.blade)
+
     // get timezone
         timezoneService.list({}, function (data) {
             $scope.UtcOffsetHours = data.timezone;
@@ -151,12 +151,14 @@ console.log($scope.blade)
 
             blade.isLoading = false;
 
-            if(results == undefined) { // new
-                blade.currentEntity = {};
-                blade.origEntity = {};
-            }else{ // edit
+            if(results.ContractNumber) { // edit
                 blade.currentEntity = new deserialize(angular.copy(results));
                 blade.origEntity = new deserialize(results);
+            }else{ // new
+                blade.currentEntity = {};
+                blade.currentEntity.clientId = blade.data.clientId;
+                blade.origEntity = {};
+
             }
         }
 
@@ -219,8 +221,8 @@ console.log($scope.blade)
         function saveChanges() {
             blade.isLoading = true;
             let currentEntities = serialize(angular.copy(blade.currentEntity));
-
-            if(currentEntities.ContractNumber){ // edit exited
+console.log(currentEntities)
+            if(blade.origEntity.ContractNumber){ // edit exited
                 contractedit.list(currentEntities, function(data){
                     blade.isLoading = false;
                     blade.error = '';

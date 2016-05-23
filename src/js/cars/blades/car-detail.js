@@ -40,14 +40,12 @@
 
             let checkLoadBase = (baseList, callback) => {
                 let keyInterval = $interval(function(){  // check load the base
-                    //console.log('baseList = ',$scope)
                     if ($scope[baseList] != undefined) {
                         callback();
-                        //$scope.$apply(function () {  });
                         $interval.cancel(keyInterval);
                     }
                 },500);
-                console.log(keyInterval)
+
             }
 
             let fieldsToJson = (fVal, baseList) => {
@@ -154,9 +152,9 @@
         function saveChanges() {
 
             blade.isLoading = true;
-            console.log('blade.currentEntity',blade.currentEntity);
+
             let currentEntities = serialize(angular.copy(blade.currentEntity));
-            console.log('currentEntities=',currentEntities);
+
             if(currentEntities.Id){ // edit exited
                 caredit.list(currentEntities, function(data){
                     blade.isLoading = false;
@@ -212,7 +210,7 @@
                 name: "platform.commands.save",
                 icon: 'fa fa-save',
                 executeMethod: saveChanges,
-                canExecuteMethod: canSave //function(){return true}
+                canExecuteMethod: canSave
             },
             {
                 name: "platform.commands.reset",
@@ -250,7 +248,6 @@
 
 
         $scope.refreshResults = function($select){
-            console.log('add new one ->',$select)
 
             var search = $select.search,
                 list = angular.copy($select.items),

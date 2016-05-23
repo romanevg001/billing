@@ -771,8 +771,8 @@
         "message": "The settings has been modified. Do you want to confirm changes?"
       },
       "settings-delete": {
-        "title": "Delete confirmation",
-        "message": "The settings has been modified. Do you want to save changes?"
+        "title": "Подтверждение",
+        "message": "Сохранить изменения?"
       },
       "email-sending-success": {
         "title": "Sending success",

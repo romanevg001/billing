@@ -28,11 +28,12 @@
                 <div class="form-group">
                     <label class="form-label">{{ 'clients.blades.contract-detail.labels.Vehicle' | translate }}</label>
                     <div class="form-input">
-                        <ui-select ng-model="blade.currentEntity.Vehicle" required >
+                        <ui-select ng-model="blade.currentEntity.Vehicle" required  reset-search-input="false"  search-enabled="true">
                             <ui-select-match>
-                                <span><i class="fa fa-circle" style="color: {{$select.selected.Color.color}}"></i> &nbsp; {{$select.selected.Make | translate}} {{$select.selected.Model | translate}} </span>
+                                <span><i class="fa fa-circle" style="color: {{$select.selected.Color.color}}"></i> &nbsp; {{$select.selected.Make || $select.search | translate}} {{$select.selected.Model | translate}} </span>
+                                <a ng-if="$select.search" ng-click="clear($event, $select)"><i class="fa fa-remove"></i></a>
                             </ui-select-match>
-                            <ui-select-choices repeat="item in cars">
+                            <ui-select-choices repeat="item in cars" refresh="refreshResults($select)" refresh-delay="0">
                                 <span><i class="fa fa-circle" style="color: {{item.Color.color}}"></i> &nbsp; {{item.Make | translate}} {{item.Model | translate}} </span>
                             </ui-select-choices>
                         </ui-select>

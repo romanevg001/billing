@@ -107,14 +107,10 @@
                 blade.currentEntity = {};
                 blade.origEntity = {};
             }else{ // edit
-
-
                 blade.currentEntity = deserialize(angular.copy(results));
                 blade.origEntity = deserialize(results);
-
-                console.log('blade.currentEntity IN',blade.currentEntity);
             }
-            console.log('blade.currentEntity',blade.currentEntity);
+
         }
 
 

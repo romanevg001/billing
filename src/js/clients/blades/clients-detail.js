@@ -17,19 +17,22 @@
                 $scope.subjects = data.subjects;
             });
         ////get regions
-            $scope.choseSubject = function(item){
-                regionsService.list({}, function(data){
-                    $scope.regions = data.regions;
-                });
-                pointsNameService.list({}, function(data){
-                    $scope.pointsName = data.pointsName;
-                });
+        $scope.choseSubject = function(){
+            regionsService.list({}, function(data){
+                $scope.regions = data.regions;
+            });
+            pointsNameService.list({}, function(data){
+                $scope.pointsName = data.pointsName;
+            });
 
-                pointsTypeService.list({}, function(data){
-                    $scope.typeofPoints = data.pointsType;
-                });
+            pointsTypeService.list({}, function(data){
+                $scope.typeofPoints = data.pointsType;
+            });
+        }
 
-            }
+
+
+
 
 
         function deserialize(data){
@@ -112,6 +115,8 @@
             blade.origEntity = results;
             $scope.PostAddressCheck = !blade.currentEntity.PostAddress.Subject.name;
         }
+
+
     }
 
     //$scope.editArray = function (node) {
@@ -322,7 +327,6 @@
 
     // for select add new item
     $scope.refreshResults = function($select){
-
         var search = $select.search,
             list = angular.copy($select.items),
             FLAG = -1;

@@ -6,11 +6,12 @@
                 <div class="form-group" ng-init="setForm(detailCarForm)">
                     <label class="form-label">{{ 'clients.blades.car-detail.labels.color' | translate }}</label>
                     <div class="form-input">
-                        <ui-select ng-model="blade.currentEntity.Color"  required >
+                        <ui-select ng-model="blade.currentEntity.Color"  reset-search-input="false"  search-enabled="true"  required >
                             <ui-select-match>
-                                <span><i class="fa fa-circle" style="color: {{$select.selected.color}}"></i> &nbsp; {{$select.selected.code}} &nbsp; {{$select.selected.name | translate}} &#151; {{$select.selected.nameGIBDD | translate}}</span>
+                                <span><i class="fa fa-circle" style="color: {{$select.selected.color}}"></i> &nbsp; {{$select.selected.code}} &nbsp; {{$select.selected.name || $select.search | translate}} &#151; {{$select.selected.nameGIBDD | translate}}</span>
+                                <a ng-if="$select.search" ng-click="clear($event, $select)"><i class="fa fa-remove"></i></a>
                             </ui-select-match>
-                            <ui-select-choices repeat="item in colors">
+                            <ui-select-choices repeat="item in colors" refresh="refreshResults($select)" refresh-delay="0">
                                 <span><i class="fa fa-circle" style="color: {{item.color}}"></i> &nbsp; {{item.code}} &nbsp; {{item.name | translate}} <i>&#151; {{item.nameGIBDD | translate}}</i></span>
                             </ui-select-choices>
                         </ui-select>

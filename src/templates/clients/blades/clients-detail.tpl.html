@@ -235,61 +235,68 @@
                     <div class="form-group clearfix">
                         <label class="form-label">{{ 'clients.blades.member-detail.labels.subject' | translate }}</label>
                         <div class="form-input">
-                            <ui-select ng-model="blade.currentEntity.PostAddress.Subject" theme="select2" on-select="choseSubject($item)">
+                            <ui-select ng-model="blade.currentEntity.PostAddress.Subject" reset-search-input="false"  search-enabled="true" theme="select2" on-select="choseSubject($item)">
                                 <ui-select-match>
-                                    <span>{{$select.selected.name | translate}}</span>
+                                    <span>{{$select.selected.name || $select.search | translate}}</span>
+                                    <a ng-if="$select.search" ng-click="clear($event, $select)"><i class="fa fa-remove"></i></a>
                                 </ui-select-match>
-                                <ui-select-choices repeat="item in subjects">
+                                <ui-select-choices repeat="item in subjects" refresh="refreshResults($select)" refresh-delay="0">
                                     <span>{{item.name | translate}}</span>
                                 </ui-select-choices>
                             </ui-select>
+
                         </div>
                     </div>
                     <div class="form-group" ng-if="blade.currentEntity.PostAddress.Region || regions">
                         <label class="form-label">{{ 'clients.blades.member-detail.labels.region' | translate }}</label>
                         <div class="form-input">
-                            <ui-select ng-model="blade.currentEntity.PostAddress.Region" theme="select2" on-select="choseRegion($item)">
+                            <ui-select ng-model="blade.currentEntity.PostAddress.Region"  reset-search-input="false"  search-enabled="true" theme="select2" >
                                 <ui-select-match>
-                                    <span>{{$select.selected.name | translate}}</span>
+                                    <span>{{$select.selected.name || $select.search | translate}}</span>
+                                    <a ng-if="$select.search" ng-click="clear($event, $select)"><i class="fa fa-remove"></i></a>
                                 </ui-select-match>
-                                <ui-select-choices repeat="item in regions">
+                                <ui-select-choices repeat="item in regions" refresh="refreshResults($select)" refresh-delay="0">
                                     <span>{{item.name | translate}}</span>
                                 </ui-select-choices>
                             </ui-select>
+
                         </div>
                     </div>
-                    <!--<div class="columns clearfix">-->
-                        <!--<div class="column">-->
-                            <!--<div class="form-group" ng-if="blade.currentEntity.PostAddress.CityType || typeofPoints">-->
-                                <!--<label class="form-label">{{ 'clients.blades.member-detail.labels.typeofPoint' | translate }}</label>-->
-                                <!--<div class="form-input">-->
-                                    <!--<ui-select ng-model="blade.currentEntity.PostAddress.CityType" theme="select2" on-select="choseSearchTypes($item)">-->
-                                        <!--<ui-select-match>-->
-                                            <!--<span>{{$select.selected.name | translate}}</span>-->
-                                        <!--</ui-select-match>-->
-                                        <!--<ui-select-choices repeat="item in typeofPoints">-->
-                                            <!--<span>{{item.name | translate}}</span>-->
-                                        <!--</ui-select-choices>-->
-                                    <!--</ui-select>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="column">-->
-                            <div class="form-group" ng-if="blade.currentEntity.PostAddress.CityName || pointsName">
-                                <label class="form-label">{{ 'clients.blades.member-detail.labels.pointName' | translate }}</label>
+                    <div class="columns clearfix">
+                        <div class="column">
+                            <div class="form-group" ng-if="blade.currentEntity.PostAddress.CityType || typeofPoints">
+                                <label class="form-label">{{ 'clients.blades.member-detail.labels.typeofPoint' | translate }}</label>
                                 <div class="form-input">
-                                    <ui-select ng-model="blade.currentEntity.PostAddress.CityName" theme="select2" on-select="choseSearchTypes($item)">
+                                    <ui-select reset-search-input="false"  search-enabled="true" ng-model="blade.currentEntity.PostAddress.CityType" theme="select2" on-select="choseSearchTypes($item)">
                                         <ui-select-match>
-                                            <span>{{$select.selected.name | translate}}</span>
+                                            <span>{{$select.selected.name || $select.search | translate}}</span>
+                                            <a ng-if="$select.search" ng-click="clear($event, $select)"><i class="fa fa-remove"></i></a>
                                         </ui-select-match>
-                                        <ui-select-choices repeat="item in pointsName">
+                                        <ui-select-choices repeat="item in typeofPoints" refresh="refreshResults($select)" refresh-delay="0">
                                             <span>{{item.name | translate}}</span>
                                         </ui-select-choices>
                                     </ui-select>
                                 </div>
                             </div>
-                        <!--</div>-->
-                    <!--</div>-->
+                        </div>
+                        <div class="column">
+                            <div class="form-group" ng-if="blade.currentEntity.PostAddress.CityName || pointsName">
+                                <label class="form-label">{{ 'clients.blades.member-detail.labels.pointName' | translate }}</label>
+                                <div class="form-input">
+                                    <ui-select  reset-search-input="false"  search-enabled="true" ng-model="blade.currentEntity.PostAddress.CityName" theme="select2" on-select="choseSearchTypes($item)">
+                                        <ui-select-match>
+                                            <span>{{$select.selected.name || $select.search | translate}}</span>
+                                            <a ng-if="$select.search" ng-click="clear($event, $select)"><i class="fa fa-remove"></i></a>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="item in pointsName" refresh="refreshResults($select)" refresh-delay="0">
+                                            <span>{{item.name | translate}}</span>
+                                        </ui-select-choices>
+                                    </ui-select>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group " ng-if="blade.currentEntity.PostAddress.CityName">
                         <label class="form-label">{{ 'clients.blades.member-detail.labels.street' | translate }}</label>
                         <div class="form-input">

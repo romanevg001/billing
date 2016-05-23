@@ -3,8 +3,9 @@
     ['$scope', 'sdl.management.dialogService', 'sdl.management.bladeNavigationService', 'sdl.management.settings',
         'sdl.management.clientsave', 'sdl.management.clientedit', 'sdl.management.cars',
         'sdl.management.subjects', 'sdl.management.regions', 'sdl.management.pointsName', 'billingTemplatesBase',
+        'sdl.management.pointsType',
     function ($scope, dialogService, bladeNavigationService, settings, clients, clientedit, clientcar, subjectsService,
-              regionsService, pointsNameService, billingTemplatesBase) {
+              regionsService, pointsNameService, billingTemplatesBase, pointsTypeService) {
 
         var blade = $scope.blade;
         blade.updatePermission = 'module:client:update';
@@ -23,11 +24,11 @@
                 pointsNameService.list({}, function(data){
                     $scope.pointsName = data.pointsName;
                 });
-                $scope.typeofPoints = [
-                        {"name":"Город"}, {"name":"Деревня"}, {"name":"Поселок городского типа"}, {"name":"Поселок"},
-                        {"name":"Сельское поселение"},
-                        {"name":"Рабочий поселок"}, {"name":"Село"}, {"name":"Дачный поселок"}, {"name":"Нет"}
-                    ];
+
+                pointsTypeService.list({}, function(data){
+                    $scope.typeofPoints = data.pointsType;
+                });
+
             }
 
 
@@ -38,6 +39,7 @@
             if(data.Passport){
 
                 data.Passport.IssueDate = new Date(data.Passport.IssueDate.Month+'.'+data.Passport.IssueDate.Day+ "."+data.Passport.IssueDate.Year);
+
 
                 function fieldsAddressToJson(fields){
                     let field = ["CityName","Region","Subject"];
@@ -156,6 +158,8 @@
         if(currentEntities.Passport && currentEntities.Passport.Address){
             currentEntities.Passport.Address.Country = "RF";
         }
+
+        console.log(currentEntities)
         return currentEntities;
     }
     function serialize_select (entities){
@@ -312,9 +316,47 @@
         bladeNavigationService.showConfirmationIfNeeded(isDirty(), canSave(), blade, saveChanges, closeCallback, "platform.dialogs.settings-delete.title", "platform.dialogs.settings-delete.message");
     };
 
-    $scope.getDictionaryValues = function (setting, callback) {
-        callback(setting.allowedValues);
+    //$scope.getDictionaryValues = function (setting, callback) {
+    //    callback(setting.allowedValues);
+    //}
+
+    // for select add new item
+    $scope.refreshResults = function($select){
+
+        var search = $select.search,
+            list = angular.copy($select.items),
+            FLAG = -1;
+
+        //remove last user input
+        list = list.filter(function(item) {
+            return item.id !== FLAG;
+        });
+
+        if (!search) {
+            //use the predefined list
+            $select.items = list;
+        }
+        else {
+            //manually add user input and set selection
+            var userInputItem = {
+                id: FLAG,
+                name: search
+            };
+            $select.items = [userInputItem].concat(list);
+            $select.selected = userInputItem;
+        }
     }
+    // for select clear added item
+    $scope.clear = function ($event, $select){
+            $event.stopPropagation();
+            //to allow empty field, in order to force a selection remove the following line
+            $select.selected = undefined;
+            //reset search query
+            $select.search = undefined;
+            //focus and open dropdown
+            $select.activate();
+        }
+
 
      {
         // datepicker

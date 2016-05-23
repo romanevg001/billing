@@ -138,6 +138,19 @@
         "placeholders": {
           "BeginDate":"Выберите дату"
         }
+      },
+      "contract-pay": {
+        "title": "Оплата контракта",
+        "subtitle": "",
+        "labels": {
+          "Amount": "Сумма",
+          "Description": "Комментарий",
+          "ContractNumber": "Номер",
+          "Product": "Тариф"
+        },
+        "placeholders": {
+          "Amount": "Сумма"
+        }
       }
     }
   },

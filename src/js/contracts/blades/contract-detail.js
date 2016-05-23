@@ -12,7 +12,7 @@
 
         var blade = $scope.blade;
         blade.updatePermission = 'module:client:update';
-console.log(blade)
+
         blade.isLoading = false;
 
     // get timezone
@@ -221,7 +221,7 @@ console.log(blade)
         function saveChanges() {
             blade.isLoading = true;
             let currentEntities = serialize(angular.copy(blade.currentEntity));
-console.log(currentEntities)
+
             if(blade.origEntity.ContractNumber){ // edit exited
                 contractedit.list(currentEntities, function(data){
                     blade.isLoading = false;
@@ -280,6 +280,18 @@ console.log(currentEntities)
             })
         }
 
+        //function payContract(){
+        //    blade.isLoading = true;
+        //
+        //    contractPayService.list(blade.currentEntity,function(res){
+        //        blade.isLoading = false;
+        //        blade.error = '';
+        //        blade.origEntity = blade.currentEntity;
+        //        blade.parentBlade.refresh(true);
+        //        closeBlade();
+        //    })
+        //}
+
         blade.headIcon = 'fa-wrench';
         blade.toolbarCommands = [
             {
@@ -310,7 +322,32 @@ console.log(currentEntities)
                 name: "platform.commands.sign",
                 icon: 'fa fa-pencil',
                 executeMethod: signContract,
-                canExecuteMethod: canSave,
+                canExecuteMethod: () =>{
+                    if(blade.origEntity.SignedDate != null){
+                        canSave();
+                    }
+                },
+                permission: blade.updatePermission
+            },
+            {
+                name: "platform.commands.pay",
+                icon: 'fa fa-credit-card',
+                executeMethod: function () {
+
+                    var newBlade = {
+                        id: 'itemPay',
+                        data:{"clientId":blade.origEntity.clientId, "ContractNumber": blade.origEntity.ContractNumber},
+                        title: 'clients.blades.contract-pay.title',
+                        controller: 'sdl.management.contractPayCtrl',
+                        template: billingTemplatesBase + 'templates/contracts/blades/contract-pay.tpl.html'
+                    };
+
+                    bladeNavigationService.showBlade(newBlade, blade);
+
+                },
+                canExecuteMethod: ()=>{
+                    return (blade.origEntity.SignedDate != null) ?  true : false;
+                },
                 permission: blade.updatePermission
             },
             {

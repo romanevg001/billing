@@ -1,0 +1,10 @@
+{
+  "test": {
+    "loginApi": "http://test-domain0.azurewebsites.net/api",
+    "billingApi":"http://testbillingapi.azurewebsites.net/api"
+  },
+  "default": {
+    "loginApi": "http://test-domain0.azurewebsites.net/api",
+    "billingApi":"http://testbillingapi.azurewebsites.net/api"
+  }
+}

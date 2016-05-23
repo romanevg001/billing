@@ -34,6 +34,7 @@ function ($injector, $scope, clients, bladeNavigationService,  billingTemplatesB
 
         contracts.list(paramRequest,function(result){
             blade.allContracts = deserialize(result.Data);
+            console.log( blade.allContracts)
             blade.isLoading = false;
         })
 

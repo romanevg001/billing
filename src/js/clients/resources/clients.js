@@ -3,22 +3,22 @@
     return Restangular.service('clients');
 }])
 .factory('sdl.management.clientsave', ['$resource', function ($resource) {
-    return $resource('http://testbillingapi.azurewebsites.net/api/clients', {}, {
+    return $resource(config.billingApi + '/clients', {}, {
         list: { method: 'PUT' }
     });
 }])
 .factory('sdl.management.clientedit', ['$resource', function ($resource) {
-    return $resource('http://testbillingapi.azurewebsites.net/api/clients/:Id', {Id:'@Id'}, {
+    return $resource(config.billingApi + '/clients/:Id', {Id:'@Id'}, {
         list: { method: 'POST' }
     });
 }])
 .factory('sdl.management.cars', ['$resource', function ($resource) {
-    return $resource('http://testbillingapi.azurewebsites.net/api/clients/:Id/vehicles', {Id:'@Id'}, {
+    return $resource(config.billingApi + '/clients/:Id/vehicles', {Id:'@Id'}, {
         list: { method: 'GET' }
     });
 }])
 .factory('sdl.management.caredit', ['$resource', function ($resource) {
-    return $resource('http://testbillingapi.azurewebsites.net/api/clients/:Id/vehicles/:vehiclesId', {Id:'@Id', vehiclesId:'@vehiclesId'}, {
+    return $resource(config.billingApi + '/clients/:Id/vehicles/:vehiclesId', {Id:'@Id', vehiclesId:'@vehiclesId'}, {
         list: { method: 'POST' }
     });
 }])
@@ -36,4 +36,12 @@
     return $resource('res/api.pointsname.json', {}, {
         list: { method: 'GET' }
     });
-}]);
+}])
+    .factory('sdl.management.pointsType', ['$resource', function ($resource) {
+        return $resource('res/api.pointstype.json', {}, {
+            list: { method: 'GET' }
+        });
+    }])
+
+
+;

@@ -4929,12 +4929,18 @@ button.btn {
     }
 
     .blade-static .column .form-group {
-        margin: 5px 10px 0 0;
+        margin: 5px 5px 10px 0;
         padding: 0;
     }
 
     .blade-static .column + .column .form-group {
   //      margin: 0 0 0 10px;
+    }
+
+    .btn.__inline {
+        display: inline-block;
+        margin: 0 5px;
+        height: 34px;
     }
 
     .blade-static .form-group .link {
@@ -4966,6 +4972,9 @@ button.btn {
 
     .blade-static.__expanded {
         height: 114px;
+    }
+    .blade-static.__super-expanded {
+        height: 200px;
     }
 
     .blade-static.__collapsed {

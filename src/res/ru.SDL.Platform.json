@@ -56,7 +56,8 @@
       "approve-user": "Approve user",
       "change-password": "Change password",
       "car": "Машины",
-      "contract": "Контракты"
+      "contract": "Контракты",
+      "pay":"Оплатить"
     },
     "list": {
       "no-data": "No data",

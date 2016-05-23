@@ -66,25 +66,27 @@
 
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.subject' | translate }}</label>
                     <div class="form-input">
-                        <ui-select ng-model="blade.currentEntity.Passport.Address.Subject" required theme="select2" on-select="choseSubject($item)">
+                        <ui-select ng-model="blade.currentEntity.Passport.Address.Subject" reset-search-input="false"  search-enabled="true" required theme="select2" on-select="choseSubject($item)">
                             <ui-select-match>
-                                <span>{{$select.selected.name | translate}}</span>
+                                <span>{{$select.selected.name || $select.search | translate}}</span>
+                                <a ng-if="$select.search" ng-click="clear($event, $select)"><i class="fa fa-remove"></i></a>
                             </ui-select-match>
-                            <ui-select-choices repeat="item in subjects">
+                            <ui-select-choices repeat="item in subjects" refresh="refreshResults($select)" refresh-delay="0">
                                 <span>{{item.name | translate}}</span>
                             </ui-select-choices>
                         </ui-select>
+
                     </div>
                 </div>
                 <div class="form-group" ng-if="blade.currentEntity.Passport.Address.Region || regions">
                     <label class="form-label">{{ 'clients.blades.member-detail.labels.region' | translate }}</label>
                     <div class="form-input">
-                        <ui-select ng-model="blade.currentEntity.Passport.Address.Region"  theme="select2" >
-                            <!--on-select="choseRegion($item)"-->
+                        <ui-select ng-model="blade.currentEntity.Passport.Address.Region"  reset-search-input="false"  search-enabled="true" theme="select2" >
                             <ui-select-match>
-                                <span>{{$select.selected.name | translate}}</span>
+                                <span>{{$select.selected.name || $select.search | translate}}</span>
+                                <a ng-if="$select.search" ng-click="clear($event, $select)"><i class="fa fa-remove"></i></a>
                             </ui-select-match>
-                            <ui-select-choices repeat="item in regions">
+                            <ui-select-choices repeat="item in regions" refresh="refreshResults($select)" refresh-delay="0">
                                 <span>{{item.name | translate}}</span>
                             </ui-select-choices>
                         </ui-select>
@@ -92,14 +94,15 @@
                 </div>
                 <div class="columns clearfix">
                     <div class="column">
-                        <div class="form-group" ng-if="blade.currentEntity.Passport.Address.CityType || typeofPoints">
+                        <div class="form-group"  ng-if="blade.currentEntity.Passport.Address.CityName || typeofPoints">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.typeofPoint' | translate }}</label>
                             <div class="form-input">
-                                <ui-select ng-model="blade.currentEntity.Passport.Address.CityType" theme="select2" on-select="choseSearchTypes($item)">
+                                <ui-select ng-model="blade.currentEntity.Passport.Address.CityType" reset-search-input="false"  search-enabled="true" theme="select2" on-select="choseSearchTypes($item)">
                                     <ui-select-match>
-                                        <span>{{$select.selected.name | translate}}</span>
+                                        <span>{{$select.selected.name || $select.search | translate}}</span>
+                                        <a ng-if="$select.search" ng-click="clear($event, $select)"><i class="fa fa-remove"></i></a>
                                     </ui-select-match>
-                                    <ui-select-choices repeat="item in typeofPoints">
+                                    <ui-select-choices repeat="item in typeofPoints" refresh="refreshResults($select)" refresh-delay="0">
                                         <span>{{item.name | translate}}</span>
                                     </ui-select-choices>
                                 </ui-select>
@@ -110,11 +113,12 @@
                         <div class="form-group" ng-if="blade.currentEntity.Passport.Address.CityName || pointsName">
                             <label class="form-label">{{ 'clients.blades.member-detail.labels.pointName' | translate }}</label>
                             <div class="form-input">
-                                <ui-select ng-model="blade.currentEntity.Passport.Address.CityName" required   theme="select2" on-select="choseSearchTypes($item)">
+                                <ui-select ng-model="blade.currentEntity.Passport.Address.CityName" required  reset-search-input="false"  search-enabled="true"  theme="select2" on-select="choseSearchTypes($item)">
                                     <ui-select-match>
-                                        <span>{{$select.selected.name | translate}}</span>
+                                        <span>{{$select.selected.name || $select.search | translate}}</span>
+                                        <a ng-if="$select.search" ng-click="clear($event, $select)"><i class="fa fa-remove"></i></a>
                                     </ui-select-match>
-                                    <ui-select-choices repeat="item in pointsName">
+                                    <ui-select-choices repeat="item in pointsName" refresh="refreshResults($select)" refresh-delay="0">
                                         <span>{{item.name | translate}}</span>
                                     </ui-select-choices>
                                 </ui-select>

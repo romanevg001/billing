@@ -1,3 +1,6 @@
+
+const config = require('./config');
+const fs = require('fs');
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const autoprefix = require('gulp-autoprefixer');
@@ -9,6 +12,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const gulpIf = require('gulp-if');
 const debug = require('gulp-debug');
 const newer = require('gulp-newer');
+var rename = require("gulp-rename");
 const imagemin = require('gulp-imagemin');
 const babel = require('gulp-babel');
 const browserSync = require('browser-sync').create();
@@ -21,6 +25,7 @@ const multiEntry = require('rollup-plugin-multi-entry');
 var isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == "development";
 
 var opts = {
+    "config":"default",
     "enter": "src/",
     "out": "public/",
     "js": "js/",
@@ -159,6 +164,36 @@ gulp.task('watch', function(){
 
 });
 
-gulp.task('default',gulp.series('clean','sass',gulp.series('js'),'image','html','other','lib','res','model','fonts',gulp.parallel('server','watch')));
+gulp.task('createConfigTest',function(){
+    var stream = source('config.json');
+    stream.write('var config = ' + JSON.stringify(config.test));
+    process.nextTick(function() {
+        stream.end();
+    });
+    stream
+        .pipe(buffer())
+        .pipe(rename('config.js'))
+        .pipe(gulp.dest(opts.out  + opts.js));
+    return stream;
+});
 
+gulp.task('createConfig',function(){
+    var stream = source('config.json');
+    stream.write('var config = '+ JSON.stringify(config.default));
+    process.nextTick(function() {
+        stream.end();
+    });
+    stream
+        .pipe(buffer())
+        .pipe(rename('config.js'))
+        .pipe(gulp.dest(opts.out + opts.js));
+    return stream;
+});
+
+
+gulp.task('make',gulp.series('sass',gulp.series('js'),'image','html','other','lib','res','model','fonts',gulp.parallel('server','watch')));
+
+
+gulp.task('test', gulp.series('clean','createConfigTest','make'));
+gulp.task('default', gulp.series('clean','createConfig','make'));
 

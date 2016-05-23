@@ -1,0 +1,65 @@
+﻿<div class="blade-static __super-expanded">
+    <va-breadcrumb ng-model="blade.breadcrumbs" blade-id="blade.id"></va-breadcrumb>
+    <div class="blade-inner">
+        <div class="columns">
+            <div class="column">
+                <div class="form-group">
+                    <div class="form-input __inline">
+                        <input  placeholder="{{ 'clients.blades.contract-pay.placeholders.Amount' | translate }}" ng-model="blade.currentEntity.Amount">
+                    </div>
+                    <button class="btn __inline" ng-click="payContract()">Оплатить</button>
+                </div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column">
+                <div class="form-group ">
+                    <div class="form-input">
+                        <textarea ng-model="blade.currentEntity.Description" class="form-control" placeholder="{{ 'clients.blades.contract-pay.labels.Description' | translate }}" ></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!---->
+        <!--<div class="quote-discount">-->
+           <!---->
+            <!--<div class="form-input __mini __inline">-->
+                <!--<input money required ng-model="blade.currentEntity.manualSubTotal" ng-change="recalculate()" >-->
+            <!--</div>-->
+            <!--<button class="btn" ng-click="blade.currentEntity.manualSubTotal=blade.currentEntity.manualRelDiscountAmount=0;totals.isDiscountAbsolute=!totals.isDiscountAbsolute">{{totals.isDiscountAbsolute ? 'Enter relative discount': 'Enter new subtotal'}}</button>-->
+        <!--</div>-->
+
+
+
+    </div>
+</div>
+<div class="blade-content">
+    <div class="blade-inner">
+        <div class="inner-block ">
+
+
+            <div class="grid  __items" >
+
+                <div class="columns grid-header">
+                    <div class="column">{{'clients.blades.contract-pay.labels.ContractNumber' | translate}}</div>
+                    <div class="column">{{'clients.blades.contract-pay.labels.Product' | translate}}</div>
+                </div>
+                <div class="columns grid-content" ng-repeat="data in blade.allPays"
+                    >
+                    <div class="column">{{data.ContractNumber}}</div>
+                    <div class="column">{{data.Product.Name}}</div>
+                </div>
+            </div>
+
+            <a class="addMore"  ng-hide="blade.allPays.length < opts.countPays*opts.currentPage"
+                    class="load-more button-secondary" ng-click="loadMore()">
+                Загрузить еще...
+            </a>
+            <div class="ng-cloak" ng-show="loading && trips.length > 0"
+                 style="text-align: center; font-size: 20px">
+                <img src="images/loading.svg" ng-show="loading" style="vertical-align: middle">
+            </div>
+        </div>
+    </div>
+</div>
+
